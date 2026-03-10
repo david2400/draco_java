@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/refund-methods")
+@RequestMapping("/devolution/refund_methods")
 @Tag(name = "Refund Methods")
 public class RefundMethodController {
 

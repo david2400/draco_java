@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/trackings")
+@RequestMapping("/shipping_logistics/trackings")
 @Tag(name = "Tracking")
 public class TrackingController {
 

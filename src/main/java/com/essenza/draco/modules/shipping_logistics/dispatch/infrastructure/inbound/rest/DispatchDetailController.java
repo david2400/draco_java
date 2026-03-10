@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/dispatch-details")
+@RequestMapping("/shipping_logistics/dispatch_details")
 @Tag(name = "Dispatch Details")
 public class DispatchDetailController {
 

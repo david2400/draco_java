@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/subcategories")
+@RequestMapping("/catalog/subcategories")
 @Tag(name = "Subcategories")
 public class SubcategoryController {
 

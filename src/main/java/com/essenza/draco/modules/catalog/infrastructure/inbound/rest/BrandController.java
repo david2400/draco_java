@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/brands")
+@RequestMapping("/catalog/brands")
 @Tag(name = "Brands")
 public class BrandController {
 

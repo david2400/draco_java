@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/api/shipping")
+@RequestMapping("/shipping_logistics/shipping")
 @Tag(name = "Shipping Estimates", description = "API para obtener estimaciones de envío")
 public class ShippingEstimateController {
 

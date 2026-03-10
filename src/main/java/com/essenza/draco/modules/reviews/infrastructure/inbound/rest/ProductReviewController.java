@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("/reviews/product_review")
 @Tag(name = "Product Reviews", description = "Operations for managing product reviews")
 @Validated
 public class ProductReviewController {

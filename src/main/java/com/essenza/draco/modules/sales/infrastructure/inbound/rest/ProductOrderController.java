@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/product-orders")
+@RequestMapping("/sales/product_orders")
 @Tag(name = "Product Order")
 public class ProductOrderController {
 

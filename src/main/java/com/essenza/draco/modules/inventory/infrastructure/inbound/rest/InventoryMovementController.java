@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/inventory_movements")
+@RequestMapping("/inventory/inventory_movements")
 @RequiredArgsConstructor
 public class InventoryMovementController {
 

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/suppliers")
+@RequestMapping("/inventory/suppliers")
 public class SupplierController {
 
     private final CreateSupplierUseCase createSupplier;

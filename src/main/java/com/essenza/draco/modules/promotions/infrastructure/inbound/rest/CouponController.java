@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/coupons")
+@RequestMapping("/promotions/coupons")
 @Tag(name = "Coupons", description = "Coupon management operations")
 public class CouponController {
 

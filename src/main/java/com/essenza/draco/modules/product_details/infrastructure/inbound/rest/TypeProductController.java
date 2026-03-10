@@ -28,7 +28,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/type-products")
+@RequestMapping("/product_details/type_products")
 @Tag(name = "Type Product")
 public class TypeProductController {
 

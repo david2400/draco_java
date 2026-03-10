@@ -25,7 +25,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/inventory/products")
 @Tag(name = "Products")
 public class ProductController {
 

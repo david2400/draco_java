@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/dispatch-products")
+@RequestMapping("/dispatch/dispatch_products")
 @Tag(name = "Dispatch Product")
 public class DispatchProductController {
 

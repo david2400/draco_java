@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/return-methods")
+@RequestMapping("/devolution/return_methods")
 @Tag(name = "Return Methods")
 public class ReturnMethodController {
 

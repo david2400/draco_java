@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/product-children")
+@RequestMapping("/inventory/product_children")
 public class ProductChildController {
 
     private final CreateProductChildUseCase createProductChild;

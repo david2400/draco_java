@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/catalog/categories")
 @Tag(name = "Categories")
 public class CategoryController {
 

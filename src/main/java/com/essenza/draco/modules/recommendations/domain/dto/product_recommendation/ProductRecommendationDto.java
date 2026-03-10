@@ -3,12 +3,14 @@ package com.essenza.draco.modules.recommendations.domain.dto.product_recommendat
 import com.essenza.draco.shared.common.domain.dto.AuditInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor

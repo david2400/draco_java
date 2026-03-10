@@ -1,4 +1,4 @@
-package com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.rest;
+package com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.inbound.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/shipping-costs")
+@RequestMapping("/product_distribution/shipping_costs")
 @Tag(name = "Shipping Costs")
 public class ShippingCostController {
 

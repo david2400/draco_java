@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/payment-types")
+@RequestMapping("/sales/payment_types")
 @Tag(name = "Payment Type")
 public class PaymentTypeController {
 

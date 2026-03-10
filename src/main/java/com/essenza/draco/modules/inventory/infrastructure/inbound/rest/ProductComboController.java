@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/product-combos")
+@RequestMapping("/inventory/product_combos")
 public class ProductComboController {
 
     private final CreateProductComboUseCase createProductCombo;

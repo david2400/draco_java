@@ -16,7 +16,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/type-product-features")
+@RequestMapping("/product_details/type_product_features")
 @Tag(name = "Type Product Features", description = "API para gestionar las relaciones entre tipos de producto y características")
 public class TypeProductFeatureController {
 

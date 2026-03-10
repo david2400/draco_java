@@ -28,7 +28,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/unit-measurements")
+@RequestMapping("/product_details/unit_measurements")
 @Tag(name = "Unit Measurement")
 public class UnitMeasurementController {
 

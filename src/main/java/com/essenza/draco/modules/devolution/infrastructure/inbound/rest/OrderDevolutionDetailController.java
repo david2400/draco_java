@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/order-devolution-details")
+@RequestMapping("/devolution/order_devolution_details")
 @Tag(name = "Order Devolutions Details")
 public class OrderDevolutionDetailController {
 
