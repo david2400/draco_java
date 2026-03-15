@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,7 +51,7 @@ public class ProductController {
         this.findProductsPage = findProductsPage;
     }
 
-    @Operation(summary = "Create product", description = "Creates a new product and returns it with its generated ID")
+    @Operation(summary = "Create product", description = "Creates a new product aggregate (basic info, variants and/or bundle items) and returns it with its generated ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Product created",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))),
@@ -61,9 +62,10 @@ public class ProductController {
     public ResponseEntity<ProductDto> create(
             @RequestBody(description = "Product to create", required = true,
                     content = @Content(schema = @Schema(implementation = CreateProductDto.class)))
-            @org.springframework.web.bind.annotation.RequestBody CreateProductDto input) {
+            @org.springframework.web.bind.annotation.RequestBody @Valid CreateProductDto input) {
         ProductDto created = createProduct.create(input);
-        return ResponseEntity.created(URI.create("/products/")).body(created);
+        URI location = URI.create("/inventory/products/" + created.getId());
+        return ResponseEntity.created(location).body(created);
     }
 
     @Operation(summary = "Update product", description = "Updates an existing product by ID")
@@ -78,7 +80,7 @@ public class ProductController {
             @Parameter(description = "Product ID", required = true) @PathVariable Long id,
             @RequestBody(description = "Product data to update", required = true,
                     content = @Content(schema = @Schema(implementation = UpdateProductDto.class)))
-            @org.springframework.web.bind.annotation.RequestBody UpdateProductDto input) {
+            @org.springframework.web.bind.annotation.RequestBody @Valid UpdateProductDto input) {
         ProductDto updated = updateProduct.update(id, input);
         return ResponseEntity.ok(updated);
     }

@@ -1,6 +1,8 @@
 package com.essenza.draco.modules.inventory.application.services;
 
 import com.essenza.draco.modules.inventory.application.input.product.*;
+import com.essenza.draco.modules.inventory.application.output.repository.ProductAggregateRepository;
+import com.essenza.draco.modules.inventory.domain.services.ProductFactory;
 import com.essenza.draco.modules.inventory.domain.dto.product.CreateProductDto;
 import com.essenza.draco.modules.inventory.domain.dto.product.ProductDto;
 import com.essenza.draco.modules.inventory.domain.dto.product.ProductFilter;
@@ -9,7 +11,6 @@ import com.essenza.draco.modules.inventory.infrastructure.outbound.repositories.
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,19 +27,41 @@ public class ProductServiceImpl implements CreateProductUseCase,
         FindProductsPageUseCase {
 
     private final ProductRepositoryAdapter productRepository;
+    private final ProductAggregateRepository aggregateRepository;
+    private final ProductDtoAssembler productDtoAssembler;
+    private final ProductCommandAssembler productCommandAssembler;
+    private final ProductFactory productFactory;
 
-    public ProductServiceImpl(ProductRepositoryAdapter productRepository) {
+    public ProductServiceImpl(ProductRepositoryAdapter productRepository,
+                              ProductAggregateRepository aggregateRepository,
+                              ProductDtoAssembler productDtoAssembler,
+                              ProductCommandAssembler productCommandAssembler,
+                              ProductFactory productFactory) {
         this.productRepository = productRepository;
+        this.aggregateRepository = aggregateRepository;
+        this.productDtoAssembler = productDtoAssembler;
+        this.productCommandAssembler = productCommandAssembler;
+        this.productFactory = productFactory;
     }
 
     @Override
     public ProductDto create(@Valid CreateProductDto input) {
-        return productRepository.create(input);
+        var command = productCommandAssembler.fromCreateDto(input);
+        var product = productFactory.fromCommand(command);
+        Long id = productRepository.save(product);
+        return aggregateRepository.findById(id)
+                .map(productDtoAssembler::toDto)
+                .orElseThrow(() -> new IllegalStateException("Product not found after creation: " + id));
     }
 
     @Override
     public ProductDto update(Long id, @Valid UpdateProductDto input) {
-        return productRepository.update(id, input);
+        var command = productCommandAssembler.fromUpdateDto(input);
+        var product = productFactory.fromCommand(command);
+        Long persistedId = productRepository.save(product);
+        return aggregateRepository.findById(persistedId)
+                .map(productDtoAssembler::toDto)
+                .orElseThrow(() -> new IllegalStateException("Product not found after update: " + persistedId));
     }
 
     @Override
@@ -49,19 +72,25 @@ public class ProductServiceImpl implements CreateProductUseCase,
     @Override
     @Transactional(readOnly = true)
     public Optional<ProductDto> findById(Long id) {
-        return productRepository.findById(id);
+        return aggregateRepository.findById(id).map(productDtoAssembler::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<ProductDto> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
+        return hydratePage(productRepository.findAll(pageable));
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<ProductDto> findAllPage(Pageable pageable, ProductFilter filter) {
-        return productRepository.findAll(filter, pageable);
+        return hydratePage(productRepository.findAll(filter, pageable));
+    }
+
+    private Page<ProductDto> hydratePage(Page<ProductDto> basePage) {
+        return basePage.map(dto -> aggregateRepository.findById(dto.getId())
+                .map(productDtoAssembler::toDto)
+                .orElse(dto));
     }
 //        return productRepository.findAll();
 //    }

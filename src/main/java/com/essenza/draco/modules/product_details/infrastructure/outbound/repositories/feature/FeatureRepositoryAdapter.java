@@ -5,36 +5,44 @@ import com.essenza.draco.modules.product_details.domain.dto.feature.CreateFeatur
 import com.essenza.draco.modules.product_details.domain.dto.feature.FeatureDto;
 import com.essenza.draco.modules.product_details.domain.dto.feature.UpdateFeatureDto;
 import com.essenza.draco.modules.product_details.infrastructure.outbound.mappers.FeatureMapper;
+import com.essenza.draco.modules.product_details.infrastructure.outbound.persistence.mysql.shop.FeatureEntity;
+import com.essenza.draco.modules.product_details.infrastructure.outbound.persistence.mysql.shop.UnitMeasurementEntity;
+import com.essenza.draco.modules.product_details.infrastructure.outbound.repositories.unit_measurement.JpaUnitMeasurementRepository;
+import com.essenza.draco.shared.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
+@RequiredArgsConstructor
 public class FeatureRepositoryAdapter implements FeatureRepository {
 
     private final JpaFeatureRepository jpa;
     private final FeatureMapper mapper;
-
-    public FeatureRepositoryAdapter(JpaFeatureRepository jpa, FeatureMapper mapper) {
-        this.jpa = jpa;
-        this.mapper = mapper;
-    }
+    private final JpaUnitMeasurementRepository unitMeasurementRepository;
 
     @Override
     public FeatureDto create(CreateFeatureDto input) {
-        var entity = mapper.toEntity(input);
-        var saved = jpa.save(entity);
+        FeatureEntity entity = mapper.toEntity(input);
+        entity.setUnitMeasurements(buildUnitMeasurementAssociation(input.getUnitId()));
+        FeatureEntity saved = jpa.save(entity);
         return mapper.toDto(saved);
     }
 
     @Override
     public FeatureDto update(Long id, UpdateFeatureDto input) {
-        var entity = jpa.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Feature not found: " + id));
+        FeatureEntity entity = jpa.findById(id)
+                .orElseThrow(() -> new NotFoundException("Feature not found: " + id));
         mapper.updateEntityFromDto(input, entity);
-        var updated = jpa.save(entity);
+        if (input.getUnitId() != null) {
+            entity.setUnitMeasurements(buildUnitMeasurementAssociation(input.getUnitId()));
+        }
+        FeatureEntity updated = jpa.save(entity);
         return mapper.toDto(updated);
     }
 
@@ -53,5 +61,11 @@ public class FeatureRepositoryAdapter implements FeatureRepository {
     @Override
     public List<FeatureDto> findAll() {
         return jpa.findAll().stream().map(mapper::toDto).toList();
+    }
+
+    private Set<UnitMeasurementEntity> buildUnitMeasurementAssociation(Long unitId) {
+        UnitMeasurementEntity unit = unitMeasurementRepository.findById(unitId)
+                .orElseThrow(() -> new NotFoundException("Unit measurement not found: " + unitId));
+        return new HashSet<>(Collections.singleton(unit));
     }
 }

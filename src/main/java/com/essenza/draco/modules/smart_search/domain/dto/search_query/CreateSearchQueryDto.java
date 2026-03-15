@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Instant;
+
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -37,4 +39,6 @@ public class CreateSearchQueryDto {
 
     @Size(max = 100)
     private String searchId;
+
+    private Instant lastRunAt;
 }

@@ -7,11 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Instant;
+
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateSearchQueryDto {
+    private Long customerId;
+
     @Size(max = 255)
     private String query;
 
@@ -30,4 +34,6 @@ public class UpdateSearchQueryDto {
 
     @Size(max = 100)
     private String searchId;
+
+    private Instant lastRunAt;
 }

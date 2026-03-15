@@ -1,34 +1,60 @@
 package com.essenza.draco.modules.inventory.infrastructure.outbound.repositories.products;
 
 import com.essenza.draco.modules.inventory.application.output.repository.ProductRepository;
-import com.essenza.draco.modules.inventory.infrastructure.outbound.mappers.ProductMapper;
-import com.essenza.draco.modules.inventory.infrastructure.outbound.persistence.mysql.shop.ProductEntity;
 import com.essenza.draco.modules.inventory.domain.dto.product.CreateProductDto;
 import com.essenza.draco.modules.inventory.domain.dto.product.ProductDto;
 import com.essenza.draco.modules.inventory.domain.dto.product.ProductFilter;
 import com.essenza.draco.modules.inventory.domain.dto.product.UpdateProductDto;
+import com.essenza.draco.modules.inventory.domain.model.BundleItem;
+import com.essenza.draco.modules.inventory.domain.model.Product;
+import com.essenza.draco.modules.inventory.domain.model.ProductType;
+import com.essenza.draco.modules.inventory.domain.model.Variant;
+import com.essenza.draco.modules.inventory.infrastructure.outbound.mappers.ProductMapper;
+import com.essenza.draco.modules.inventory.infrastructure.outbound.persistence.mysql.shop.ProductChildEntity;
+import com.essenza.draco.modules.inventory.infrastructure.outbound.persistence.mysql.shop.ProductComboEntity;
+import com.essenza.draco.modules.inventory.infrastructure.outbound.persistence.mysql.shop.ProductEntity;
+import com.essenza.draco.modules.inventory.infrastructure.outbound.repositories.product_child.JpaProductChildRepository;
+import com.essenza.draco.modules.inventory.infrastructure.outbound.repositories.product_combo.JpaProductComboRepository;
 import jakarta.persistence.criteria.Predicate;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 @Repository
 public class ProductRepositoryAdapter implements ProductRepository {
 
     private final JpaProductRepository jpa;
     private final ProductMapper mapper;
+    private final JpaProductChildRepository childRepository;
+    private final JpaProductComboRepository comboRepository;
 
-    public ProductRepositoryAdapter(JpaProductRepository jpa, ProductMapper mapper) {
+    public ProductRepositoryAdapter(JpaProductRepository jpa,
+                                    ProductMapper mapper,
+                                    JpaProductChildRepository childRepository,
+                                    JpaProductComboRepository comboRepository) {
         this.jpa = jpa;
         this.mapper = mapper;
+        this.childRepository = childRepository;
+        this.comboRepository = comboRepository;
+    }
+
+    @Transactional
+    public Long save(Product product) {
+        ProductEntity entity = toEntity(product);
+        ProductEntity saved = jpa.save(entity);
+        syncVariants(saved.getId(), product);
+        syncBundleItems(saved.getId(), product);
+        return saved.getId();
     }
 
     @Override
@@ -108,5 +134,91 @@ public class ProductRepositoryAdapter implements ProductRepository {
 
             return cb.and(p.toArray(new Predicate[0]));
         };
+    }
+
+    private ProductEntity toEntity(Product product) {
+        int stock = product.getStockInfo() == null ? 0 : product.getStockInfo().getOnHand();
+        BigDecimal realPrice = Optional.ofNullable(product.getRealPrice()).orElse(BigDecimal.ZERO);
+        BigDecimal unitPrice = Optional.ofNullable(product.getUnitPrice()).orElse(BigDecimal.ZERO);
+
+        return ProductEntity.builder()
+                .id(product.getId() == null ? null : product.getId().getValue())
+                .name(product.getName())
+                .description(product.getDescription())
+                .stock(stock)
+                .realPrice(realPrice.doubleValue())
+                .unitPrice(unitPrice.doubleValue())
+                .length(product.getLength())
+                .width(product.getWidth())
+                .height(product.getHeight())
+                .weight(product.getWeight())
+                .imageUrl(product.getImageUrl())
+                .available(product.isAvailable())
+                .brandId(product.getBrandId())
+                .categoryId(product.getCategoryId())
+                .subcategoryId(product.getSubcategoryId())
+                .supplierId(product.getSupplierId())
+                .isCombo(product.getType() == ProductType.COMBO)
+                .build();
+    }
+
+    private void syncVariants(Long productId, Product product) {
+        List<ProductChildEntity> existingEntities = childRepository.findByProductId(productId);
+
+        if (!product.getType().supportsVariants()) {
+            if (!existingEntities.isEmpty()) {
+                childRepository.deleteAll(existingEntities);
+            }
+            return;
+        }
+
+        Map<Long, ProductChildEntity> existingById = existingEntities.stream()
+                .collect(Collectors.toMap(ProductChildEntity::getId, Function.identity()));
+
+        for (Variant variant : product.getVariants()) {
+            Long variantId = variant.getId() == null ? null : variant.getId().getValue();
+            ProductChildEntity entity = variantId == null ? null : existingById.remove(variantId);
+
+            if (entity == null) {
+                entity = ProductChildEntity.builder()
+                        .id(variantId)
+                        .productId(productId)
+                        .build();
+            }
+
+            entity.setProductId(productId);
+            entity.setName(variant.getName());
+            entity.setDescription(variant.getDescription());
+            entity.setStock(variant.getStockInfo().getOnHand());
+            entity.setUnitPrice(variant.getUnitPrice().doubleValue());
+            entity.setImageUrl(variant.getImageUrl());
+            entity.setAvailable(variant.isAvailable());
+
+            childRepository.save(entity);
+        }
+
+        if (!existingById.isEmpty()) {
+            childRepository.deleteAll(existingById.values());
+        }
+    }
+
+    private void syncBundleItems(Long comboId, Product product) {
+        List<ProductComboEntity> existing = comboRepository.findByComboId(comboId);
+        if (!existing.isEmpty()) {
+            comboRepository.deleteAll(existing);
+        }
+
+        if (!product.getType().supportsBundles()) {
+            return;
+        }
+
+        for (BundleItem item : product.getBundleItems()) {
+            ProductComboEntity entity = ProductComboEntity.builder()
+                    .comboId(comboId)
+                    .productId(item.getProductId().getValue())
+                    .quantity(item.getQuantity())
+                    .build();
+            comboRepository.save(entity);
+        }
     }
 }
