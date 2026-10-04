@@ -4,7 +4,12 @@ import com.essenza.draco.modules.inventory.application.input.warehouse.*;
 import com.essenza.draco.modules.inventory.domain.dto.warehouse.CreateWarehouseDto;
 import com.essenza.draco.modules.inventory.domain.dto.warehouse.UpdateWarehouseDto;
 import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
+import com.essenza.draco.modules.inventory.infrastructure.outbound.repositories.stock.StockPerWarehouseRepositoryAdapter;
 import com.essenza.draco.modules.inventory.infrastructure.outbound.repositories.warehouse.WarehouseRepositoryAdapter;
+import com.essenza.draco.shared.common.domain.dto.BulkOperationResult;
+import com.essenza.draco.shared.exceptions.ConflictException;
+import com.essenza.draco.shared.exceptions.NotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,10 +29,11 @@ public class WarehouseServiceImpl implements CreateWarehouseUseCase,
 {
 
     private final WarehouseRepositoryAdapter repository;
+    private final StockPerWarehouseRepositoryAdapter stockRepository;
 
     public WarehouseDto create(CreateWarehouseDto dto) {
         repository.findByCode(dto.getCode()).ifPresent(w -> {
-            throw new IllegalArgumentException("Warehouse code already exists: " + dto.getCode());
+            throw new ConflictException("Ya existe una bodega con el código \"" + dto.getCode() + "\".");
         });
         return repository.create(dto);
     }
@@ -39,11 +45,11 @@ public class WarehouseServiceImpl implements CreateWarehouseUseCase,
     public WarehouseDto update(Long id, UpdateWarehouseDto dto) {
         dto.setId(id);
         var current = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Warehouse not found: " + id));
+                .orElseThrow(() -> new NotFoundException("Bodega no encontrada: " + id));
         if (dto.getCode() != null && !dto.getCode().equals(current.getCode())) {
             repository.findByCode(dto.getCode()).ifPresent(existing -> {
                 if (!existing.getId().equals(id)) {
-                    throw new IllegalArgumentException("Warehouse code already exists: " + dto.getCode());
+                    throw new ConflictException("Ya existe una bodega con el código \"" + dto.getCode() + "\".");
                 }
             });
         }
@@ -52,7 +58,30 @@ public class WarehouseServiceImpl implements CreateWarehouseUseCase,
 
     @Override
     public boolean deleteById(Long id) {
+        if (repository.findById(id).isEmpty()) {
+            throw new NotFoundException("Bodega no encontrada: " + id);
+        }
+        long units = stockRepository.totalQuantityInWarehouse(id);
+        if (units > 0) {
+            throw new ConflictException("No se puede eliminar la bodega: tiene " + units
+                    + " unidad(es) en stock. Transfiérelas a otra bodega primero.");
+        }
         return repository.deleteById(id);
+    }
+
+    /** Elimina varias bodegas; cada una se valida por separado. */
+    public BulkOperationResult deleteAll(List<Long> ids) {
+        List<Long> unique = ids.stream().distinct().toList();
+        BulkOperationResult.Builder result = new BulkOperationResult.Builder(unique.size());
+        for (Long id : unique) {
+            try {
+                deleteById(id);
+                result.success();
+            } catch (NotFoundException | ConflictException ex) {
+                result.failure(id, ex.getMessage());
+            }
+        }
+        return result.build();
     }
 
     @Override

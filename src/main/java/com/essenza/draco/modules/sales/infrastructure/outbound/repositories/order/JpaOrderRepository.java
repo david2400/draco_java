@@ -2,13 +2,14 @@ package com.essenza.draco.modules.sales.infrastructure.outbound.repositories.ord
 
 import com.essenza.draco.modules.sales.infrastructure.outbound.persistence.mysql.shop.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
 
 @Repository
-public interface JpaOrderRepository extends JpaRepository<OrderEntity, Long> {
+public interface JpaOrderRepository extends JpaRepository<OrderEntity, Long>, JpaSpecificationExecutor<OrderEntity> {
 
     List<OrderEntity> findByCreatedAtBetween(Instant startDate, Instant endDate);
 }

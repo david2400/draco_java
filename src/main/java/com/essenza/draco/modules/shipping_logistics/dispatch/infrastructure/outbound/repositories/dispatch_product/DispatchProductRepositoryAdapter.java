@@ -54,4 +54,37 @@ public class DispatchProductRepositoryAdapter implements DispatchProductReposito
     public List<DispatchProductDto> findAll() {
         return jpa.findAll().stream().map(mapper::toDto).toList();
     }
+
+    /**
+     * Búsqueda paginada: {@code query} busca en guideNumber, address, cityOrigin, cityDestination
+     * y, si es numérico, también por id / orderId.
+     */
+    public org.springframework.data.domain.Page<DispatchProductDto> search(String query, Long orderId, String cityDestination,
+                                                               org.springframework.data.domain.Pageable pageable) {
+        org.springframework.data.jpa.domain.Specification<com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.persistence.mysql.shop.DispatchProductEntity> spec = (root, criteria, cb) -> {
+            java.util.List<jakarta.persistence.criteria.Predicate> predicates = new java.util.ArrayList<>();
+            if (query != null && !query.isBlank()) {
+                String like = "%" + query.trim().toLowerCase(java.util.Locale.ROOT) + "%";
+                java.util.List<jakarta.persistence.criteria.Predicate> textual = new java.util.ArrayList<>(java.util.List.of(
+                        cb.like(cb.lower(cb.coalesce(root.<String>get("guideNumber"), "")), like),
+                        cb.like(cb.lower(cb.coalesce(root.<String>get("address"), "")), like),
+                        cb.like(cb.lower(cb.coalesce(root.<String>get("cityOrigin"), "")), like),
+                        cb.like(cb.lower(cb.coalesce(root.<String>get("cityDestination"), "")), like)));
+                if (query.trim().matches("\\d{1,18}")) {
+                    Long number = Long.valueOf(query.trim());
+                    textual.add(cb.equal(root.get("id"), number));
+                    textual.add(cb.equal(root.get("orderId"), number));
+                }
+                predicates.add(cb.or(textual.toArray(jakarta.persistence.criteria.Predicate[]::new)));
+            }
+            if (orderId != null) {
+                predicates.add(cb.equal(root.get("orderId"), orderId));
+            }
+            if (cityDestination != null && !cityDestination.isBlank()) {
+                predicates.add(cb.equal(cb.lower(root.<String>get("cityDestination")), cityDestination.trim().toLowerCase(java.util.Locale.ROOT)));
+            }
+            return cb.and(predicates.toArray(jakarta.persistence.criteria.Predicate[]::new));
+        };
+        return jpa.findAll(spec, pageable).map(mapper::toDto);
+    }
 }

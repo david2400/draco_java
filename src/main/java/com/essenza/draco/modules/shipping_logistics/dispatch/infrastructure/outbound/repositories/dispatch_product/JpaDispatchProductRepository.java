@@ -2,8 +2,9 @@ package com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.out
 
 import com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.persistence.mysql.shop.DispatchProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface JpaDispatchProductRepository extends JpaRepository<DispatchProductEntity, Long> {
+public interface JpaDispatchProductRepository extends JpaRepository<DispatchProductEntity, Long>, JpaSpecificationExecutor<DispatchProductEntity> {
 }

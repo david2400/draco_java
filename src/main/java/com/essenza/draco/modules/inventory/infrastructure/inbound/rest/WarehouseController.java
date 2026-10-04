@@ -4,6 +4,9 @@ import com.essenza.draco.modules.inventory.domain.dto.warehouse.CreateWarehouseD
 import com.essenza.draco.modules.inventory.domain.dto.warehouse.UpdateWarehouseDto;
 import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
 import com.essenza.draco.modules.inventory.application.services.WarehouseServiceImpl;
+import com.essenza.draco.shared.common.domain.dto.BulkIdsRequest;
+import com.essenza.draco.shared.common.domain.dto.BulkOperationResult;
+import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,8 +32,25 @@ public class WarehouseController {
         return service.list(pageable);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<WarehouseDto> getById(@PathVariable Long id) {
+        return service.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PutMapping("/{id}")
     public WarehouseDto update(@PathVariable Long id, @Valid @RequestBody UpdateWarehouseDto dto) {
         return service.update(id, dto);
+    }
+
+    /** Eliminación lógica; 409 si la bodega todavía tiene stock. */
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        service.deleteById(id);
+    }
+
+    @PostMapping("/bulk-delete")
+    public BulkOperationResult bulkDelete(@Valid @RequestBody BulkIdsRequest request) {
+        return service.deleteAll(request.ids());
     }
 }

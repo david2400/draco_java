@@ -29,4 +29,9 @@ public class StockPerWarehouseRepositoryAdapter implements StockPerWarehouseRepo
         StockPerWarehouseEntity saved = jpa.save(entity);
         return mapper.toDto(saved);
     }
+
+    /** Unidades totales almacenadas en una bodega. */
+    public long totalQuantityInWarehouse(Long warehouseId) {
+        return jpa.sumQuantityByWarehouseId(warehouseId);
+    }
 }

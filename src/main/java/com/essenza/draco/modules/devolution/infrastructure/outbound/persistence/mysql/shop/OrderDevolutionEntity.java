@@ -30,7 +30,7 @@ public class OrderDevolutionEntity extends AuditInfo {
     private String observation;
 
     @Column(nullable = false, length = 1)
-    private String state = "P";
+    private String  state = "P";
 
     @Column(name = "return_method_id")
     private Long returnMethodId;

@@ -1,6 +1,7 @@
 package com.essenza.draco.modules.shipping_logistics.dispatch.application.services;
 
 //import com.essenza.draco.modules.dispatch.application.input.dispatch_product.*;
+import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.*;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.output.shipping.DeliveryEstimateProvider;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.output.shipping.ShippingRateProvider;
@@ -54,6 +55,9 @@ public class DispatchProductServiceImpl implements CreateDispatchProductUseCase,
 
     @Override
     public boolean deleteById(Long id) {
+        if (repository.findById(id).isEmpty()) {
+            throw new NotFoundException("No se encontró el despacho " + id + ".");
+        }
         return repository.deleteById(id);
     }
 

@@ -16,4 +16,11 @@ public class WarehouseDto {
     @Size(max = 255)
     private String address;
     private Boolean active = true;
+
+    /** País (id del catálogo de georreferenciación del servicio parametros). */
+    private Long countryId;
+    /** Departamento (id del catálogo de georreferenciación del servicio parametros). */
+    private Long stateId;
+    /** Ciudad (id del catálogo de georreferenciación del servicio parametros). */
+    private Long cityId;
 }

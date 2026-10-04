@@ -51,4 +51,38 @@ public class OrderRepositoryAdapter implements OrderRepository {
     public List<OrderDto> findAll() {
         return jpa.findAll().stream().map(mapper::toDto).toList();
     }
+
+    /**
+     * Búsqueda paginada: {@code query} busca en complementaryOrder
+     * y, si es numérico, también por id.
+     */
+    public org.springframework.data.domain.Page<OrderDto> search(String query, String state,
+                                                               org.springframework.data.domain.Pageable pageable) {
+        org.springframework.data.jpa.domain.Specification<com.essenza.draco.modules.sales.infrastructure.outbound.persistence.mysql.shop.OrderEntity> spec = (root, criteria, cb) -> {
+            java.util.List<jakarta.persistence.criteria.Predicate> predicates = new java.util.ArrayList<>();
+            if (query != null && !query.isBlank()) {
+                String like = "%" + query.trim().toLowerCase(java.util.Locale.ROOT) + "%";
+                java.util.List<jakarta.persistence.criteria.Predicate> textual = new java.util.ArrayList<>(java.util.List.of(
+                        cb.like(cb.lower(cb.coalesce(root.<String>get("complementaryOrder"), "")), like)));
+                if (query.trim().matches("\\d{1,18}")) {
+                    Long number = Long.valueOf(query.trim());
+                    textual.add(cb.equal(root.get("id"), number));
+                }
+                predicates.add(cb.or(textual.toArray(jakarta.persistence.criteria.Predicate[]::new)));
+            }
+            if (state != null && !state.isBlank()) {
+                predicates.add(cb.equal(cb.lower(root.<String>get("state")), state.trim().toLowerCase(java.util.Locale.ROOT)));
+            }
+            return cb.and(predicates.toArray(jakarta.persistence.criteria.Predicate[]::new));
+        };
+        return jpa.findAll(spec, pageable).map(mapper::toDto);
+    }
+
+    /** ¿La orden tiene despachos o devoluciones? (impide borrarla). */
+    public boolean hasDependents(Long id) {
+        return jpa.findById(id)
+                .map(entity -> (entity.getDispatchProduct() != null && !entity.getDispatchProduct().isEmpty())
+                        || (entity.getOrderDevolution() != null && !entity.getOrderDevolution().isEmpty()))
+                .orElse(false);
+    }
 }

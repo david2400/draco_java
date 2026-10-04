@@ -29,4 +29,14 @@ public class WarehouseEntity extends AuditInfo {
 
     @Column(nullable = false)
     private Boolean active = true;
+
+    /** Ids del catálogo de georreferenciación (servicio parametros). Nullable por las bodegas existentes. */
+    @Column(name = "country_id")
+    private Long countryId;
+
+    @Column(name = "state_id")
+    private Long stateId;
+
+    @Column(name = "city_id")
+    private Long cityId;
 }

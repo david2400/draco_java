@@ -13,4 +13,5 @@ import com.essenza.draco.shared.common.domain.dto.AuditInfoDto;
 @AllArgsConstructor
 public class UnitMeasurementDto extends AuditInfoDto {
     private Long id;
+    private String name;
 }

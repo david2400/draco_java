@@ -1,5 +1,7 @@
 package com.essenza.draco.modules.devolution.application.services;
 
+import com.essenza.draco.shared.exceptions.NotFoundException;
+import com.essenza.draco.shared.exceptions.ConflictException;
 import com.essenza.draco.modules.devolution.application.input.order_devolution.*;
 import com.essenza.draco.modules.devolution.domain.dto.order_devolution.CreateOrderDevolutionDto;
 import com.essenza.draco.modules.devolution.domain.dto.order_devolution.OrderDevolutionDto;
@@ -37,6 +39,13 @@ public class OrderDevolutionServiceImpl implements CreateOrderDevolutionUseCase,
 
     @Override
     public boolean deleteById(Long id) {
+        String state = orderDevolutionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("No se encontró la devolución " + id + "."))
+                .getState();
+        if (state != null && !"P".equals(state) && !"X".equals(state)) {
+            throw new ConflictException("La devolución " + id
+                    + " ya está en proceso: solo se pueden eliminar devoluciones pendientes o rechazadas.");
+        }
         return orderDevolutionRepository.deleteById(id);
     }
 

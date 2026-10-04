@@ -1,16 +1,24 @@
 package com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.subcategory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+
+import jakarta.persistence.criteria.Predicate;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Repository;
+
+import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.modules.catalog.application.output.repository.SubcategoryRepository;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.CreateSubcategoryDto;
 import com.essenza.draco.modules.catalog.domain.dto.subcategory.SubcategoryDto;
+import com.essenza.draco.modules.catalog.domain.dto.subcategory.CreateSubcategoryDto;
 import com.essenza.draco.modules.catalog.domain.dto.subcategory.UpdateSubcategoryDto;
 import com.essenza.draco.modules.catalog.infrastructure.outbound.mappers.SubcategoryMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
+import com.essenza.draco.modules.catalog.infrastructure.outbound.persistence.mysql.shop.SubcategoryEntity;
 
 @Repository
 public class SubcategoryRepositoryAdapter implements SubcategoryRepository {
@@ -24,28 +32,25 @@ public class SubcategoryRepositoryAdapter implements SubcategoryRepository {
     }
 
     @Override
-    @Transactional
     public SubcategoryDto create(CreateSubcategoryDto input) {
-        var entity = mapper.toEntity(input);
-        var saved = jpa.save(entity);
+        SubcategoryEntity saved = jpa.save(mapper.toEntity(input));
         return mapper.toDto(saved);
     }
 
     @Override
-    @Transactional
     public SubcategoryDto update(Long id, UpdateSubcategoryDto input) {
-        var entity = jpa.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Subcategory not found: " + id));
+        SubcategoryEntity entity = jpa.findById(id)
+                .orElseThrow(() -> new NotFoundException("Subcategoría no encontrada: " + id));
         mapper.updateEntityFromDto(input, entity);
-        var updated = jpa.save(entity);
-        return mapper.toDto(updated);
+        return mapper.toDto(jpa.save(entity));
     }
 
     @Override
-    @Transactional
     public boolean deleteById(Long id) {
-        if (!jpa.existsById(id)) return false;
-        jpa.deleteById(id);
+        if (!jpa.existsById(id)) {
+            return false;
+        }
+        jpa.deleteById(id); // @SoftDelete: marca deleted = 1
         return true;
     }
 
@@ -62,5 +67,51 @@ public class SubcategoryRepositoryAdapter implements SubcategoryRepository {
     @Override
     public Optional<SubcategoryDto> findByName(String name) {
         return jpa.findByName(name).map(mapper::toDto);
+    }
+
+    @Override
+    public Page<SubcategoryDto> search(String query, Long categoryId, Pageable pageable) {
+        Specification<SubcategoryEntity> spec = (root, criteria, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (query != null && !query.isBlank()) {
+                String like = "%" + query.trim().toLowerCase(Locale.ROOT) + "%";
+                predicates.add(cb.or(
+                        cb.like(cb.lower(root.<String>get("name")), like),
+                        cb.like(cb.lower(root.<String>get("slug")), like),
+                        cb.like(cb.lower(cb.coalesce(root.<String>get("description"), "")), like)));
+            }
+            if (categoryId != null) {
+                predicates.add(cb.equal(root.get("categoryId"), categoryId));
+            }
+            return cb.and(predicates.toArray(Predicate[]::new));
+        };
+        return jpa.findAll(spec, pageable).map(mapper::toDto);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return jpa.existsById(id);
+    }
+
+    @Override
+    public boolean existsByName(String name, Long excludeId) {
+        return excludeId == null
+                ? jpa.existsByNameIgnoreCase(name)
+                : jpa.existsByNameIgnoreCaseAndIdNot(name, excludeId);
+    }
+
+    @Override
+    public boolean existsBySlug(String slug, Long excludeId) {
+        return excludeId == null
+                ? jpa.existsBySlugIgnoreCase(slug)
+                : jpa.existsBySlugIgnoreCaseAndIdNot(slug, excludeId);
+    }
+
+    public long count() {
+        return jpa.count();
+    }
+
+    public long countByCategoryId(Long categoryId) {
+        return jpa.countByCategoryId(categoryId);
     }
 }

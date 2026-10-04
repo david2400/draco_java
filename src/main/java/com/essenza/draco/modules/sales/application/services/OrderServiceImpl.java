@@ -1,5 +1,7 @@
 package com.essenza.draco.modules.sales.application.services;
 
+import com.essenza.draco.shared.exceptions.NotFoundException;
+import com.essenza.draco.shared.exceptions.ConflictException;
 import com.essenza.draco.modules.sales.application.input.order.*;
 import com.essenza.draco.modules.sales.domain.dto.order.CreateOrderDto;
 import com.essenza.draco.modules.sales.domain.dto.order.OrderDto;
@@ -38,6 +40,13 @@ public class OrderServiceImpl implements CreateOrderUseCase,
 
     @Override
     public boolean deleteById(Long id) {
+        if (orderRepository.findById(id).isEmpty()) {
+            throw new NotFoundException("No se encontró la orden " + id + ".");
+        }
+        if (orderRepository.hasDependents(id)) {
+            throw new ConflictException("No se puede eliminar la orden " + id
+                    + ": tiene despachos o devoluciones asociados.");
+        }
         return orderRepository.deleteById(id);
     }
 
