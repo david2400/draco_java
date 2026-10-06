@@ -1,7 +1,7 @@
 package com.essenza.draco.modules.devolution.application.input.motive_devolution;
 
-import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.CreateMotiveDevolutionDto;
-import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.MotiveDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.motive_devolution.CreateMotiveDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.motive_devolution.MotiveDevolutionDto;
 
 public interface CreateMotiveDevolutionUseCase {
     MotiveDevolutionDto create(CreateMotiveDevolutionDto input);

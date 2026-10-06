@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.advanced_features.infrastructure.outbound.repositories.personalization_profile;
 
 import com.essenza.draco.modules.advanced_features.application.output.repository.PersonalizationProfileRepository;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.CreatePersonalizationProfileDto;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.PersonalizationProfileDto;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.UpdatePersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.CreatePersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.PersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.UpdatePersonalizationProfileDto;
 import com.essenza.draco.modules.advanced_features.infrastructure.outbound.mappers.PersonalizationProfileMapper;
 import com.essenza.draco.modules.advanced_features.infrastructure.outbound.persistence.mysql.JpaPersonalizationProfileRepository;
 import com.essenza.draco.modules.advanced_features.infrastructure.outbound.persistence.mysql.PersonalizationProfileEntity;

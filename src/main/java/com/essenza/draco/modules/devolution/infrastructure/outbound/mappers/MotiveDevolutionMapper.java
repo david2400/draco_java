@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.devolution.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.CreateMotiveDevolutionDto;
-import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.MotiveDevolutionDto;
-import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.UpdateMotiveDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.motive_devolution.CreateMotiveDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.motive_devolution.MotiveDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.motive_devolution.UpdateMotiveDevolutionDto;
 import com.essenza.draco.modules.devolution.infrastructure.outbound.persistence.mysql.shop.MotiveDevolutionEntity;
 import org.mapstruct.*;
 

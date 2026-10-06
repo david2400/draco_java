@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.devolution.application.services;
 
 import com.essenza.draco.modules.devolution.application.input.evidence.*;
-import com.essenza.draco.modules.devolution.domain.dto.evidence.CreateEvidenceDto;
-import com.essenza.draco.modules.devolution.domain.dto.evidence.EvidenceDto;
-import com.essenza.draco.modules.devolution.domain.dto.evidence.UpdateEvidenceDto;
-import com.essenza.draco.modules.devolution.infrastructure.outbound.repositories.evidence.EvidenceRepositoryAdapter;
+import com.essenza.draco.modules.devolution.application.dto.evidence.CreateEvidenceDto;
+import com.essenza.draco.modules.devolution.application.dto.evidence.EvidenceDto;
+import com.essenza.draco.modules.devolution.application.dto.evidence.UpdateEvidenceDto;
+import com.essenza.draco.modules.devolution.application.output.repository.EvidenceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +20,9 @@ public class EvidenceServiceImpl implements CreateEvidenceUseCase,
         FindEvidenceByIdUseCase,
         FindEvidencesUseCase {
 
-    private final EvidenceRepositoryAdapter evidenceRepository;
+    private final EvidenceRepository evidenceRepository;
 
-    public EvidenceServiceImpl(EvidenceRepositoryAdapter evidenceRepository) {
+    public EvidenceServiceImpl(EvidenceRepository evidenceRepository) {
         this.evidenceRepository = evidenceRepository;
     }
 

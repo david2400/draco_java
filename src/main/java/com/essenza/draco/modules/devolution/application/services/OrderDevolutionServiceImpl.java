@@ -3,10 +3,10 @@ package com.essenza.draco.modules.devolution.application.services;
 import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.shared.exceptions.ConflictException;
 import com.essenza.draco.modules.devolution.application.input.order_devolution.*;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution.CreateOrderDevolutionDto;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution.OrderDevolutionDto;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution.UpdateOrderDevolutionDto;
-import com.essenza.draco.modules.devolution.infrastructure.outbound.repositories.order_devolution.OrderDevolutionRepositoryAdapter;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution.CreateOrderDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution.OrderDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution.UpdateOrderDevolutionDto;
+import com.essenza.draco.modules.devolution.application.output.repository.OrderDevolutionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +20,9 @@ public class OrderDevolutionServiceImpl implements CreateOrderDevolutionUseCase,
         DeleteOrderDevolutionUseCase,
         FindOrderDevolutionByIdUseCase,
         FindOrderDevolutionsUseCase {
-    private final OrderDevolutionRepositoryAdapter orderDevolutionRepository;
+    private final OrderDevolutionRepository orderDevolutionRepository;
 
-    public OrderDevolutionServiceImpl(OrderDevolutionRepositoryAdapter orderDevolutionRepository) {
+    public OrderDevolutionServiceImpl(OrderDevolutionRepository orderDevolutionRepository) {
         this.orderDevolutionRepository = orderDevolutionRepository;
     }
 

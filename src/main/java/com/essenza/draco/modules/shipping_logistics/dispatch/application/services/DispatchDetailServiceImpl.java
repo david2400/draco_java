@@ -2,10 +2,10 @@ package com.essenza.draco.modules.shipping_logistics.dispatch.application.servic
 
 //import com.essenza.draco.modules.dispatch.application.input.dispatch_detail.*;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_detail.*;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.CreateDispatchDetailDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.DispatchDetailDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.UpdateDispatchDetailDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.repositories.dispatch_details.DispatchDetailRepositoryAdapter;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.CreateDispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.DispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.UpdateDispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.output.repository.DispatchDetailRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +20,9 @@ public class DispatchDetailServiceImpl implements CreateDispatchDetailUseCase,
         FindDispatchDetailByIdUseCase,
         FindDispatchDetailsUseCase {
 
-    private final DispatchDetailRepositoryAdapter repository;
+    private final DispatchDetailRepository repository;
 
-    public DispatchDetailServiceImpl(DispatchDetailRepositoryAdapter repository) {
+    public DispatchDetailServiceImpl(DispatchDetailRepository repository) {
         this.repository = repository;
     }
 

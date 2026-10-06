@@ -2,10 +2,10 @@ package com.essenza.draco.modules.shipping_logistics.dispatch.application.servic
 
 //import com.essenza.draco.modules.dispatch.application.input.tracking.*;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.tracking.*;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.tracking.CreateTrackingDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.tracking.TrackingDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.tracking.UpdateTrackingDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.repositories.tracking.TrackingRepositoryAdapter;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.tracking.CreateTrackingDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.tracking.TrackingDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.tracking.UpdateTrackingDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.output.repository.TrackingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +20,9 @@ public class TrackingServiceImpl implements CreateTrackingUseCase,
         FindTrackingByIdUseCase,
         FindTrackingsUseCase {
 
-    private final TrackingRepositoryAdapter repository;
+    private final TrackingRepository repository;
 
-    public TrackingServiceImpl(TrackingRepositoryAdapter repository) {
+    public TrackingServiceImpl(TrackingRepository repository) {
         this.repository = repository;
     }
 

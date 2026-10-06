@@ -1,7 +1,5 @@
 package com.essenza.draco.modules.sales.infrastructure.outbound.persistence.mysql.shop;
 
-import com.essenza.draco.modules.devolution.infrastructure.outbound.persistence.mysql.shop.OrderDevolutionEntity;
-import com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.persistence.mysql.shop.DispatchProductEntity;
 import com.essenza.draco.shared.common.domain.entity.AuditInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,8 +26,16 @@ public class OrderEntity extends AuditInfo {
     @Column(name = "complementary_order")
     private String complementaryOrder;
 
-    @Column(nullable = false)
-    private Double total;
+    @Column(nullable = false, precision = 15, scale = 2)
+    private java.math.BigDecimal total;
+
+    /** Fase 5: la orden reserva y descuenta stock (las anteriores no). */
+    @Column(name = "stock_managed", nullable = false)
+    @lombok.Builder.Default
+    private Boolean stockManaged = false;
+
+    @Column(name = "cancel_reason", length = 200)
+    private String cancelReason;
 
     @Column(nullable = false)
     private String state;
@@ -37,10 +43,8 @@ public class OrderEntity extends AuditInfo {
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<ProductOrderEntity> productOrder;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderDevolutionEntity> orderDevolution;
+    // Sin asociación JPA hacia devoluciones (módulo devolution): se referencia solo por id (Fase 1, fronteras entre módulos).
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<DispatchProductEntity> dispatchProduct;
+    // Sin asociación JPA hacia despachos (módulo shipping_logistics): se referencia solo por id (Fase 1, fronteras entre módulos).
 
 }

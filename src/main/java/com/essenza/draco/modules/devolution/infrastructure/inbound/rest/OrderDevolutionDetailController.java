@@ -10,9 +10,9 @@ import com.essenza.draco.modules.devolution.application.input.order_devolution_d
 import com.essenza.draco.modules.devolution.application.input.order_devolution_detail.DeleteOrderDevolutionDetailUseCase;
 import com.essenza.draco.modules.devolution.application.input.order_devolution_detail.FindOrderDevolutionDetailByIdUseCase;
 import com.essenza.draco.modules.devolution.application.input.order_devolution_detail.FindOrderDevolutionDetailsUseCase;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution_detail.OrderDevolutionDetailDto;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution_detail.CreateOrderDevolutionDetailDto;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution_detail.UpdateOrderDevolutionDetailDto;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution_detail.OrderDevolutionDetailDto;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution_detail.CreateOrderDevolutionDetailDto;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution_detail.UpdateOrderDevolutionDetailDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

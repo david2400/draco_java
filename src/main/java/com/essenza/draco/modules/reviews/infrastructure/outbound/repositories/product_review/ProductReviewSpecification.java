@@ -1,6 +1,6 @@
 package com.essenza.draco.modules.reviews.infrastructure.outbound.repositories.product_review;
 
-import com.essenza.draco.modules.reviews.domain.dto.product_review.ProductReviewFiltersDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.ProductReviewFiltersDto;
 import com.essenza.draco.modules.reviews.infrastructure.outbound.persistence.mysql.shop.ProductReviewEntity;
 import org.springframework.data.jpa.domain.Specification;
 

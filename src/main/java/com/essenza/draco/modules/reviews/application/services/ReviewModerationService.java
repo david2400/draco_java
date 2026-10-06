@@ -1,6 +1,6 @@
 package com.essenza.draco.modules.reviews.application.services;
 
-import com.essenza.draco.modules.reviews.domain.dto.product_review.ProductReviewDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.ProductReviewDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

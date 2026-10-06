@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.sales.application.services;
 
 import com.essenza.draco.modules.sales.application.input.payment_type.*;
-import com.essenza.draco.modules.sales.domain.dto.payment_type.CreatePaymentTypeDto;
-import com.essenza.draco.modules.sales.domain.dto.payment_type.PaymentTypeDto;
-import com.essenza.draco.modules.sales.domain.dto.payment_type.UpdatePaymentTypeDto;
-import com.essenza.draco.modules.sales.infrastructure.outbound.repositories.payment_type.PaymentTypeRepositoryAdapter;
+import com.essenza.draco.modules.sales.application.dto.payment_type.CreatePaymentTypeDto;
+import com.essenza.draco.modules.sales.application.dto.payment_type.PaymentTypeDto;
+import com.essenza.draco.modules.sales.application.dto.payment_type.UpdatePaymentTypeDto;
+import com.essenza.draco.modules.sales.application.output.repository.PaymentTypeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +20,9 @@ public class PaymentTypeServiceImpl implements
         FindPaymentTypeByIdUseCase,
         FindPaymentTypesUseCase {
 
-    private final PaymentTypeRepositoryAdapter paymentTypeRepository;
+    private final PaymentTypeRepository paymentTypeRepository;
 
-    public PaymentTypeServiceImpl(PaymentTypeRepositoryAdapter paymentTypeRepository) {
+    public PaymentTypeServiceImpl(PaymentTypeRepository paymentTypeRepository) {
         this.paymentTypeRepository = paymentTypeRepository;
     }
 

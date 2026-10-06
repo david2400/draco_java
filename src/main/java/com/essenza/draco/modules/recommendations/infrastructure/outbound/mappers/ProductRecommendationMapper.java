@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.recommendations.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.CreateProductRecommendationDto;
-import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.ProductRecommendationDto;
-import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.UpdateProductRecommendationDto;
+import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.CreateProductRecommendationDto;
+import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.ProductRecommendationDto;
+import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.UpdateProductRecommendationDto;
 import com.essenza.draco.modules.recommendations.infrastructure.outbound.persistence.mysql.ProductRecommendationEntity;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

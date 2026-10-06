@@ -3,7 +3,7 @@ package com.essenza.draco.modules.shipping_logistics.dispatch.application.input.
 import org.springframework.data.domain.Pageable;
 
 import com.essenza.draco.shared.common.domain.dto.PageResponse;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.DispatchProductDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.DispatchProductDto;
 
 /** Búsqueda paginada con texto libre y filtros. */
 public interface SearchDispatchProductsUseCase {

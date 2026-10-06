@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.product_details.application.services;
 
 import com.essenza.draco.modules.product_details.application.input.product_feature.*;
-import com.essenza.draco.modules.product_details.domain.dto.product_feature.CreateProductFeatureDto;
-import com.essenza.draco.modules.product_details.domain.dto.product_feature.ProductFeatureDto;
-import com.essenza.draco.modules.product_details.domain.dto.product_feature.UpdateProductFeatureDto;
-import com.essenza.draco.modules.product_details.infrastructure.outbound.repositories.product_feature.ProductFeatureRepositoryAdapter;
+import com.essenza.draco.modules.product_details.application.dto.product_feature.CreateProductFeatureDto;
+import com.essenza.draco.modules.product_details.application.dto.product_feature.ProductFeatureDto;
+import com.essenza.draco.modules.product_details.application.dto.product_feature.UpdateProductFeatureDto;
+import com.essenza.draco.modules.product_details.application.output.repository.ProductFeatureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +21,9 @@ public class ProductFeatureServiceImpl implements CreateProductFeatureUseCase,
         FindProductFeatureByIdUseCase,
         FindProductFeaturesUseCase {
 
-    private final ProductFeatureRepositoryAdapter productFeatureRepository;
+    private final ProductFeatureRepository productFeatureRepository;
 
-//    public ProductFeatureServiceImpl(ProductFeatureRepositoryAdapter productFeatureRepository) {
+//    public ProductFeatureServiceImpl(ProductFeatureRepository productFeatureRepository) {
 //        this.productFeatureRepository = productFeatureRepository;
 //    }
 

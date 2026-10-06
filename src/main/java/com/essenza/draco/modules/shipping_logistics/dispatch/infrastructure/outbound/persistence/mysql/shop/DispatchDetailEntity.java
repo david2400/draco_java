@@ -1,6 +1,5 @@
 package com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.persistence.mysql.shop;
 
-import com.essenza.draco.modules.sales.infrastructure.outbound.persistence.mysql.shop.ProductOrderEntity;
 import com.essenza.draco.shared.common.domain.entity.AuditInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,9 +31,7 @@ public class DispatchDetailEntity extends AuditInfo {
     @Column(name = "product_order_id", nullable = false)
     private Long productOrderId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_order_id", insertable = false, updatable = false)
-    private ProductOrderEntity productOrder;
+    // Sin asociación JPA hacia la línea de orden (módulo sales): se referencia solo por id (Fase 1, fronteras entre módulos).
 
 }
 

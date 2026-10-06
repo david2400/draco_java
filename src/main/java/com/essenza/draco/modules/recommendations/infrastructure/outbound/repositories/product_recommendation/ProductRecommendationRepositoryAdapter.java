@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.recommendations.infrastructure.outbound.repositories.product_recommendation;
 
 import com.essenza.draco.modules.recommendations.application.output.repository.ProductRecommendationRepository;
-import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.CreateProductRecommendationDto;
-import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.ProductRecommendationDto;
-import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.UpdateProductRecommendationDto;
+import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.CreateProductRecommendationDto;
+import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.ProductRecommendationDto;
+import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.UpdateProductRecommendationDto;
 import com.essenza.draco.modules.recommendations.infrastructure.outbound.mappers.ProductRecommendationMapper;
 import com.essenza.draco.modules.recommendations.infrastructure.outbound.persistence.mysql.ProductRecommendationEntity;
 import com.essenza.draco.shared.exceptions.NotFoundException;

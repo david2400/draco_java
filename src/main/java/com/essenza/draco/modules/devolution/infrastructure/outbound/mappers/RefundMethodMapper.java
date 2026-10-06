@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.devolution.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.CreateRefundMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.RefundMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.UpdateRefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.CreateRefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.RefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.UpdateRefundMethodDto;
 import com.essenza.draco.modules.devolution.infrastructure.outbound.persistence.mysql.shop.RefundMethodEntity;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

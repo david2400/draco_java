@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.reviews.infrastructure.outbound.repositories.product_review;
 
 import com.essenza.draco.modules.reviews.application.output.repository.ProductReviewRepository;
-import com.essenza.draco.modules.reviews.domain.dto.product_review.CreateProductReviewDto;
-import com.essenza.draco.modules.reviews.domain.dto.product_review.ProductReviewDto;
-import com.essenza.draco.modules.reviews.domain.dto.product_review.ProductReviewFiltersDto;
-import com.essenza.draco.modules.reviews.domain.dto.product_review.UpdateProductReviewDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.CreateProductReviewDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.ProductReviewDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.ProductReviewFiltersDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.UpdateProductReviewDto;
 import com.essenza.draco.modules.reviews.infrastructure.outbound.mappers.ProductReviewMapper;
 import com.essenza.draco.modules.reviews.infrastructure.outbound.persistence.mysql.shop.ProductReviewEntity;
 import org.springframework.data.domain.Page;

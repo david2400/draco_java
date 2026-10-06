@@ -18,15 +18,20 @@ import com.essenza.draco.modules.product_details.application.input.product_featu
 import com.essenza.draco.modules.product_details.application.input.product_feature.DeleteProductFeatureUseCase;
 import com.essenza.draco.modules.product_details.application.input.product_feature.FindProductFeatureByIdUseCase;
 import com.essenza.draco.modules.product_details.application.input.product_feature.FindProductFeaturesUseCase;
-import com.essenza.draco.modules.product_details.domain.dto.product_feature.ProductFeatureDto;
-import com.essenza.draco.modules.product_details.domain.dto.product_feature.CreateProductFeatureDto;
-import com.essenza.draco.modules.product_details.domain.dto.product_feature.UpdateProductFeatureDto;
+import com.essenza.draco.modules.product_details.application.dto.product_feature.ProductFeatureDto;
+import com.essenza.draco.modules.product_details.application.dto.product_feature.CreateProductFeatureDto;
+import com.essenza.draco.modules.product_details.application.dto.product_feature.UpdateProductFeatureDto;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+/**
+ * @deprecated Fase 4: usar /catalog/attributes, /catalog/product_templates y
+ * /catalog/products/{id}/attributes. Opera sobre las tablas antiguas (no sincronizadas); se retira en la Fase 7.
+ */
+@Deprecated(since = "F4", forRemoval = true)
 @RestController
 @RequestMapping("/product_details/product_features")
 @Tag(name = "Product Feature")

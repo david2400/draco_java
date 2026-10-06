@@ -1,5 +1,8 @@
 package com.essenza.draco.config;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import io.swagger.v3.core.jackson.ModelResolver;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.servers.Server;
@@ -22,6 +25,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class OpenApiConfig {
 
     private static final String BASE_PREFIX = "/api/shop";
+
+    /**
+     * El API serializa en snake_case ({@code spring.jackson.property-naming-strategy=SNAKE_CASE}),
+     * pero springdoc genera los esquemas con su propio ObjectMapper. Este resolver aplica la misma
+     * estrategia para que Swagger muestre los atributos tal como viajan ({@code unit_price}, {@code sku_id}…).
+     * Se usa una copia: no altera el mapper global de swagger-core.
+     */
+    @Bean
+    public ModelResolver snakeCaseModelResolver() {
+        return new ModelResolver(Json.mapper().copy().setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE));
+    }
 
     @Bean
     public GroupedOpenApi analyticsApi() {

@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.analytics.infrastructure.outbound.repositories.sales_analytics_record;
 
 import com.essenza.draco.modules.analytics.application.output.repository.SalesAnalyticsRecordRepository;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.CreateSalesAnalyticsRecordDto;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.SalesAnalyticsRecordDto;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.UpdateSalesAnalyticsRecordDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.CreateSalesAnalyticsRecordDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.SalesAnalyticsRecordDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.UpdateSalesAnalyticsRecordDto;
 import com.essenza.draco.modules.analytics.infrastructure.outbound.mappers.SalesAnalyticsRecordMapper;
 import com.essenza.draco.modules.analytics.infrastructure.outbound.persistence.mysql.JpaSalesAnalyticsRecordRepository;
 import com.essenza.draco.modules.analytics.infrastructure.outbound.persistence.mysql.SalesAnalyticsRecordEntity;

@@ -12,8 +12,8 @@ import com.essenza.draco.shared.exceptions.ConflictException;
 import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.BulkDeleteDispatchProductsUseCase;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.SearchDispatchProductsUseCase;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.DispatchProductDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.repositories.dispatch_product.DispatchProductRepositoryAdapter;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.DispatchProductDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.output.repository.DispatchProductRepository;
 
 /**
  * Búsqueda paginada y borrado en lote de despachos (pantallas de
@@ -23,9 +23,9 @@ import com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outb
 @Transactional
 public class DispatchProductQueryService implements SearchDispatchProductsUseCase, BulkDeleteDispatchProductsUseCase {
 
-    private final DispatchProductRepositoryAdapter repository;
+    private final DispatchProductRepository repository;
 
-    public DispatchProductQueryService(DispatchProductRepositoryAdapter repository) {
+    public DispatchProductQueryService(DispatchProductRepository repository) {
         this.repository = repository;
     }
 

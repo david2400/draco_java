@@ -1,6 +1,6 @@
 package com.essenza.draco.modules.cms.application.input.page;
 
-import com.essenza.draco.modules.cms.domain.dto.page.PageDto;
+import com.essenza.draco.modules.cms.application.dto.page.PageDto;
 
 import java.util.List;
 

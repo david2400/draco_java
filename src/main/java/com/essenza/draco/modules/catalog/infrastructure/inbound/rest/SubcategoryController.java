@@ -34,9 +34,9 @@ import com.essenza.draco.modules.catalog.application.input.subcategory.FindAllSu
 import com.essenza.draco.modules.catalog.application.input.subcategory.FindSubcategoryByIdUseCase;
 import com.essenza.draco.modules.catalog.application.input.subcategory.SearchSubcategoriesUseCase;
 import com.essenza.draco.modules.catalog.application.input.subcategory.UpdateSubcategoryUseCase;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.SubcategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.CreateSubcategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.UpdateSubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.SubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.CreateSubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.UpdateSubcategoryDto;
 
 @RestController
 @RequestMapping("/catalog/subcategories")

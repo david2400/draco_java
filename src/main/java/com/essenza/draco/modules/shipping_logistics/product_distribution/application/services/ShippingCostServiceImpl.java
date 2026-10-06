@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.shipping_logistics.product_distribution.application.services;
 
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.shipping_cost.*;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.CreateShippingCostDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.ShippingCostDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.UpdateShippingCostDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.repositories.shipping_cost.ShippingCostRepositoryAdapter;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.CreateShippingCostDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.ShippingCostDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.UpdateShippingCostDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.output.repository.ShippingCostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +19,9 @@ public class ShippingCostServiceImpl implements CreateShippingCostUseCase,
         FindShippingCostByIdUseCase,
         FindShippingCostsUseCase {
 
-    private final ShippingCostRepositoryAdapter repository;
+    private final ShippingCostRepository repository;
 
-    public ShippingCostServiceImpl(ShippingCostRepositoryAdapter repository) {
+    public ShippingCostServiceImpl(ShippingCostRepository repository) {
         this.repository = repository;
     }
 

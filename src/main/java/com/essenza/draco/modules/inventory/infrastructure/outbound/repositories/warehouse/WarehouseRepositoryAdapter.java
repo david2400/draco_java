@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.inventory.infrastructure.outbound.repositories.warehouse;
 
 import com.essenza.draco.modules.inventory.application.output.repository.WarehouseRepository;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.CreateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.UpdateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.CreateWarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.UpdateWarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.WarehouseDto;
 import com.essenza.draco.modules.inventory.infrastructure.outbound.mappers.WarehouseMapper;
 import com.essenza.draco.modules.inventory.infrastructure.outbound.persistence.mysql.shop.WarehouseEntity;
 import lombok.RequiredArgsConstructor;

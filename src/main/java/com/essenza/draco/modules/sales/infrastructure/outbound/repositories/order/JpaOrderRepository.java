@@ -12,4 +12,8 @@ import java.util.List;
 public interface JpaOrderRepository extends JpaRepository<OrderEntity, Long>, JpaSpecificationExecutor<OrderEntity> {
 
     List<OrderEntity> findByCreatedAtBetween(Instant startDate, Instant endDate);
+
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @org.springframework.data.jpa.repository.Query("select o from OrderEntity o where o.id = :id")
+    java.util.Optional<OrderEntity> findForUpdate(@org.springframework.data.repository.query.Param("id") Long id);
 }

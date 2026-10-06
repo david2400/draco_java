@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.promotions.infrastructure.outbound.repositories.coupon;
 
 import com.essenza.draco.modules.promotions.application.output.repository.CouponRepository;
-import com.essenza.draco.modules.promotions.domain.dto.coupon.CouponDto;
-import com.essenza.draco.modules.promotions.domain.dto.coupon.CreateCouponDto;
-import com.essenza.draco.modules.promotions.domain.dto.coupon.UpdateCouponDto;
+import com.essenza.draco.modules.promotions.application.dto.coupon.CouponDto;
+import com.essenza.draco.modules.promotions.application.dto.coupon.CreateCouponDto;
+import com.essenza.draco.modules.promotions.application.dto.coupon.UpdateCouponDto;
 import com.essenza.draco.modules.promotions.infrastructure.outbound.mappers.CouponMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

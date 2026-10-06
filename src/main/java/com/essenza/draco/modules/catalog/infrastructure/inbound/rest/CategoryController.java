@@ -34,9 +34,9 @@ import com.essenza.draco.modules.catalog.application.input.category.FindAllCateg
 import com.essenza.draco.modules.catalog.application.input.category.FindCategoryByIdUseCase;
 import com.essenza.draco.modules.catalog.application.input.category.SearchCategoriesUseCase;
 import com.essenza.draco.modules.catalog.application.input.category.UpdateCategoryUseCase;
-import com.essenza.draco.modules.catalog.domain.dto.category.CategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.category.CreateCategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.category.UpdateCategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.category.CategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.category.CreateCategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.category.UpdateCategoryDto;
 
 @RestController
 @RequestMapping("/catalog/categories")

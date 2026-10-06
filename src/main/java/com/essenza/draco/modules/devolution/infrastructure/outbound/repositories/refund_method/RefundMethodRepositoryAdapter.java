@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.devolution.infrastructure.outbound.repositories.refund_method;
 
 import com.essenza.draco.modules.devolution.application.output.repository.RefundMethodRepository;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.CreateRefundMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.RefundMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.UpdateRefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.CreateRefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.RefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.UpdateRefundMethodDto;
 import com.essenza.draco.modules.devolution.infrastructure.outbound.mappers.RefundMethodMapper;
 import org.springframework.stereotype.Repository;
 

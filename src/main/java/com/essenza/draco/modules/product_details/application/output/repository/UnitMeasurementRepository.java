@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.product_details.application.output.repository;
 
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.CreateUnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UpdateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.CreateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UpdateUnitMeasurementDto;
 
 import java.util.List;
 import java.util.Optional;

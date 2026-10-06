@@ -12,8 +12,8 @@ import com.essenza.draco.shared.exceptions.ConflictException;
 import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.modules.devolution.application.input.order_devolution.BulkDeleteOrderDevolutionsUseCase;
 import com.essenza.draco.modules.devolution.application.input.order_devolution.SearchOrderDevolutionsUseCase;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution.OrderDevolutionDto;
-import com.essenza.draco.modules.devolution.infrastructure.outbound.repositories.order_devolution.OrderDevolutionRepositoryAdapter;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution.OrderDevolutionDto;
+import com.essenza.draco.modules.devolution.application.output.repository.OrderDevolutionRepository;
 
 /**
  * Búsqueda paginada y borrado en lote de devolucións (pantallas de
@@ -23,9 +23,9 @@ import com.essenza.draco.modules.devolution.infrastructure.outbound.repositories
 @Transactional
 public class OrderDevolutionQueryService implements SearchOrderDevolutionsUseCase, BulkDeleteOrderDevolutionsUseCase {
 
-    private final OrderDevolutionRepositoryAdapter repository;
+    private final OrderDevolutionRepository repository;
 
-    public OrderDevolutionQueryService(OrderDevolutionRepositoryAdapter repository) {
+    public OrderDevolutionQueryService(OrderDevolutionRepository repository) {
         this.repository = repository;
     }
 

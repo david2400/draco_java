@@ -16,7 +16,7 @@ import com.essenza.draco.shared.common.domain.dto.PageResponse;
 import com.essenza.draco.shared.common.web.PageableFactory;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.BulkDeleteDispatchProductsUseCase;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.SearchDispatchProductsUseCase;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.DispatchProductDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.DispatchProductDto;
 
 /**
  * Endpoints de administración (búsqueda paginada y lote) sobre la misma ruta

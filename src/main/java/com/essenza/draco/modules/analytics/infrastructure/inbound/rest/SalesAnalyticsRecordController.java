@@ -5,9 +5,9 @@ import com.essenza.draco.modules.analytics.application.input.sales_analytics_rec
 import com.essenza.draco.modules.analytics.application.input.sales_analytics_record.FindSalesAnalyticsRecordByIdUseCase;
 import com.essenza.draco.modules.analytics.application.input.sales_analytics_record.FindSalesAnalyticsRecordsUseCase;
 import com.essenza.draco.modules.analytics.application.input.sales_analytics_record.UpdateSalesAnalyticsRecordUseCase;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.CreateSalesAnalyticsRecordDto;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.SalesAnalyticsRecordDto;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.UpdateSalesAnalyticsRecordDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.CreateSalesAnalyticsRecordDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.SalesAnalyticsRecordDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.UpdateSalesAnalyticsRecordDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

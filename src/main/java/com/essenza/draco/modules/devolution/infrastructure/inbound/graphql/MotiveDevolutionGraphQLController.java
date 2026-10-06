@@ -10,9 +10,9 @@
 // import com.essenza.draco.modules.devolution.application.input.motive_devolution.DeleteMotiveDevolutionUseCase;
 // import com.essenza.draco.modules.devolution.application.input.motive_devolution.FindMotiveDevolutionByIdUseCase;
 // import com.essenza.draco.modules.devolution.application.input.motive_devolution.FindMotiveDevolutionsUseCase;
-// import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.MotiveDevolutionDto;
-// import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.CreateMotiveDevolutionDto;
-// import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.UpdateMotiveDevolutionDto;
+// import com.essenza.draco.modules.devolution.application.dto.motive_devolution.MotiveDevolutionDto;
+// import com.essenza.draco.modules.devolution.application.dto.motive_devolution.CreateMotiveDevolutionDto;
+// import com.essenza.draco.modules.devolution.application.dto.motive_devolution.UpdateMotiveDevolutionDto;
 
 // import java.util.List;
 

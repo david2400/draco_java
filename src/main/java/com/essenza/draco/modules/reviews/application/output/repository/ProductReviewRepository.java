@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.reviews.application.output.repository;
 
-import com.essenza.draco.modules.reviews.domain.dto.product_review.CreateProductReviewDto;
-import com.essenza.draco.modules.reviews.domain.dto.product_review.ProductReviewDto;
-import com.essenza.draco.modules.reviews.domain.dto.product_review.ProductReviewFiltersDto;
-import com.essenza.draco.modules.reviews.domain.dto.product_review.UpdateProductReviewDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.CreateProductReviewDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.ProductReviewDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.ProductReviewFiltersDto;
+import com.essenza.draco.modules.reviews.application.dto.product_review.UpdateProductReviewDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

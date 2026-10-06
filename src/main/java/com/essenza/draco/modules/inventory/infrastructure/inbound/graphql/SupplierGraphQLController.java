@@ -10,9 +10,9 @@
 // import com.essenza.draco.modules.inventory.application.input.supplier.DeleteSupplierUseCase;
 // import com.essenza.draco.modules.inventory.application.input.supplier.FindSupplierByIdUseCase;
 // import com.essenza.draco.modules.inventory.application.input.supplier.FindSuppliersUseCase;
-// import com.essenza.draco.modules.inventory.domain.dto.supplier.SupplierDto;
-// import com.essenza.draco.modules.inventory.domain.dto.supplier.CreateSupplierDto;
-// import com.essenza.draco.modules.inventory.domain.dto.supplier.UpdateSupplierDto;
+// import com.essenza.draco.modules.inventory.application.dto.supplier.SupplierDto;
+// import com.essenza.draco.modules.inventory.application.dto.supplier.CreateSupplierDto;
+// import com.essenza.draco.modules.inventory.application.dto.supplier.UpdateSupplierDto;
 
 // import java.util.List;
 

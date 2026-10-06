@@ -5,9 +5,9 @@ package com.essenza.draco.modules.sales.infrastructure.outbound.repositories.pro
 //import com.tuempresa.tuapp.infrastructure.persistence.entities.sales.PaymentTypeEntity;
 
 import com.essenza.draco.modules.sales.application.output.repository.ProductOrderRepository;
-import com.essenza.draco.modules.sales.domain.dto.product_order.CreateProductOrderDto;
-import com.essenza.draco.modules.sales.domain.dto.product_order.ProductOrderDto;
-import com.essenza.draco.modules.sales.domain.dto.product_order.UpdateProductOrderDto;
+import com.essenza.draco.modules.sales.application.dto.product_order.CreateProductOrderDto;
+import com.essenza.draco.modules.sales.application.dto.product_order.ProductOrderDto;
+import com.essenza.draco.modules.sales.application.dto.product_order.UpdateProductOrderDto;
 import com.essenza.draco.modules.sales.infrastructure.outbound.mappers.ProductOrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

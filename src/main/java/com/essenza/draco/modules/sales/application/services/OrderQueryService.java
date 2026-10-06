@@ -12,8 +12,8 @@ import com.essenza.draco.shared.exceptions.ConflictException;
 import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.modules.sales.application.input.order.BulkDeleteOrdersUseCase;
 import com.essenza.draco.modules.sales.application.input.order.SearchOrdersUseCase;
-import com.essenza.draco.modules.sales.domain.dto.order.OrderDto;
-import com.essenza.draco.modules.sales.infrastructure.outbound.repositories.order.OrderRepositoryAdapter;
+import com.essenza.draco.modules.sales.application.dto.order.OrderDto;
+import com.essenza.draco.modules.sales.application.output.repository.OrderRepository;
 
 /**
  * Búsqueda paginada y borrado en lote de ordens (pantallas de
@@ -23,10 +23,13 @@ import com.essenza.draco.modules.sales.infrastructure.outbound.repositories.orde
 @Transactional
 public class OrderQueryService implements SearchOrdersUseCase, BulkDeleteOrdersUseCase {
 
-    private final OrderRepositoryAdapter repository;
+    private final OrderRepository repository;
+    private final com.essenza.draco.modules.sales.application.input.order.DeleteOrderUseCase deleteOrder;
 
-    public OrderQueryService(OrderRepositoryAdapter repository) {
+    public OrderQueryService(OrderRepository repository,
+                             com.essenza.draco.modules.sales.application.input.order.DeleteOrderUseCase deleteOrder) {
         this.repository = repository;
+        this.deleteOrder = deleteOrder;
     }
 
     @Override
@@ -37,14 +40,8 @@ public class OrderQueryService implements SearchOrdersUseCase, BulkDeleteOrdersU
 
     /** Elimina una orden validando las reglas de negocio. */
     public void deleteChecked(Long id) {
-        if (repository.findById(id).isEmpty()) {
-            throw new NotFoundException("No se encontró la orden " + id + ".");
-        }
-        if (repository.hasDependents(id)) {
-            throw new ConflictException("No se puede eliminar la orden " + id
-                    + ": tiene despachos o devoluciones asociados.");
-        }
-        repository.deleteById(id);
+        // Mismas reglas que el borrado individual (dependencias y stock reservado).
+        deleteOrder.deleteById(id);
     }
 
     @Override

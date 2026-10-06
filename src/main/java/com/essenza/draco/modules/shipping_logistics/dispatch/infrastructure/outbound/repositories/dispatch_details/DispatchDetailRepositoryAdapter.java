@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.repositories.dispatch_details;
 
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.output.repository.DispatchDetailRepository;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.CreateDispatchDetailDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.DispatchDetailDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.UpdateDispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.CreateDispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.DispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.UpdateDispatchDetailDto;
 import com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.mappers.DispatchDetailMapper;
 import org.springframework.stereotype.Repository;
 

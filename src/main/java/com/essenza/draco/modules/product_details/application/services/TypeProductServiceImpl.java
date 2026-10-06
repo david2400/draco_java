@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.product_details.application.services;
 
 import com.essenza.draco.modules.product_details.application.input.type_product.*;
-import com.essenza.draco.modules.product_details.domain.dto.type_product.CreateTypeProductDto;
-import com.essenza.draco.modules.product_details.domain.dto.type_product.TypeProductDto;
-import com.essenza.draco.modules.product_details.domain.dto.type_product.UpdateTypeProductDto;
-import com.essenza.draco.modules.product_details.infrastructure.outbound.repositories.type_product.TypeProductRepositoryAdapter;
+import com.essenza.draco.modules.product_details.application.dto.type_product.CreateTypeProductDto;
+import com.essenza.draco.modules.product_details.application.dto.type_product.TypeProductDto;
+import com.essenza.draco.modules.product_details.application.dto.type_product.UpdateTypeProductDto;
+import com.essenza.draco.modules.product_details.application.output.repository.TypeProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +17,9 @@ import java.util.Optional;
 @Transactional
 public class TypeProductServiceImpl implements CreateTypeProductUseCase, UpdateTypeProductUseCase, DeleteTypeProductUseCase, FindTypeProductsUseCase, FindTypeProductByIdUseCase {
 
-    private final TypeProductRepositoryAdapter typeProductRepository;
+    private final TypeProductRepository typeProductRepository;
 
-//    public TypeProductServiceImpl(TypeProductRepositoryAdapter typeProductRepository) {
+//    public TypeProductServiceImpl(TypeProductRepository typeProductRepository) {
 //        this.typeProductRepository = typeProductRepository;
 //    }
 

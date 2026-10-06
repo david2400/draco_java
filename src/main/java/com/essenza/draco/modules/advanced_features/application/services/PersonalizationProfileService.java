@@ -6,9 +6,9 @@ import com.essenza.draco.modules.advanced_features.application.input.personaliza
 import com.essenza.draco.modules.advanced_features.application.input.personalization_profile.FindPersonalizationProfilesUseCase;
 import com.essenza.draco.modules.advanced_features.application.input.personalization_profile.UpdatePersonalizationProfileUseCase;
 import com.essenza.draco.modules.advanced_features.application.output.repository.PersonalizationProfileRepository;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.CreatePersonalizationProfileDto;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.PersonalizationProfileDto;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.UpdatePersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.CreatePersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.PersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.UpdatePersonalizationProfileDto;
 import com.essenza.draco.shared.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

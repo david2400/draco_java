@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.essenza.draco.modules.inventory.domain.dto.supplier.SupplierDto;
-import com.essenza.draco.modules.inventory.domain.dto.supplier.CreateSupplierDto;
-import com.essenza.draco.modules.inventory.domain.dto.supplier.UpdateSupplierDto;
+import com.essenza.draco.modules.inventory.application.dto.supplier.SupplierDto;
+import com.essenza.draco.modules.inventory.application.dto.supplier.CreateSupplierDto;
+import com.essenza.draco.modules.inventory.application.dto.supplier.UpdateSupplierDto;
 
 import java.util.List;
 import java.util.Optional;

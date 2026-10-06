@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.devolution.application.services;
 
 import com.essenza.draco.modules.devolution.application.input.return_method.*;
-import com.essenza.draco.modules.devolution.domain.dto.return_method.CreateReturnMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.return_method.ReturnMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.return_method.UpdateReturnMethodDto;
-import com.essenza.draco.modules.devolution.infrastructure.outbound.repositories.return_method.ReturnMethodRepositoryAdapter;
+import com.essenza.draco.modules.devolution.application.dto.return_method.CreateReturnMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.return_method.ReturnMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.return_method.UpdateReturnMethodDto;
+import com.essenza.draco.modules.devolution.application.output.repository.ReturnMethodRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +19,9 @@ public class ReturnMethodServiceImpl implements CreateReturnMethodUseCase,
         FindReturnMethodByIdUseCase,
         FindReturnMethodsUseCase {
 
-    private final ReturnMethodRepositoryAdapter returnMethodRepository;
+    private final ReturnMethodRepository returnMethodRepository;
 
-    public ReturnMethodServiceImpl(ReturnMethodRepositoryAdapter returnMethodRepository) {
+    public ReturnMethodServiceImpl(ReturnMethodRepository returnMethodRepository) {
         this.returnMethodRepository = returnMethodRepository;
     }
 

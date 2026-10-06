@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.devolution.infrastructure.inbound.rest;
 
 import com.essenza.draco.modules.devolution.application.input.return_method.*;
-import com.essenza.draco.modules.devolution.domain.dto.return_method.CreateReturnMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.return_method.ReturnMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.return_method.UpdateReturnMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.return_method.CreateReturnMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.return_method.ReturnMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.return_method.UpdateReturnMethodDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

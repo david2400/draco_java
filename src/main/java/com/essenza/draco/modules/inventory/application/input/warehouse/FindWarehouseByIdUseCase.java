@@ -1,6 +1,6 @@
 package com.essenza.draco.modules.inventory.application.input.warehouse;
 
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.WarehouseDto;
 
 import java.util.Optional;
 

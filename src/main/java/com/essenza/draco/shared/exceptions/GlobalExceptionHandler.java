@@ -23,7 +23,8 @@ import org.springframework.http.HttpStatusCode;
  * Manejo de errores uniforme para todos los módulos del API.
  *
  * Devuelve {@link ApiErrorResponse} con un {@code message} legible (el
- * frontend lo muestra tal cual) y {@code fieldErrors} en validaciones.
+ * frontend lo muestra tal cual) y {@code field_errors} en validaciones, con
+ * los nombres de campo en snake_case, igual que el JSON del API.
  * Antes, la respuesta por defecto de Spring no incluía el mensaje y las
  * pantallas solo mostraban "API request failed with status 500".
  */
@@ -53,7 +54,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorResponse> invalidBody(MethodArgumentNotValidException ex, HttpServletRequest request) {
         List<ApiErrorResponse.FieldError> fields = ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> new ApiErrorResponse.FieldError(error.getField(), error.getDefaultMessage()))
+                .map(error -> new ApiErrorResponse.FieldError(FieldPaths.toSnakeCase(error.getField()), error.getDefaultMessage()))
                 .toList();
         return build(HttpStatus.BAD_REQUEST, "VALIDATION", summary(fields), request, fields);
     }
@@ -62,7 +63,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> constraint(ConstraintViolationException ex, HttpServletRequest request) {
         List<ApiErrorResponse.FieldError> fields = ex.getConstraintViolations().stream()
                 .map(violation -> new ApiErrorResponse.FieldError(
-                        violation.getPropertyPath().toString(), violation.getMessage()))
+                        FieldPaths.toSnakeCase(violation.getPropertyPath().toString()), violation.getMessage()))
                 .toList();
         return build(HttpStatus.BAD_REQUEST, "VALIDATION", summary(fields), request, fields);
     }

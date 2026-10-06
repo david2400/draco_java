@@ -1,7 +1,7 @@
 package com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.carrier;
 
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CreateCarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CreateCarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CarrierDto;
 
 public interface CreateCarrierUseCase {
     CarrierDto create(CreateCarrierDto input);

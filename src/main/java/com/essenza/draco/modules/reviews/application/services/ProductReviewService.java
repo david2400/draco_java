@@ -2,7 +2,7 @@ package com.essenza.draco.modules.reviews.application.services;
 
 import com.essenza.draco.modules.reviews.application.input.product_review.*;
 import com.essenza.draco.modules.reviews.application.output.repository.ProductReviewRepository;
-import com.essenza.draco.modules.reviews.domain.dto.product_review.*;
+import com.essenza.draco.modules.reviews.application.dto.product_review.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

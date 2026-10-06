@@ -1,8 +1,8 @@
 // package com.essenza.draco.modules.product_details.infrastructure.inbound.graphql;
 
-// import com.essenza.draco.modules.product_details.domain.dto.product_feature.ProductFeatureDto;
-// import com.essenza.draco.modules.product_details.domain.dto.product_feature.CreateProductFeatureDto;
-// import com.essenza.draco.modules.product_details.domain.dto.product_feature.UpdateProductFeatureDto;
+// import com.essenza.draco.modules.product_details.application.dto.product_feature.ProductFeatureDto;
+// import com.essenza.draco.modules.product_details.application.dto.product_feature.CreateProductFeatureDto;
+// import com.essenza.draco.modules.product_details.application.dto.product_feature.UpdateProductFeatureDto;
 // import com.essenza.draco.modules.product_details.application.input.product_feature.CreateProductFeatureUseCase;
 // import com.essenza.draco.modules.product_details.application.input.product_feature.UpdateProductFeatureUseCase;
 // import com.essenza.draco.modules.product_details.application.input.product_feature.DeleteProductFeatureUseCase;

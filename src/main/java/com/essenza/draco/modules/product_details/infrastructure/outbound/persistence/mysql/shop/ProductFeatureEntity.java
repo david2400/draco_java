@@ -1,6 +1,5 @@
 package com.essenza.draco.modules.product_details.infrastructure.outbound.persistence.mysql.shop;
 
-import com.essenza.draco.modules.inventory.infrastructure.outbound.persistence.mysql.shop.ProductEntity;
 import com.essenza.draco.shared.common.domain.entity.AuditInfo;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,9 +26,7 @@ public class ProductFeatureEntity extends AuditInfo {
     @Column(nullable = false)
     private Double value;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id", insertable = false, updatable = false)
-    private ProductEntity product;
+    // Sin asociación JPA hacia producto del catálogo: se referencia solo por id (Fase 1, fronteras entre módulos).
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "feature_id", insertable = false, updatable = false)

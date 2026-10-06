@@ -10,9 +10,9 @@
 // import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.shipping_cost.DeleteShippingCostUseCase;
 // import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.shipping_cost.FindShippingCostByIdUseCase;
 // import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.shipping_cost.FindShippingCostsUseCase;
-// import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.ShippingCostDto;
-// import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.CreateShippingCostDto;
-// import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.UpdateShippingCostDto;
+// import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.ShippingCostDto;
+// import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.CreateShippingCostDto;
+// import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.UpdateShippingCostDto;
 
 // import java.util.List;
 

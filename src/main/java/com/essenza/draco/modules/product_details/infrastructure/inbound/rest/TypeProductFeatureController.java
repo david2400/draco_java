@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.product_details.infrastructure.inbound.rest;
 
 import com.essenza.draco.modules.product_details.application.input.type_product_feature.*;
-import com.essenza.draco.modules.product_details.domain.dto.type_product_feature.CreateTypeProductFeatureDto;
-import com.essenza.draco.modules.product_details.domain.dto.type_product_feature.TypeProductFeatureDto;
-import com.essenza.draco.modules.product_details.domain.dto.type_product_feature.UpdateTypeProductFeatureDto;
+import com.essenza.draco.modules.product_details.application.dto.type_product_feature.CreateTypeProductFeatureDto;
+import com.essenza.draco.modules.product_details.application.dto.type_product_feature.TypeProductFeatureDto;
+import com.essenza.draco.modules.product_details.application.dto.type_product_feature.UpdateTypeProductFeatureDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
+/**
+ * @deprecated Fase 4: usar /catalog/attributes, /catalog/product_templates y
+ * /catalog/products/{id}/attributes. Opera sobre las tablas antiguas (no sincronizadas); se retira en la Fase 7.
+ */
+@Deprecated(since = "F4", forRemoval = true)
 @RestController
 @RequestMapping("/product_details/type_product_features")
 @Tag(name = "Type Product Features", description = "API para gestionar las relaciones entre tipos de producto y características")

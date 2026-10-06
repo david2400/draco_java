@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.cms.infrastructure.outbound.repositories.page;
 
 import com.essenza.draco.modules.cms.application.output.repository.PageRepository;
-import com.essenza.draco.modules.cms.domain.dto.page.CreatePageDto;
-import com.essenza.draco.modules.cms.domain.dto.page.PageDto;
-import com.essenza.draco.modules.cms.domain.dto.page.UpdatePageDto;
+import com.essenza.draco.modules.cms.application.dto.page.CreatePageDto;
+import com.essenza.draco.modules.cms.application.dto.page.PageDto;
+import com.essenza.draco.modules.cms.application.dto.page.UpdatePageDto;
 import com.essenza.draco.modules.cms.infrastructure.outbound.mappers.PageMapper;
 import com.essenza.draco.modules.cms.infrastructure.outbound.persistence.mysql.PageEntity;
 import com.essenza.draco.shared.exceptions.NotFoundException;

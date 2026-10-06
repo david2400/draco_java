@@ -2,9 +2,9 @@ package com.essenza.draco.modules.shipping_logistics.product_distribution.applic
 
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.delivery_estimate.CalculateDeliveryEstimateUseCase;
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.carrier.FindCarrierByIdUseCase;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.DeliveryEstimateDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.CreateDeliveryEstimateDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.repositories.delivery_estimate.DeliveryEstimateRepositoryAdapter;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.DeliveryEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.CreateDeliveryEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.output.repository.DeliveryEstimateRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 @Transactional
 public class DeliveryEstimateCalculationService implements CalculateDeliveryEstimateUseCase {
 
-    private final DeliveryEstimateRepositoryAdapter deliveryEstimateRepository;
+    private final DeliveryEstimateRepository deliveryEstimateRepository;
     private final FindCarrierByIdUseCase findCarrierById;
 
-    public DeliveryEstimateCalculationService(DeliveryEstimateRepositoryAdapter deliveryEstimateRepository,
+    public DeliveryEstimateCalculationService(DeliveryEstimateRepository deliveryEstimateRepository,
                                             FindCarrierByIdUseCase findCarrierById) {
         this.deliveryEstimateRepository = deliveryEstimateRepository;
         this.findCarrierById = findCarrierById;

@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.promotions.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.promotions.domain.dto.coupon.CouponDto;
-import com.essenza.draco.modules.promotions.domain.dto.coupon.CreateCouponDto;
-import com.essenza.draco.modules.promotions.domain.dto.coupon.UpdateCouponDto;
+import com.essenza.draco.modules.promotions.application.dto.coupon.CouponDto;
+import com.essenza.draco.modules.promotions.application.dto.coupon.CreateCouponDto;
+import com.essenza.draco.modules.promotions.application.dto.coupon.UpdateCouponDto;
 import com.essenza.draco.modules.promotions.infrastructure.outbound.persistence.mysql.shop.CouponEntity;
 import org.mapstruct.*;
 

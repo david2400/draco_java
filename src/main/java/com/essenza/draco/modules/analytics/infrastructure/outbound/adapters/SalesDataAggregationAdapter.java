@@ -38,7 +38,7 @@ public class SalesDataAggregationAdapter implements SalesDataAggregationPort {
         List<OrderEntity> orders = findOrdersBetween(startDate, endDate);
         BigDecimal totalRevenue = orders.stream()
                 .map(OrderEntity::getTotal)
-                .map(total -> total == null ? BigDecimal.ZERO : BigDecimal.valueOf(total))
+                .map(total -> total == null ? BigDecimal.ZERO : total)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         int totalOrders = orders.size();

@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.product_details.infrastructure.outbound.mappers;
 
 import com.essenza.draco.modules.product_details.infrastructure.outbound.persistence.mysql.shop.UnitMeasurementEntity;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.CreateUnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UpdateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.CreateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UpdateUnitMeasurementDto;
 import org.mapstruct.*;
 
 import java.util.List;

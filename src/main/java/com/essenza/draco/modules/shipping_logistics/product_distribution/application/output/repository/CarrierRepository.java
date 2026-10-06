@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.shipping_logistics.product_distribution.application.output.repository;
 
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CreateCarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.UpdateCarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CreateCarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.UpdateCarrierDto;
 
 import java.util.List;
 import java.util.Optional;

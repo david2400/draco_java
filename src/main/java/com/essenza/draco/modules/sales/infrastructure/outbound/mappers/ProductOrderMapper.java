@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.sales.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.sales.domain.dto.product_order.CreateProductOrderDto;
-import com.essenza.draco.modules.sales.domain.dto.product_order.ProductOrderDto;
-import com.essenza.draco.modules.sales.domain.dto.product_order.UpdateProductOrderDto;
+import com.essenza.draco.modules.sales.application.dto.product_order.CreateProductOrderDto;
+import com.essenza.draco.modules.sales.application.dto.product_order.ProductOrderDto;
+import com.essenza.draco.modules.sales.application.dto.product_order.UpdateProductOrderDto;
 import com.essenza.draco.modules.sales.infrastructure.outbound.persistence.mysql.shop.ProductOrderEntity;
 import org.mapstruct.*;
 import com.essenza.draco.shared.common.domain.mapper.NumberMapper;

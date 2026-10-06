@@ -5,11 +5,11 @@ import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.*;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.output.shipping.DeliveryEstimateProvider;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.output.shipping.ShippingRateProvider;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.CreateDispatchProductDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.DispatchProductDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.ShippingEstimateDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.UpdateDispatchProductDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.repositories.dispatch_product.DispatchProductRepositoryAdapter;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.CreateDispatchProductDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.DispatchProductDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.ShippingEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.UpdateDispatchProductDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.output.repository.DispatchProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,12 +30,12 @@ public class DispatchProductServiceImpl implements CreateDispatchProductUseCase,
         FindDispatchProductsUseCase,
         GetShippingEstimateUseCase {
 
-    private final DispatchProductRepositoryAdapter repository;
+    private final DispatchProductRepository repository;
     private final ShippingRateProvider shippingRateProvider;
     private final DeliveryEstimateProvider deliveryEstimateProvider;
 
     public DispatchProductServiceImpl(
-            DispatchProductRepositoryAdapter repository,
+            DispatchProductRepository repository,
             ShippingRateProvider shippingRateProvider,
             DeliveryEstimateProvider deliveryEstimateProvider) {
         this.repository = repository;

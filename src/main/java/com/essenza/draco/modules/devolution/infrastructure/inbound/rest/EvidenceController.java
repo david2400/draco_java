@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.devolution.infrastructure.inbound.rest;
 
 import com.essenza.draco.modules.devolution.application.input.evidence.*;
-import com.essenza.draco.modules.devolution.domain.dto.evidence.CreateEvidenceDto;
-import com.essenza.draco.modules.devolution.domain.dto.evidence.EvidenceDto;
-import com.essenza.draco.modules.devolution.domain.dto.evidence.UpdateEvidenceDto;
+import com.essenza.draco.modules.devolution.application.dto.evidence.CreateEvidenceDto;
+import com.essenza.draco.modules.devolution.application.dto.evidence.EvidenceDto;
+import com.essenza.draco.modules.devolution.application.dto.evidence.UpdateEvidenceDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

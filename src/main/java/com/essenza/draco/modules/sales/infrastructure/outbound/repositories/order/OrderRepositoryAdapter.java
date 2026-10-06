@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.sales.infrastructure.outbound.repositories.order;
 
 import com.essenza.draco.modules.sales.application.output.repository.OrderRepository;
-import com.essenza.draco.modules.sales.domain.dto.order.CreateOrderDto;
-import com.essenza.draco.modules.sales.domain.dto.order.OrderDto;
-import com.essenza.draco.modules.sales.domain.dto.order.UpdateOrderDto;
+import com.essenza.draco.modules.sales.application.dto.order.CreateOrderDto;
+import com.essenza.draco.modules.sales.application.dto.order.OrderDto;
+import com.essenza.draco.modules.sales.application.dto.order.UpdateOrderDto;
 import com.essenza.draco.modules.sales.infrastructure.outbound.mappers.OrderMapper;
 import com.essenza.draco.modules.sales.infrastructure.outbound.persistence.mysql.shop.OrderEntity;
 import org.springframework.stereotype.Repository;
@@ -80,9 +80,17 @@ public class OrderRepositoryAdapter implements OrderRepository {
 
     /** ¿La orden tiene despachos o devoluciones? (impide borrarla). */
     public boolean hasDependents(Long id) {
-        return jpa.findById(id)
-                .map(entity -> (entity.getDispatchProduct() != null && !entity.getDispatchProduct().isEmpty())
-                        || (entity.getOrderDevolution() != null && !entity.getOrderDevolution().isEmpty()))
-                .orElse(false);
+        // Consultas por nombre de entidad: ventas no importa clases de devolution ni shipping_logistics.
+        Long dispatches = entityManager.createQuery(
+                        "select count(d) from DispatchProductEntity d where d.orderId = :id", Long.class)
+                .setParameter("id", id).getSingleResult();
+        if (dispatches > 0) return true;
+        Long devolutions = entityManager.createQuery(
+                        "select count(o) from OrderDevolutionEntity o where o.orderId = :id", Long.class)
+                .setParameter("id", id).getSingleResult();
+        return devolutions > 0;
     }
+
+    @jakarta.persistence.PersistenceContext
+    private jakarta.persistence.EntityManager entityManager;
 }

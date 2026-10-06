@@ -17,9 +17,9 @@ import com.essenza.draco.modules.sales.application.input.product_order.UpdatePro
 import com.essenza.draco.modules.sales.application.input.product_order.DeleteProductOrderUseCase;
 import com.essenza.draco.modules.sales.application.input.product_order.FindProductOrderByIdUseCase;
 import com.essenza.draco.modules.sales.application.input.product_order.FindProductOrdersUseCase;
-import com.essenza.draco.modules.sales.domain.dto.product_order.ProductOrderDto;
-import com.essenza.draco.modules.sales.domain.dto.product_order.CreateProductOrderDto;
-import com.essenza.draco.modules.sales.domain.dto.product_order.UpdateProductOrderDto;
+import com.essenza.draco.modules.sales.application.dto.product_order.ProductOrderDto;
+import com.essenza.draco.modules.sales.application.dto.product_order.CreateProductOrderDto;
+import com.essenza.draco.modules.sales.application.dto.product_order.UpdateProductOrderDto;
 
 import java.net.URI;
 import java.util.List;

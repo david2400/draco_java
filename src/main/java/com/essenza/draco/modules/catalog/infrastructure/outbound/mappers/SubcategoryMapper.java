@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.catalog.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.CreateSubcategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.SubcategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.UpdateSubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.CreateSubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.SubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.UpdateSubcategoryDto;
 import com.essenza.draco.modules.catalog.infrastructure.outbound.persistence.mysql.shop.SubcategoryEntity;
 import org.mapstruct.*;
 

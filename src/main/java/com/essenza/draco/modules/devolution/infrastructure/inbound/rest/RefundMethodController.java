@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.devolution.infrastructure.inbound.rest;
 
 import com.essenza.draco.modules.devolution.application.input.refund_method.*;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.CreateRefundMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.RefundMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.UpdateRefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.CreateRefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.RefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.UpdateRefundMethodDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

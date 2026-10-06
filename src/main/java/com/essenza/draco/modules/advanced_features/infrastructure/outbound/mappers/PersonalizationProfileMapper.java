@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.advanced_features.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.CreatePersonalizationProfileDto;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.PersonalizationProfileDto;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.UpdatePersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.CreatePersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.PersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.UpdatePersonalizationProfileDto;
 import com.essenza.draco.modules.advanced_features.infrastructure.outbound.persistence.mysql.PersonalizationProfileEntity;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

@@ -17,9 +17,9 @@ import com.essenza.draco.modules.devolution.application.input.order_devolution.U
 import com.essenza.draco.modules.devolution.application.input.order_devolution.DeleteOrderDevolutionUseCase;
 import com.essenza.draco.modules.devolution.application.input.order_devolution.FindOrderDevolutionByIdUseCase;
 import com.essenza.draco.modules.devolution.application.input.order_devolution.FindOrderDevolutionsUseCase;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution.OrderDevolutionDto;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution.CreateOrderDevolutionDto;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution.UpdateOrderDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution.OrderDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution.CreateOrderDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution.UpdateOrderDevolutionDto;
 
 import java.net.URI;
 import java.util.List;

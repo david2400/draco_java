@@ -10,9 +10,9 @@
 // import com.essenza.draco.modules.catalog.application.input.subcategory.DeleteSubcategoryByIdUseCase;
 // import com.essenza.draco.modules.catalog.application.input.subcategory.FindSubcategoryByIdUseCase;
 // import com.essenza.draco.modules.catalog.application.input.subcategory.FindAllSubcategoriesUseCase;
-// import com.essenza.draco.modules.catalog.domain.dto.subcategory.SubcategoryDto;
-// import com.essenza.draco.modules.catalog.domain.dto.subcategory.CreateSubcategoryDto;
-// import com.essenza.draco.modules.catalog.domain.dto.subcategory.UpdateSubcategoryDto;
+// import com.essenza.draco.modules.catalog.application.dto.subcategory.SubcategoryDto;
+// import com.essenza.draco.modules.catalog.application.dto.subcategory.CreateSubcategoryDto;
+// import com.essenza.draco.modules.catalog.application.dto.subcategory.UpdateSubcategoryDto;
 
 // import java.util.List;
 

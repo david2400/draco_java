@@ -1,8 +1,8 @@
 // package com.essenza.draco.modules.catalog.infrastructure.inbound.graphql;
 
-// import com.essenza.draco.modules.catalog.domain.dto.category.CategoryDto;
-// import com.essenza.draco.modules.catalog.domain.dto.category.CreateCategoryDto;
-// import com.essenza.draco.modules.catalog.domain.dto.category.UpdateCategoryDto;
+// import com.essenza.draco.modules.catalog.application.dto.category.CategoryDto;
+// import com.essenza.draco.modules.catalog.application.dto.category.CreateCategoryDto;
+// import com.essenza.draco.modules.catalog.application.dto.category.UpdateCategoryDto;
 // import com.essenza.draco.modules.catalog.application.input.category.CreateCategoryUseCase;
 // import com.essenza.draco.modules.catalog.application.input.category.UpdateCategoryUseCase;
 // import com.essenza.draco.modules.catalog.application.input.category.DeleteCategoryByIdUseCase;

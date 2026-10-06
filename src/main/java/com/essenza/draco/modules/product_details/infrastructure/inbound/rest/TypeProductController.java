@@ -18,15 +18,20 @@ import com.essenza.draco.modules.product_details.application.input.type_product.
 import com.essenza.draco.modules.product_details.application.input.type_product.DeleteTypeProductUseCase;
 import com.essenza.draco.modules.product_details.application.input.type_product.FindTypeProductByIdUseCase;
 import com.essenza.draco.modules.product_details.application.input.type_product.FindTypeProductsUseCase;
-import com.essenza.draco.modules.product_details.domain.dto.type_product.TypeProductDto;
-import com.essenza.draco.modules.product_details.domain.dto.type_product.CreateTypeProductDto;
-import com.essenza.draco.modules.product_details.domain.dto.type_product.UpdateTypeProductDto;
+import com.essenza.draco.modules.product_details.application.dto.type_product.TypeProductDto;
+import com.essenza.draco.modules.product_details.application.dto.type_product.CreateTypeProductDto;
+import com.essenza.draco.modules.product_details.application.dto.type_product.UpdateTypeProductDto;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+/**
+ * @deprecated Fase 4: usar /catalog/attributes, /catalog/product_templates y
+ * /catalog/products/{id}/attributes. Opera sobre las tablas antiguas (no sincronizadas); se retira en la Fase 7.
+ */
+@Deprecated(since = "F4", forRemoval = true)
 @RestController
 @RequestMapping("/product_details/type_products")
 @Tag(name = "Type Product")

@@ -21,9 +21,7 @@ public class InventoryMovementEntity extends AuditInfo {
     @Column(name = "product_id", nullable = false)
     private Long productId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id", insertable = false, updatable = false)
-    private ProductEntity product;
+    // Sin asociación JPA hacia producto del catálogo: se referencia solo por id (Fase 1, fronteras entre módulos).
 
     @Column(name = "from_warehouse_id")
     private Long fromWarehouseId;
@@ -47,4 +45,15 @@ public class InventoryMovementEntity extends AuditInfo {
 
     @Column(length = 255)
     private String reason;
+
+    /** SKU movido (Fase 3). Nullable solo en movimientos anteriores a la migración. */
+    @Column(name = "sku_id")
+    private Long skuId;
+
+    /** Origen: MANUAL, PRODUCT_EDIT, VARIANT_EDIT, MIGRATION… */
+    @Column(name = "reference_type", length = 30)
+    private String referenceType;
+
+    @Column(name = "reference_id")
+    private Long referenceId;
 }

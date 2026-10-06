@@ -1,6 +1,6 @@
 //package com.essenza.draco.modules.smart_search.application.services;
 //
-//import com.essenza.draco.modules.smart_search.domain.dto.search_result.SearchResultDto;
+//import com.essenza.draco.modules.smart_search.application.dto.search_result.SearchResultDto;
 //import org.springframework.stereotype.Service;
 //
 //import java.math.BigDecimal;

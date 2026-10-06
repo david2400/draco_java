@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.CreateShippingCostDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.ShippingCostDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.UpdateShippingCostDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.CreateShippingCostDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.ShippingCostDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.UpdateShippingCostDto;
 import com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.persistence.mysql.shop.ShippingCostEntity;
 import org.mapstruct.*;
 

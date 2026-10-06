@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.product_details.infrastructure.outbound.repositories.unit_measurement;
 
 import com.essenza.draco.modules.product_details.application.output.repository.UnitMeasurementRepository;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.CreateUnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UpdateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.CreateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UpdateUnitMeasurementDto;
 import com.essenza.draco.modules.product_details.infrastructure.outbound.mappers.UnitMeasurementMapper;
 import com.essenza.draco.modules.product_details.infrastructure.outbound.persistence.mysql.shop.UnitMeasurementEntity;
 import lombok.RequiredArgsConstructor;

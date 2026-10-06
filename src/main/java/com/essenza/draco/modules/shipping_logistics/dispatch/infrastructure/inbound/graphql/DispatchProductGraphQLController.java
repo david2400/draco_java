@@ -10,9 +10,9 @@
 // import com.essenza.draco.modules.dispatch.application.input.dispatch_product.DeleteDispatchProductUseCase;
 // import com.essenza.draco.modules.dispatch.application.input.dispatch_product.FindDispatchProductByIdUseCase;
 // import com.essenza.draco.modules.dispatch.application.input.dispatch_product.FindDispatchProductsUseCase;
-// import com.essenza.draco.modules.dispatch.domain.dto.dispatch_product.DispatchProductDto;
-// import com.essenza.draco.modules.dispatch.domain.dto.dispatch_product.CreateDispatchProductDto;
-// import com.essenza.draco.modules.dispatch.domain.dto.dispatch_product.UpdateDispatchProductDto;
+// import com.essenza.draco.modules.dispatch.application.dto.dispatch_product.DispatchProductDto;
+// import com.essenza.draco.modules.dispatch.application.dto.dispatch_product.CreateDispatchProductDto;
+// import com.essenza.draco.modules.dispatch.application.dto.dispatch_product.UpdateDispatchProductDto;
 
 // import java.util.List;
 

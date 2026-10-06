@@ -16,7 +16,7 @@ import com.essenza.draco.shared.common.domain.dto.PageResponse;
 import com.essenza.draco.shared.common.web.PageableFactory;
 import com.essenza.draco.modules.devolution.application.input.order_devolution.BulkDeleteOrderDevolutionsUseCase;
 import com.essenza.draco.modules.devolution.application.input.order_devolution.SearchOrderDevolutionsUseCase;
-import com.essenza.draco.modules.devolution.domain.dto.order_devolution.OrderDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.order_devolution.OrderDevolutionDto;
 
 /**
  * Endpoints de administración (búsqueda paginada y lote) sobre la misma ruta

@@ -2,9 +2,9 @@ package com.essenza.draco.modules.shipping_logistics.product_distribution.applic
 
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.shipping_cost.CalculateShippingCostUseCase;
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.carrier.FindCarrierByIdUseCase;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.ShippingCostDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.shipping_cost.CreateShippingCostDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.repositories.shipping_cost.ShippingCostRepositoryAdapter;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.ShippingCostDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.shipping_cost.CreateShippingCostDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.output.repository.ShippingCostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +15,11 @@ import java.math.RoundingMode;
 @Transactional
 public class ShippingCostCalculationService implements CalculateShippingCostUseCase {
 
-    private final ShippingCostRepositoryAdapter shippingCostRepository;
+    private final ShippingCostRepository shippingCostRepository;
     private final FindCarrierByIdUseCase findCarrierById;
     private final WebScrapingShippingService webScrapingService;
 
-    public ShippingCostCalculationService(ShippingCostRepositoryAdapter shippingCostRepository,
+    public ShippingCostCalculationService(ShippingCostRepository shippingCostRepository,
                                         FindCarrierByIdUseCase findCarrierById,
                                         WebScrapingShippingService webScrapingService) {
         this.shippingCostRepository = shippingCostRepository;

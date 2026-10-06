@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.shipping_logistics.product_distribution.application.services;
 
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.carrier.*;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CreateCarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.UpdateCarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.repositories.carrier.CarrierRepositoryAdapter;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CreateCarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.UpdateCarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.output.repository.CarrierRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +19,9 @@ public class CarrierServiceImpl implements CreateCarrierUseCase,
         FindCarrierByIdUseCase,
         FindCarriersUseCase {
 
-    private final CarrierRepositoryAdapter repository;
+    private final CarrierRepository repository;
 
-    public CarrierServiceImpl(CarrierRepositoryAdapter repository) {
+    public CarrierServiceImpl(CarrierRepository repository) {
         this.repository = repository;
     }
 

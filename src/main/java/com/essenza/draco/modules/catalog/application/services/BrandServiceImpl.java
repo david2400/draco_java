@@ -19,10 +19,10 @@ import com.essenza.draco.modules.catalog.application.input.brand.FindAllBrandsUs
 import com.essenza.draco.modules.catalog.application.input.brand.FindBrandByIdUseCase;
 import com.essenza.draco.modules.catalog.application.input.brand.SearchBrandsUseCase;
 import com.essenza.draco.modules.catalog.application.input.brand.UpdateBrandUseCase;
-import com.essenza.draco.modules.catalog.domain.dto.brand.BrandDto;
-import com.essenza.draco.modules.catalog.domain.dto.brand.CreateBrandDto;
-import com.essenza.draco.modules.catalog.domain.dto.brand.UpdateBrandDto;
-import com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.brand.BrandRepositoryAdapter;
+import com.essenza.draco.modules.catalog.application.dto.brand.BrandDto;
+import com.essenza.draco.modules.catalog.application.dto.brand.CreateBrandDto;
+import com.essenza.draco.modules.catalog.application.dto.brand.UpdateBrandDto;
+import com.essenza.draco.modules.catalog.application.output.repository.BrandRepository;
 
 /**
  * Casos de uso de marca.
@@ -36,9 +36,9 @@ import com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.br
 public class BrandServiceImpl implements CreateBrandUseCase, UpdateBrandUseCase, DeleteBrandByIdUseCase, FindAllBrandsUseCase,
         FindBrandByIdUseCase, SearchBrandsUseCase, BulkDeleteBrandsUseCase {
 
-    private final BrandRepositoryAdapter repository;
+    private final BrandRepository repository;
 
-    public BrandServiceImpl(BrandRepositoryAdapter repository) {
+    public BrandServiceImpl(BrandRepository repository) {
         this.repository = repository;
     }
 

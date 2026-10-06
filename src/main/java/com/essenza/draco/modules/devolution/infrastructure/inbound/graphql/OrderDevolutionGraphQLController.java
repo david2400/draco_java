@@ -1,8 +1,8 @@
 // package com.essenza.draco.modules.devolution.infrastructure.inbound.graphql;
 
-// import com.essenza.draco.modules.devolution.domain.dto.order_devolution.CreateOrderDevolutionDto;
-// import com.essenza.draco.modules.devolution.domain.dto.order_devolution.OrderDevolutionDto;
-// import com.essenza.draco.modules.devolution.domain.dto.order_devolution.UpdateOrderDevolutionDto;
+// import com.essenza.draco.modules.devolution.application.dto.order_devolution.CreateOrderDevolutionDto;
+// import com.essenza.draco.modules.devolution.application.dto.order_devolution.OrderDevolutionDto;
+// import com.essenza.draco.modules.devolution.application.dto.order_devolution.UpdateOrderDevolutionDto;
 // import com.essenza.draco.modules.devolution.application.input.order_devolution.CreateOrderDevolutionUseCase;
 // import com.essenza.draco.modules.devolution.application.input.order_devolution.UpdateOrderDevolutionUseCase;
 // import com.essenza.draco.modules.devolution.application.input.order_devolution.DeleteOrderDevolutionUseCase;

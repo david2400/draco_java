@@ -17,9 +17,9 @@ import com.essenza.draco.modules.shipping_logistics.product_distribution.applica
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.carrier.DeleteCarrierUseCase;
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.carrier.FindCarrierByIdUseCase;
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.carrier.FindCarriersUseCase;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CreateCarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.UpdateCarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CreateCarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.UpdateCarrierDto;
 
 import java.net.URI;
 import java.util.List;

@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.shipping_logistics.product_distribution.application.services;
 
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.delivery_estimate.*;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.CreateDeliveryEstimateDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.DeliveryEstimateDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.UpdateDeliveryEstimateDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.repositories.delivery_estimate.DeliveryEstimateRepositoryAdapter;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.CreateDeliveryEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.DeliveryEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.UpdateDeliveryEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.output.repository.DeliveryEstimateRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +19,9 @@ public class DeliveryEstimateServiceImpl implements CreateDeliveryEstimateUseCas
         FindDeliveryEstimateByIdUseCase,
         FindDeliveryEstimatesUseCase {
 
-    private final DeliveryEstimateRepositoryAdapter repository;
+    private final DeliveryEstimateRepository repository;
 
-    public DeliveryEstimateServiceImpl(DeliveryEstimateRepositoryAdapter repository) {
+    public DeliveryEstimateServiceImpl(DeliveryEstimateRepository repository) {
         this.repository = repository;
     }
 

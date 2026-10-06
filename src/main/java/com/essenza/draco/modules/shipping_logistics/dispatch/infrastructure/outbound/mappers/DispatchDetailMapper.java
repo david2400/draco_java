@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.CreateDispatchDetailDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.DispatchDetailDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.UpdateDispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.CreateDispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.DispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.UpdateDispatchDetailDto;
 import com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.outbound.persistence.mysql.shop.DispatchDetailEntity;
 import org.mapstruct.*;
 

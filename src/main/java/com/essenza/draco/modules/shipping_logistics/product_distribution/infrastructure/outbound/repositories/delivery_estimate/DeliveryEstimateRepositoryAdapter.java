@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.repositories.delivery_estimate;
 
 import com.essenza.draco.modules.shipping_logistics.product_distribution.application.output.repository.DeliveryEstimateRepository;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.CreateDeliveryEstimateDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.DeliveryEstimateDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.UpdateDeliveryEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.CreateDeliveryEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.DeliveryEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.UpdateDeliveryEstimateDto;
 import com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.mappers.DeliveryEstimateMapper;
 import org.springframework.stereotype.Repository;
 

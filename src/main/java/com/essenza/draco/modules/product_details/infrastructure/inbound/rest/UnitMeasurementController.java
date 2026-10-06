@@ -18,9 +18,9 @@ import com.essenza.draco.modules.product_details.application.input.unit_measurem
 import com.essenza.draco.modules.product_details.application.input.unit_measurement.DeleteUnitMeasurementUseCase;
 import com.essenza.draco.modules.product_details.application.input.unit_measurement.FindUnitMeasurementByIdUseCase;
 import com.essenza.draco.modules.product_details.application.input.unit_measurement.FindUnitMeasurementsUseCase;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.CreateUnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UpdateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.CreateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UpdateUnitMeasurementDto;
 
 import java.net.URI;
 import java.util.List;

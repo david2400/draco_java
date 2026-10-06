@@ -1,6 +1,6 @@
 //package com.essenza.draco.modules.recommendations.application.services;
 //
-//import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.ProductRecommendationDto;
+//import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.ProductRecommendationDto;
 //import org.springframework.stereotype.Service;
 //
 //import java.math.BigDecimal;

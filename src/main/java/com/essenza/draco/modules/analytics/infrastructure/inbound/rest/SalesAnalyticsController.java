@@ -5,10 +5,10 @@ import com.essenza.draco.modules.analytics.application.input.sales_analytics.Gen
 import com.essenza.draco.modules.analytics.application.input.sales_analytics.GenerateConversionFunnelUseCase;
 import com.essenza.draco.modules.analytics.application.input.sales_analytics.GenerateSalesReportUseCase;
 import com.essenza.draco.modules.analytics.application.input.sales_analytics.GenerateSalesTrendsUseCase;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.SalesAnalyticsDto;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.SalesCohortAnalysisDto;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.SalesConversionFunnelDto;
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.SalesPerformanceKpiDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.SalesAnalyticsDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.SalesCohortAnalysisDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.SalesConversionFunnelDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.SalesPerformanceKpiDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

@@ -1,6 +1,6 @@
 package com.essenza.draco.modules.analytics.application.input.sales_analytics;
 
-import com.essenza.draco.modules.analytics.domain.dto.sales_analytics.SalesCohortAnalysisDto;
+import com.essenza.draco.modules.analytics.application.dto.sales_analytics.SalesCohortAnalysisDto;
 
 import java.time.LocalDate;
 import java.util.List;

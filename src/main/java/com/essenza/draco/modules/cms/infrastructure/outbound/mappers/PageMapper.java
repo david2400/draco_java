@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.cms.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.cms.domain.dto.page.CreatePageDto;
-import com.essenza.draco.modules.cms.domain.dto.page.PageDto;
-import com.essenza.draco.modules.cms.domain.dto.page.UpdatePageDto;
+import com.essenza.draco.modules.cms.application.dto.page.CreatePageDto;
+import com.essenza.draco.modules.cms.application.dto.page.PageDto;
+import com.essenza.draco.modules.cms.application.dto.page.UpdatePageDto;
 import com.essenza.draco.modules.cms.infrastructure.outbound.persistence.mysql.PageEntity;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

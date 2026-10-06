@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.cms.application.output.repository;
 
-import com.essenza.draco.modules.cms.domain.dto.page.CreatePageDto;
-import com.essenza.draco.modules.cms.domain.dto.page.PageDto;
-import com.essenza.draco.modules.cms.domain.dto.page.UpdatePageDto;
+import com.essenza.draco.modules.cms.application.dto.page.CreatePageDto;
+import com.essenza.draco.modules.cms.application.dto.page.PageDto;
+import com.essenza.draco.modules.cms.application.dto.page.UpdatePageDto;
 
 import java.util.List;
 import java.util.Optional;

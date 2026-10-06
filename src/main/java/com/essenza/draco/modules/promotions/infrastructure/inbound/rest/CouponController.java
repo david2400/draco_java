@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.promotions.infrastructure.inbound.rest;
 
 import com.essenza.draco.modules.promotions.application.input.coupon.*;
-import com.essenza.draco.modules.promotions.domain.dto.coupon.CouponDto;
-import com.essenza.draco.modules.promotions.domain.dto.coupon.CreateCouponDto;
-import com.essenza.draco.modules.promotions.domain.dto.coupon.UpdateCouponDto;
+import com.essenza.draco.modules.promotions.application.dto.coupon.CouponDto;
+import com.essenza.draco.modules.promotions.application.dto.coupon.CreateCouponDto;
+import com.essenza.draco.modules.promotions.application.dto.coupon.UpdateCouponDto;
 import com.essenza.draco.modules.promotions.application.services.CouponValidationService;
 
 import io.swagger.v3.oas.annotations.Operation;

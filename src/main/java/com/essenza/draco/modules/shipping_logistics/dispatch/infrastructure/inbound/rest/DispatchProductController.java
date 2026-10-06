@@ -11,10 +11,10 @@ import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.d
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.FindDispatchProductByIdUseCase;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.FindDispatchProductsUseCase;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.GetShippingEstimateUseCase;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.DispatchProductDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.CreateDispatchProductDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.ShippingEstimateDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.UpdateDispatchProductDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.DispatchProductDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.CreateDispatchProductDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.ShippingEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.UpdateDispatchProductDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

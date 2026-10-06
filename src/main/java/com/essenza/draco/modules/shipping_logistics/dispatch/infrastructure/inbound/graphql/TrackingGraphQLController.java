@@ -10,9 +10,9 @@
 // import com.essenza.draco.modules.dispatch.application.input.tracking.DeleteTrackingUseCase;
 // import com.essenza.draco.modules.dispatch.application.input.tracking.FindTrackingByIdUseCase;
 // import com.essenza.draco.modules.dispatch.application.input.tracking.FindTrackingsUseCase;
-// import com.essenza.draco.modules.dispatch.domain.dto.tracking.TrackingDto;
-// import com.essenza.draco.modules.dispatch.domain.dto.tracking.CreateTrackingDto;
-// import com.essenza.draco.modules.dispatch.domain.dto.tracking.UpdateTrackingDto;
+// import com.essenza.draco.modules.dispatch.application.dto.tracking.TrackingDto;
+// import com.essenza.draco.modules.dispatch.application.dto.tracking.CreateTrackingDto;
+// import com.essenza.draco.modules.dispatch.application.dto.tracking.UpdateTrackingDto;
 
 // import java.util.List;
 

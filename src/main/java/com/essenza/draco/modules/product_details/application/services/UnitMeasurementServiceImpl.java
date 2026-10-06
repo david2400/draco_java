@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.product_details.application.services;
 
 import com.essenza.draco.modules.product_details.application.input.unit_measurement.*;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.CreateUnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UnitMeasurementDto;
-import com.essenza.draco.modules.product_details.domain.dto.unit_measurement.UpdateUnitMeasurementDto;
-import com.essenza.draco.modules.product_details.infrastructure.outbound.repositories.unit_measurement.UnitMeasurementRepositoryAdapter;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.CreateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.dto.unit_measurement.UpdateUnitMeasurementDto;
+import com.essenza.draco.modules.product_details.application.output.repository.UnitMeasurementRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +17,9 @@ import java.util.Optional;
 @Transactional
 public class UnitMeasurementServiceImpl implements CreateUnitMeasurementUseCase, UpdateUnitMeasurementUseCase, DeleteUnitMeasurementUseCase, FindUnitMeasurementsUseCase, FindUnitMeasurementByIdUseCase {
 
-    private final UnitMeasurementRepositoryAdapter unitMeasurementRepository;
+    private final UnitMeasurementRepository unitMeasurementRepository;
 
-//    public UnitMeasurementServiceImpl(UnitMeasurementRepositoryAdapter unitMeasurementRepository) {
+//    public UnitMeasurementServiceImpl(UnitMeasurementRepository unitMeasurementRepository) {
 //        this.unitMeasurementRepository = unitMeasurementRepository;
 //    }
 

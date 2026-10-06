@@ -39,4 +39,9 @@ public class WarehouseEntity extends AuditInfo {
 
     @Column(name = "city_id")
     private Long cityId;
+
+    /** Bodega principal: recibe los ajustes de stock hechos desde la ficha de producto (Fase 3). */
+    @Column(name = "is_main", nullable = false)
+    @lombok.Builder.Default
+    private Boolean isMain = false;
 }

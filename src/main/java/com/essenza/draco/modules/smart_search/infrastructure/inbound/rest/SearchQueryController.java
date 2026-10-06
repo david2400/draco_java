@@ -5,9 +5,9 @@ import com.essenza.draco.modules.smart_search.application.input.search_query.Del
 import com.essenza.draco.modules.smart_search.application.input.search_query.FindSearchQueriesUseCase;
 import com.essenza.draco.modules.smart_search.application.input.search_query.FindSearchQueryByIdUseCase;
 import com.essenza.draco.modules.smart_search.application.input.search_query.UpdateSearchQueryUseCase;
-import com.essenza.draco.modules.smart_search.domain.dto.search_query.CreateSearchQueryDto;
-import com.essenza.draco.modules.smart_search.domain.dto.search_query.SearchQueryDto;
-import com.essenza.draco.modules.smart_search.domain.dto.search_query.UpdateSearchQueryDto;
+import com.essenza.draco.modules.smart_search.application.dto.search_query.CreateSearchQueryDto;
+import com.essenza.draco.modules.smart_search.application.dto.search_query.SearchQueryDto;
+import com.essenza.draco.modules.smart_search.application.dto.search_query.UpdateSearchQueryDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

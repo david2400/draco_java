@@ -7,4 +7,8 @@ import java.util.Optional;
 
 public interface JpaWarehouseRepository extends JpaRepository<WarehouseEntity, Long> {
     Optional<WarehouseEntity> findByCode(String code);
+
+    Optional<WarehouseEntity> findFirstByIsMainTrueOrderByIdAsc();
+
+    Optional<WarehouseEntity> findFirstByActiveTrueOrderByIdAsc();
 }

@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.inventory.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.inventory.domain.dto.supplier.CreateSupplierDto;
-import com.essenza.draco.modules.inventory.domain.dto.supplier.SupplierDto;
-import com.essenza.draco.modules.inventory.domain.dto.supplier.UpdateSupplierDto;
+import com.essenza.draco.modules.inventory.application.dto.supplier.CreateSupplierDto;
+import com.essenza.draco.modules.inventory.application.dto.supplier.SupplierDto;
+import com.essenza.draco.modules.inventory.application.dto.supplier.UpdateSupplierDto;
 import com.essenza.draco.modules.inventory.infrastructure.outbound.persistence.mysql.shop.SupplierEntity;
 import org.mapstruct.*;
 

@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.smart_search.infrastructure.outbound.repositories.search_query;
 
 import com.essenza.draco.modules.smart_search.application.output.repository.SearchQueryRepository;
-import com.essenza.draco.modules.smart_search.domain.dto.search_query.CreateSearchQueryDto;
-import com.essenza.draco.modules.smart_search.domain.dto.search_query.SearchQueryDto;
-import com.essenza.draco.modules.smart_search.domain.dto.search_query.UpdateSearchQueryDto;
+import com.essenza.draco.modules.smart_search.application.dto.search_query.CreateSearchQueryDto;
+import com.essenza.draco.modules.smart_search.application.dto.search_query.SearchQueryDto;
+import com.essenza.draco.modules.smart_search.application.dto.search_query.UpdateSearchQueryDto;
 import com.essenza.draco.modules.smart_search.infrastructure.outbound.mappers.SearchQueryMapper;
 import com.essenza.draco.modules.smart_search.infrastructure.outbound.persistence.mysql.JpaSearchQueryRepository;
 import com.essenza.draco.modules.smart_search.infrastructure.outbound.persistence.mysql.SearchQueryEntity;

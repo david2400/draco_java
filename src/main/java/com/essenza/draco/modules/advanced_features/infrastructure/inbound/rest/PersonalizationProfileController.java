@@ -5,9 +5,9 @@ import com.essenza.draco.modules.advanced_features.application.input.personaliza
 import com.essenza.draco.modules.advanced_features.application.input.personalization_profile.FindPersonalizationProfileByIdUseCase;
 import com.essenza.draco.modules.advanced_features.application.input.personalization_profile.FindPersonalizationProfilesUseCase;
 import com.essenza.draco.modules.advanced_features.application.input.personalization_profile.UpdatePersonalizationProfileUseCase;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.CreatePersonalizationProfileDto;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.PersonalizationProfileDto;
-import com.essenza.draco.modules.advanced_features.domain.dto.personalization_profile.UpdatePersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.CreatePersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.PersonalizationProfileDto;
+import com.essenza.draco.modules.advanced_features.application.dto.personalization_profile.UpdatePersonalizationProfileDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

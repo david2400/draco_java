@@ -5,9 +5,9 @@ import com.essenza.draco.modules.recommendations.application.input.product_recom
 import com.essenza.draco.modules.recommendations.application.input.product_recommendation.FindProductRecommendationByIdUseCase;
 import com.essenza.draco.modules.recommendations.application.input.product_recommendation.FindProductRecommendationsUseCase;
 import com.essenza.draco.modules.recommendations.application.input.product_recommendation.UpdateProductRecommendationUseCase;
-import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.CreateProductRecommendationDto;
-import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.ProductRecommendationDto;
-import com.essenza.draco.modules.recommendations.domain.dto.product_recommendation.UpdateProductRecommendationDto;
+import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.CreateProductRecommendationDto;
+import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.ProductRecommendationDto;
+import com.essenza.draco.modules.recommendations.application.dto.product_recommendation.UpdateProductRecommendationDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

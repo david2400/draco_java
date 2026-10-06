@@ -19,11 +19,11 @@ import com.essenza.draco.modules.catalog.application.input.subcategory.FindAllSu
 import com.essenza.draco.modules.catalog.application.input.subcategory.FindSubcategoryByIdUseCase;
 import com.essenza.draco.modules.catalog.application.input.subcategory.SearchSubcategoriesUseCase;
 import com.essenza.draco.modules.catalog.application.input.subcategory.UpdateSubcategoryUseCase;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.SubcategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.CreateSubcategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.UpdateSubcategoryDto;
-import com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.subcategory.SubcategoryRepositoryAdapter;
-import com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.category.CategoryRepositoryAdapter;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.SubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.CreateSubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.UpdateSubcategoryDto;
+import com.essenza.draco.modules.catalog.application.output.repository.SubcategoryRepository;
+import com.essenza.draco.modules.catalog.application.output.repository.CategoryRepository;
 
 /**
  * Casos de uso de subcategoría.
@@ -37,11 +37,11 @@ import com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.ca
 public class SubcategoryServiceImpl implements CreateSubcategoryUseCase, UpdateSubcategoryUseCase, DeleteSubcategoryByIdUseCase, FindAllSubcategoriesUseCase,
         FindSubcategoryByIdUseCase, SearchSubcategoriesUseCase, BulkDeleteSubcategoriesUseCase {
 
-    private final SubcategoryRepositoryAdapter repository;
-    private final CategoryRepositoryAdapter categoryRepository;
+    private final SubcategoryRepository repository;
+    private final CategoryRepository categoryRepository;
 
-    public SubcategoryServiceImpl(SubcategoryRepositoryAdapter repository,
-                                  CategoryRepositoryAdapter categoryRepository) {
+    public SubcategoryServiceImpl(SubcategoryRepository repository,
+                                  CategoryRepository categoryRepository) {
         this.repository = repository;
         this.categoryRepository = categoryRepository;
     }

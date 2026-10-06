@@ -17,9 +17,9 @@ import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.d
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_detail.DeleteDispatchDetailUseCase;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_detail.FindDispatchDetailByIdUseCase;
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_detail.FindDispatchDetailsUseCase;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.DispatchDetailDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.CreateDispatchDetailDto;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_detail.UpdateDispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.DispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.CreateDispatchDetailDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_detail.UpdateDispatchDetailDto;
 
 import java.net.URI;
 import java.util.List;

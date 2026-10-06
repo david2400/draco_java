@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.modules.catalog.application.output.repository.CategoryRepository;
-import com.essenza.draco.modules.catalog.domain.dto.category.CategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.category.CreateCategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.category.UpdateCategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.category.CategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.category.CreateCategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.category.UpdateCategoryDto;
 import com.essenza.draco.modules.catalog.infrastructure.outbound.mappers.CategoryMapper;
 import com.essenza.draco.modules.catalog.infrastructure.outbound.persistence.mysql.shop.CategoryEntity;
 

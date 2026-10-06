@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.sales.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.sales.domain.dto.order.CreateOrderDto;
-import com.essenza.draco.modules.sales.domain.dto.order.OrderDto;
-import com.essenza.draco.modules.sales.domain.dto.order.UpdateOrderDto;
+import com.essenza.draco.modules.sales.application.dto.order.CreateOrderDto;
+import com.essenza.draco.modules.sales.application.dto.order.OrderDto;
+import com.essenza.draco.modules.sales.application.dto.order.UpdateOrderDto;
 import com.essenza.draco.modules.sales.infrastructure.outbound.persistence.mysql.shop.OrderEntity;
 import org.mapstruct.*;
 import com.essenza.draco.shared.common.domain.mapper.NumberMapper;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = NumberMapper.class)
 public interface OrderMapper {
+    @org.mapstruct.Mapping(target = "nextStates", ignore = true)
     OrderDto toDto(OrderEntity entity);
     List<OrderDto> toDtoList(List<OrderEntity> entities);
 

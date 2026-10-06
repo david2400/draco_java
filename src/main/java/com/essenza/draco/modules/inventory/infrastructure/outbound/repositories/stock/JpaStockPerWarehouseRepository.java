@@ -13,4 +13,6 @@ public interface JpaStockPerWarehouseRepository extends JpaRepository<StockPerWa
     /** Unidades totales almacenadas en una bodega (para impedir borrarla con stock). */
     @Query("select coalesce(sum(s.quantity), 0) from StockPerWarehouseEntity s where s.warehouseId = :warehouseId")
     long sumQuantityByWarehouseId(@Param("warehouseId") Long warehouseId);
+
+    java.util.List<com.essenza.draco.modules.inventory.infrastructure.outbound.persistence.mysql.shop.StockPerWarehouseEntity> findByProductId(Long productId);
 }

@@ -1,10 +1,10 @@
 package com.essenza.draco.modules.devolution.application.services;
 
 import com.essenza.draco.modules.devolution.application.input.refund_method.*;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.CreateRefundMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.RefundMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.refund_method.UpdateRefundMethodDto;
-import com.essenza.draco.modules.devolution.infrastructure.outbound.repositories.refund_method.RefundMethodRepositoryAdapter;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.CreateRefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.RefundMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.refund_method.UpdateRefundMethodDto;
+import com.essenza.draco.modules.devolution.application.output.repository.RefundMethodRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +19,9 @@ public class RefundMethodServiceImpl implements CreateRefundMethodUseCase,
         FindRefundMethodByIdUseCase,
         FindRefundMethodsUseCase {
 
-    private final RefundMethodRepositoryAdapter refundMethodRepository;
+    private final RefundMethodRepository refundMethodRepository;
 
-    public RefundMethodServiceImpl(RefundMethodRepositoryAdapter refundMethodRepository) {
+    public RefundMethodServiceImpl(RefundMethodRepository refundMethodRepository) {
         this.refundMethodRepository = refundMethodRepository;
     }
 

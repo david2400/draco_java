@@ -1,11 +1,11 @@
 package com.essenza.draco.modules.inventory.application.services;
 
 import com.essenza.draco.modules.inventory.application.input.warehouse.*;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.CreateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.UpdateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
-import com.essenza.draco.modules.inventory.infrastructure.outbound.repositories.stock.StockPerWarehouseRepositoryAdapter;
-import com.essenza.draco.modules.inventory.infrastructure.outbound.repositories.warehouse.WarehouseRepositoryAdapter;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.CreateWarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.UpdateWarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.WarehouseDto;
+import com.essenza.draco.modules.inventory.application.output.repository.StockItemRepository;
+import com.essenza.draco.modules.inventory.application.output.repository.WarehouseRepository;
 import com.essenza.draco.shared.common.domain.dto.BulkOperationResult;
 import com.essenza.draco.shared.exceptions.ConflictException;
 import com.essenza.draco.shared.exceptions.NotFoundException;
@@ -28,8 +28,8 @@ public class WarehouseServiceImpl implements CreateWarehouseUseCase,
         FindWarehousesUseCase
 {
 
-    private final WarehouseRepositoryAdapter repository;
-    private final StockPerWarehouseRepositoryAdapter stockRepository;
+    private final WarehouseRepository repository;
+    private final StockItemRepository stockRepository;
 
     public WarehouseDto create(CreateWarehouseDto dto) {
         repository.findByCode(dto.getCode()).ifPresent(w -> {
@@ -61,7 +61,7 @@ public class WarehouseServiceImpl implements CreateWarehouseUseCase,
         if (repository.findById(id).isEmpty()) {
             throw new NotFoundException("Bodega no encontrada: " + id);
         }
-        long units = stockRepository.totalQuantityInWarehouse(id);
+        long units = stockRepository.totalOnHandInWarehouse(id);
         if (units > 0) {
             throw new ConflictException("No se puede eliminar la bodega: tiene " + units
                     + " unidad(es) en stock. Transfiérelas a otra bodega primero.");

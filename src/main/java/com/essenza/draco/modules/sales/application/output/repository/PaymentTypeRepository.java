@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.sales.application.output.repository;
 
-import com.essenza.draco.modules.sales.domain.dto.payment_type.CreatePaymentTypeDto;
-import com.essenza.draco.modules.sales.domain.dto.payment_type.PaymentTypeDto;
-import com.essenza.draco.modules.sales.domain.dto.payment_type.UpdatePaymentTypeDto;
+import com.essenza.draco.modules.sales.application.dto.payment_type.CreatePaymentTypeDto;
+import com.essenza.draco.modules.sales.application.dto.payment_type.PaymentTypeDto;
+import com.essenza.draco.modules.sales.application.dto.payment_type.UpdatePaymentTypeDto;
 
 import java.util.List;
 import java.util.Optional;

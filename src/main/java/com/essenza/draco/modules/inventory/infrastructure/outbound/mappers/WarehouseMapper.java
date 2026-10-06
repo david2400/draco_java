@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.inventory.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.CreateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.UpdateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.CreateWarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.UpdateWarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.WarehouseDto;
 import com.essenza.draco.modules.inventory.infrastructure.outbound.persistence.mysql.shop.WarehouseEntity;
 import org.mapstruct.*;
 import org.mapstruct.MappingTarget;

@@ -19,11 +19,11 @@ import com.essenza.draco.modules.catalog.application.input.category.FindAllCateg
 import com.essenza.draco.modules.catalog.application.input.category.FindCategoryByIdUseCase;
 import com.essenza.draco.modules.catalog.application.input.category.SearchCategoriesUseCase;
 import com.essenza.draco.modules.catalog.application.input.category.UpdateCategoryUseCase;
-import com.essenza.draco.modules.catalog.domain.dto.category.CategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.category.CreateCategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.category.UpdateCategoryDto;
-import com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.category.CategoryRepositoryAdapter;
-import com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.subcategory.SubcategoryRepositoryAdapter;
+import com.essenza.draco.modules.catalog.application.dto.category.CategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.category.CreateCategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.category.UpdateCategoryDto;
+import com.essenza.draco.modules.catalog.application.output.repository.CategoryRepository;
+import com.essenza.draco.modules.catalog.application.output.repository.SubcategoryRepository;
 
 /**
  * Casos de uso de categoría.
@@ -37,11 +37,11 @@ import com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.su
 public class CategoryServiceImpl implements CreateCategoryUseCase, UpdateCategoryUseCase, DeleteCategoryByIdUseCase, FindAllCategoriesUseCase,
         FindCategoryByIdUseCase, SearchCategoriesUseCase, BulkDeleteCategoriesUseCase {
 
-    private final CategoryRepositoryAdapter repository;
-    private final SubcategoryRepositoryAdapter subcategoryRepository;
+    private final CategoryRepository repository;
+    private final SubcategoryRepository subcategoryRepository;
 
-    public CategoryServiceImpl(CategoryRepositoryAdapter repository,
-                               SubcategoryRepositoryAdapter subcategoryRepository) {
+    public CategoryServiceImpl(CategoryRepository repository,
+                               SubcategoryRepository subcategoryRepository) {
         this.repository = repository;
         this.subcategoryRepository = subcategoryRepository;
     }

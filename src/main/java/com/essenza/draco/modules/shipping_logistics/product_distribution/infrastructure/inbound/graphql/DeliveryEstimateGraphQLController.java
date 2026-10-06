@@ -10,9 +10,9 @@
 // import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.delivery_estimate.DeleteDeliveryEstimateUseCase;
 // import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.delivery_estimate.FindDeliveryEstimateByIdUseCase;
 // import com.essenza.draco.modules.shipping_logistics.product_distribution.application.input.delivery_estimate.FindDeliveryEstimatesUseCase;
-// import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.DeliveryEstimateDto;
-// import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.CreateDeliveryEstimateDto;
-// import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.delivery_estimate.UpdateDeliveryEstimateDto;
+// import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.DeliveryEstimateDto;
+// import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.CreateDeliveryEstimateDto;
+// import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.delivery_estimate.UpdateDeliveryEstimateDto;
 
 // import java.util.List;
 

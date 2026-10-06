@@ -21,7 +21,9 @@ import java.time.Instant;
 @AllArgsConstructor
 @SoftDelete(columnName = "deleted")
 public class AuditInfo {
-    @Column(name = "usr_crea", nullable = false, length = 50)
+    // updatable = false: los adaptadores que reconstruyen la entidad y hacen merge
+    // (save con id) no traen usr_crea; sin esto el UPDATE lo pondría en NULL.
+    @Column(name = "usr_crea", nullable = false, updatable = false, length = 50)
     private Integer usrCrea;
 
     @Column(name = "usr_mod", length = 50)

@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.SubcategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.CreateSubcategoryDto;
-import com.essenza.draco.modules.catalog.domain.dto.subcategory.UpdateSubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.SubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.CreateSubcategoryDto;
+import com.essenza.draco.modules.catalog.application.dto.subcategory.UpdateSubcategoryDto;
 
 public interface SubcategoryRepository {
 
@@ -33,4 +33,8 @@ public interface SubcategoryRepository {
 
     /** ¿Existe otro registro (distinto de {@code excludeId}) con ese slug? */
     boolean existsBySlug(String slug, Long excludeId);
+
+    long count();
+
+    long countByCategoryId(Long categoryId);
 }

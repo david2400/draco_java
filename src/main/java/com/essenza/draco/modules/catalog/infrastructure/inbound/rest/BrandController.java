@@ -34,9 +34,9 @@ import com.essenza.draco.modules.catalog.application.input.brand.FindAllBrandsUs
 import com.essenza.draco.modules.catalog.application.input.brand.FindBrandByIdUseCase;
 import com.essenza.draco.modules.catalog.application.input.brand.SearchBrandsUseCase;
 import com.essenza.draco.modules.catalog.application.input.brand.UpdateBrandUseCase;
-import com.essenza.draco.modules.catalog.domain.dto.brand.BrandDto;
-import com.essenza.draco.modules.catalog.domain.dto.brand.CreateBrandDto;
-import com.essenza.draco.modules.catalog.domain.dto.brand.UpdateBrandDto;
+import com.essenza.draco.modules.catalog.application.dto.brand.BrandDto;
+import com.essenza.draco.modules.catalog.application.dto.brand.CreateBrandDto;
+import com.essenza.draco.modules.catalog.application.dto.brand.UpdateBrandDto;
 
 @RestController
 @RequestMapping("/catalog/brands")

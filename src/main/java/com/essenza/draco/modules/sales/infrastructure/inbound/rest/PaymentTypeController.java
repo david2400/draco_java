@@ -17,9 +17,9 @@ import com.essenza.draco.modules.sales.application.input.payment_type.UpdatePaym
 import com.essenza.draco.modules.sales.application.input.payment_type.DeletePaymentTypeUseCase;
 import com.essenza.draco.modules.sales.application.input.payment_type.FindPaymentTypeByIdUseCase;
 import com.essenza.draco.modules.sales.application.input.payment_type.FindPaymentTypesUseCase;
-import com.essenza.draco.modules.sales.domain.dto.payment_type.PaymentTypeDto;
-import com.essenza.draco.modules.sales.domain.dto.payment_type.CreatePaymentTypeDto;
-import com.essenza.draco.modules.sales.domain.dto.payment_type.UpdatePaymentTypeDto;
+import com.essenza.draco.modules.sales.application.dto.payment_type.PaymentTypeDto;
+import com.essenza.draco.modules.sales.application.dto.payment_type.CreatePaymentTypeDto;
+import com.essenza.draco.modules.sales.application.dto.payment_type.UpdatePaymentTypeDto;
 
 import java.net.URI;
 import java.util.List;

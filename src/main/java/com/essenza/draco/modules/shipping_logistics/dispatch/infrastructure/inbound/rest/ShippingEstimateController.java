@@ -1,7 +1,7 @@
 package com.essenza.draco.modules.shipping_logistics.dispatch.infrastructure.inbound.rest;
 
 import com.essenza.draco.modules.shipping_logistics.dispatch.application.input.dispatch_product.GetShippingEstimateUseCase;
-import com.essenza.draco.modules.shipping_logistics.dispatch.domain.dto.dispatch_product.ShippingEstimateDto;
+import com.essenza.draco.modules.shipping_logistics.dispatch.application.dto.dispatch_product.ShippingEstimateDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

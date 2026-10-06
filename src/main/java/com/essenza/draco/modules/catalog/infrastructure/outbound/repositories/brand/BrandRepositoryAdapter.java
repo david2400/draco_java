@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.modules.catalog.application.output.repository.BrandRepository;
-import com.essenza.draco.modules.catalog.domain.dto.brand.BrandDto;
-import com.essenza.draco.modules.catalog.domain.dto.brand.CreateBrandDto;
-import com.essenza.draco.modules.catalog.domain.dto.brand.UpdateBrandDto;
+import com.essenza.draco.modules.catalog.application.dto.brand.BrandDto;
+import com.essenza.draco.modules.catalog.application.dto.brand.CreateBrandDto;
+import com.essenza.draco.modules.catalog.application.dto.brand.UpdateBrandDto;
 import com.essenza.draco.modules.catalog.infrastructure.outbound.mappers.BrandMapper;
 import com.essenza.draco.modules.catalog.infrastructure.outbound.persistence.mysql.shop.BrandEntity;
 

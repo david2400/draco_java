@@ -1,8 +1,8 @@
 //package com.essenza.draco.modules.sales.infrastructure.inbound.graphql;
 //
-//import com.essenza.draco.modules.sales.domain.dto.product_order.CreateProductOrderDto;
-//import com.essenza.draco.modules.sales.domain.dto.product_order.ProductOrderDto;
-//import com.essenza.draco.modules.sales.domain.dto.product_order.UpdateProductOrderDto;
+//import com.essenza.draco.modules.sales.application.dto.product_order.CreateProductOrderDto;
+//import com.essenza.draco.modules.sales.application.dto.product_order.ProductOrderDto;
+//import com.essenza.draco.modules.sales.application.dto.product_order.UpdateProductOrderDto;
 //import com.essenza.draco.modules.sales.application.input.product_order.CreateProductOrderUseCase;
 //import com.essenza.draco.modules.sales.application.input.product_order.UpdateProductOrderUseCase;
 //import com.essenza.draco.modules.sales.application.input.product_order.DeleteProductOrderUseCase;

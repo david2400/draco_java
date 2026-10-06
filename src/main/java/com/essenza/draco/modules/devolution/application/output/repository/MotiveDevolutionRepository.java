@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.devolution.application.output.repository;
 
-import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.MotiveDevolutionDto;
-import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.CreateMotiveDevolutionDto;
-import com.essenza.draco.modules.devolution.domain.dto.motive_devolution.UpdateMotiveDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.motive_devolution.MotiveDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.motive_devolution.CreateMotiveDevolutionDto;
+import com.essenza.draco.modules.devolution.application.dto.motive_devolution.UpdateMotiveDevolutionDto;
 
 import java.util.List;
 import java.util.Optional;

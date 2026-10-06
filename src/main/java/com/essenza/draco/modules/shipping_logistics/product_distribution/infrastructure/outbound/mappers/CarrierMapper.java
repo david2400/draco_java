@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.mappers;
 
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CreateCarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.CarrierDto;
-import com.essenza.draco.modules.shipping_logistics.product_distribution.domain.dto.carrier.UpdateCarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CreateCarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.CarrierDto;
+import com.essenza.draco.modules.shipping_logistics.product_distribution.application.dto.carrier.UpdateCarrierDto;
 import com.essenza.draco.modules.shipping_logistics.product_distribution.infrastructure.outbound.persistence.mysql.shop.CarrierEntity;
 import org.mapstruct.*;
 

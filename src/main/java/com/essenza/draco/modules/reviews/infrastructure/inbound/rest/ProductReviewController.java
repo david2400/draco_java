@@ -1,7 +1,7 @@
 package com.essenza.draco.modules.reviews.infrastructure.inbound.rest;
 
 import com.essenza.draco.modules.reviews.application.input.product_review.*;
-import com.essenza.draco.modules.reviews.domain.dto.product_review.*;
+import com.essenza.draco.modules.reviews.application.dto.product_review.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

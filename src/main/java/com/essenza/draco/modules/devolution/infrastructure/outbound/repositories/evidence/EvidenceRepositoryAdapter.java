@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.devolution.infrastructure.outbound.repositories.evidence;
 
 import com.essenza.draco.modules.devolution.application.output.repository.EvidenceRepository;
-import com.essenza.draco.modules.devolution.domain.dto.evidence.CreateEvidenceDto;
-import com.essenza.draco.modules.devolution.domain.dto.evidence.EvidenceDto;
-import com.essenza.draco.modules.devolution.domain.dto.evidence.UpdateEvidenceDto;
+import com.essenza.draco.modules.devolution.application.dto.evidence.CreateEvidenceDto;
+import com.essenza.draco.modules.devolution.application.dto.evidence.EvidenceDto;
+import com.essenza.draco.modules.devolution.application.dto.evidence.UpdateEvidenceDto;
 import com.essenza.draco.modules.devolution.infrastructure.outbound.mappers.EvidenceMapper;
 import org.springframework.stereotype.Repository;
 

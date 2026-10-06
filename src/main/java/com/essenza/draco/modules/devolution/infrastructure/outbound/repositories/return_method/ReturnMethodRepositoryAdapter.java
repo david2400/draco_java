@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.devolution.infrastructure.outbound.repositories.return_method;
 
 import com.essenza.draco.modules.devolution.application.output.repository.ReturnMethodRepository;
-import com.essenza.draco.modules.devolution.domain.dto.return_method.CreateReturnMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.return_method.ReturnMethodDto;
-import com.essenza.draco.modules.devolution.domain.dto.return_method.UpdateReturnMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.return_method.CreateReturnMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.return_method.ReturnMethodDto;
+import com.essenza.draco.modules.devolution.application.dto.return_method.UpdateReturnMethodDto;
 import com.essenza.draco.modules.devolution.infrastructure.outbound.mappers.ReturnMethodMapper;
 import org.springframework.stereotype.Repository;
 
