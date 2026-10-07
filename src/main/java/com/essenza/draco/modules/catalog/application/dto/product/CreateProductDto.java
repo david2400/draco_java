@@ -46,6 +46,11 @@ public class CreateProductDto {
     @NotNull
     @Positive
     private Double weight;
+
+    /** Contenido neto (500 ml, 1 kg…): valor y unidad juntos; ambos vacíos = sin contenido. */
+    @jakarta.validation.constraints.DecimalMin(value = "0", inclusive = false)
+    private java.math.BigDecimal netContent;
+    private Long netContentUnitId;
     private String imageUrl;
     private Boolean available;
 

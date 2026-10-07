@@ -103,6 +103,8 @@ public class ProductCommandAssembler {
                 .width(dto.getWidth())
                 .height(dto.getHeight())
                 .weight(dto.getWeight())
+                .netContent(dto.getNetContent())
+                .netContentUnitId(dto.getNetContentUnitId())
                 .imageUrl(dto.getImageUrl())
                 .available(dto.getAvailable())
                 .status(dto.getStatus())

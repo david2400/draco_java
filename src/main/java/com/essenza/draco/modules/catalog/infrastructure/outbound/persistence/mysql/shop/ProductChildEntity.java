@@ -43,6 +43,12 @@ public class ProductChildEntity extends AuditInfo {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "net_content", precision = 18, scale = 4)
+    private BigDecimal netContent;
+
+    @Column(name = "net_content_unit_id")
+    private Long netContentUnitId;
+
     @Column(nullable = false)
     private Boolean available = true;
 

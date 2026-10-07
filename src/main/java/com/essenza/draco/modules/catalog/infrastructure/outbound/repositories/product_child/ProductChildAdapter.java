@@ -56,6 +56,9 @@ public class ProductChildAdapter implements ProductChildRepository {
         var entity = jpa.findById(id)
                 .orElseThrow(() -> new com.essenza.draco.shared.exceptions.NotFoundException("Variante de producto no encontrada: " + id));
         mapper.updateEntityFromDto(input, entity);
+        // El mapper ignora nulos: el contenido neto se reemplaza siempre (vacío = quitarlo).
+        entity.setNetContent(input.getNetContent());
+        entity.setNetContentUnitId(input.getNetContentUnitId());
         var updated = jpa.save(entity);
         requestStock(updated, skuSynchronizer.sync(updated.getProductId()));
         return mapper.toDto(updated);

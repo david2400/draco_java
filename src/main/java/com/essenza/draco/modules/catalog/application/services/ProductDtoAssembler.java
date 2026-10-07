@@ -1,5 +1,7 @@
 package com.essenza.draco.modules.catalog.application.services;
 
+import com.essenza.draco.modules.catalog.domain.model.NetContent;
+
 import com.essenza.draco.modules.catalog.application.dto.product.ProductDto;
 import com.essenza.draco.modules.catalog.application.dto.product.ProductVariantDto;
 import com.essenza.draco.modules.catalog.application.dto.product.ProductBundleItemDto;
@@ -26,6 +28,8 @@ public class ProductDtoAssembler {
                 .width(product.getWidth())
                 .height(product.getHeight())
                 .weight(product.getWeight())
+                .netContent(NetContent.valueOf(product.getNetContent()))
+                .netContentUnitId(NetContent.unitOf(product.getNetContent()))
                 .imageUrl(product.getImageUrl())
                 .available(product.isListed())
                 .sellable(product.isSellable())

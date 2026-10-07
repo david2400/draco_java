@@ -21,5 +21,7 @@ public class ProductChildDto extends AuditInfoDto {
     private Integer stock;
     private BigDecimal unitPrice;
     private String imageUrl;
+    private BigDecimal netContent;
+    private Long netContentUnitId;
     private Boolean available;
 }

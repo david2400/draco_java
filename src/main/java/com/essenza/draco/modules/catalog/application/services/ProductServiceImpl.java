@@ -11,6 +11,7 @@ import com.essenza.draco.modules.catalog.application.dto.product.ProductFilter;
 import com.essenza.draco.modules.catalog.application.dto.product.UpdateProductDto;
 import com.essenza.draco.modules.catalog.application.output.repository.ProductRepository;
 import com.essenza.draco.modules.catalog.application.output.repository.ProductCatalogViewRepository;
+import com.essenza.draco.modules.catalog.application.output.repository.UnitReferences;
 import com.essenza.draco.modules.catalog.domain.command.ProductCommand;
 import com.essenza.draco.shared.common.web.Slugs;
 import com.essenza.draco.shared.common.inventory.StockQuery;
@@ -46,6 +47,7 @@ public class ProductServiceImpl implements CreateProductUseCase,
     private final ProductCatalogViewRepository catalogView;
     private final StockQuery stockQuery;
     private final ProductPublicationGuard publicationGuard;
+    private final UnitReferences unitReferences;
 
     public ProductServiceImpl(ProductRepository productRepository,
                               ProductAggregateRepository aggregateRepository,
@@ -55,6 +57,21 @@ public class ProductServiceImpl implements CreateProductUseCase,
                               ProductCatalogViewRepository catalogView,
                               StockQuery stockQuery,
                               ProductPublicationGuard publicationGuard) {
+        this(productRepository, aggregateRepository, productDtoAssembler, productCommandAssembler, productFactory,
+                catalogView, stockQuery, publicationGuard, unitId -> true);
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public ProductServiceImpl(ProductRepository productRepository,
+                              ProductAggregateRepository aggregateRepository,
+                              ProductDtoAssembler productDtoAssembler,
+                              ProductCommandAssembler productCommandAssembler,
+                              ProductFactory productFactory,
+                              ProductCatalogViewRepository catalogView,
+                              StockQuery stockQuery,
+                              ProductPublicationGuard publicationGuard,
+                              UnitReferences unitReferences) {
+        this.unitReferences = unitReferences;
         this.productRepository = productRepository;
         this.aggregateRepository = aggregateRepository;
         this.productDtoAssembler = productDtoAssembler;
@@ -67,6 +84,7 @@ public class ProductServiceImpl implements CreateProductUseCase,
 
     @Override
     public ProductDto create(@Valid CreateProductDto input) {
+        checkNetContentUnit(input.getNetContentUnitId());
         var command = withUniqueSlug(productCommandAssembler.fromCreateDto(input), null);
         var product = productFactory.fromCommand(command);
         Long id = productRepository.save(product);
@@ -80,6 +98,7 @@ public class ProductServiceImpl implements CreateProductUseCase,
     public ProductDto update(Long id, @Valid UpdateProductDto input) {
         var current = aggregateRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Producto no encontrado: " + id));
+        checkNetContentUnit(input.getNetContentUnitId());
         var command = withUniqueSlug(productCommandAssembler.fromUpdateDto(id, input, current), id);
         var product = productFactory.fromCommand(command);
         if (product.getStatus() == ProductStatus.ACTIVE && current.getStatus() != ProductStatus.ACTIVE) {
@@ -233,4 +252,10 @@ public class ProductServiceImpl implements CreateProductUseCase,
 //
 //        return builder.build();
 //    }
+
+    private void checkNetContentUnit(Long unitId) {
+        if (unitId != null && !unitReferences.exists(unitId)) {
+            throw new IllegalArgumentException("La unidad del contenido neto no existe: " + unitId);
+        }
+    }
 }

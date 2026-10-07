@@ -1,5 +1,7 @@
 package com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.products;
 
+import com.essenza.draco.modules.catalog.domain.model.NetContent;
+
 import com.essenza.draco.modules.catalog.application.output.repository.ProductAggregateRepository;
 import com.essenza.draco.modules.catalog.domain.model.BundleItem;
 import com.essenza.draco.modules.catalog.domain.model.Product;
@@ -101,7 +103,9 @@ public class ProductAggregateRepositoryAdapter implements ProductAggregateReposi
                 entity.getSupplierId(),
                 Boolean.TRUE.equals(entity.getAvailable()),
                 statusOf(entity),
-                entity.getSlug()
+                entity.getSlug(),
+                entity.getNetContent() == null || entity.getNetContentUnitId() == null ? null
+                        : NetContent.of(entity.getNetContent(), entity.getNetContentUnitId())
         );
 
         List<Variant> variants = type.supportsVariants()

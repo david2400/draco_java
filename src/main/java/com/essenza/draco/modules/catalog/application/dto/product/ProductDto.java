@@ -24,6 +24,8 @@ public class ProductDto extends AuditInfoDto {
     private Double width;
     private Double height;
     private Double weight;
+    private java.math.BigDecimal netContent;
+    private Long netContentUnitId;
     private String imageUrl;
     private Boolean available;
     private Long brandId;

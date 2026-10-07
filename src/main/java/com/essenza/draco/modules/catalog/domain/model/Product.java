@@ -30,6 +30,7 @@ public final class Product {
     private final boolean available;
     private final ProductStatus status;
     private final String slug;
+    private final NetContent netContent;
     private final List<Variant> variants;
     private final List<BundleItem> bundleItems;
     private final PricingPolicy pricingPolicy;
@@ -46,6 +47,7 @@ public final class Product {
         this.width = builder.width;
         this.height = builder.height;
         this.weight = builder.weight;
+        this.netContent = builder.netContent;
         this.imageUrl = builder.imageUrl;
         this.brandId = builder.brandId;
         this.categoryId = builder.categoryId;
@@ -113,6 +115,10 @@ public final class Product {
 
     public Double getWeight() {
         return weight;
+    }
+
+    public NetContent getNetContent() {
+        return netContent;
     }
 
     public String getImageUrl() {
@@ -211,6 +217,7 @@ public final class Product {
                 .width(width)
                 .height(height)
                 .weight(weight)
+                .netContent(netContent)
                 .imageUrl(imageUrl)
                 .brandId(brandId)
                 .categoryId(categoryId)
@@ -240,6 +247,7 @@ public final class Product {
         private Double width;
         private Double height;
         private Double weight;
+        private NetContent netContent;
         private String imageUrl;
         private Long brandId;
         private Long categoryId;
@@ -298,6 +306,11 @@ public final class Product {
 
         public Builder height(Double height) {
             this.height = height;
+            return this;
+        }
+
+        public Builder netContent(NetContent netContent) {
+            this.netContent = netContent;
             return this;
         }
 

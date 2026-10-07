@@ -152,7 +152,7 @@ public class AttributeRepositoryAdapter implements AttributeRepository {
             return Map.of();
         }
         List<Object[]> rows = em.createNativeQuery(
-                "SELECT id_unit_measurement, name FROM units_measurement WHERE id_unit_measurement IN (:ids)")
+                "SELECT id_unit_measurement, COALESCE(symbol, name) FROM units_measurement WHERE id_unit_measurement IN (:ids)")
                 .setParameter("ids", unitIds).getResultList();
         Map<Long, String> names = new HashMap<>();
         rows.forEach(row -> names.put(((Number) row[0]).longValue(), (String) row[1]));

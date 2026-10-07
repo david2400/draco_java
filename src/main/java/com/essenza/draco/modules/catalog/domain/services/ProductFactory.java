@@ -1,5 +1,7 @@
 package com.essenza.draco.modules.catalog.domain.services;
 
+import com.essenza.draco.modules.catalog.domain.model.NetContent;
+
 import com.essenza.draco.modules.catalog.domain.command.ProductBundleItemCommand;
 import com.essenza.draco.modules.catalog.domain.command.ProductCommand;
 import com.essenza.draco.modules.catalog.domain.command.ProductVariantCommand;
@@ -54,6 +56,7 @@ public class ProductFactory {
                 .width(draft.width())
                 .height(draft.height())
                 .weight(draft.weight())
+                .netContent(draft.netContent())
                 .imageUrl(draft.imageUrl())
                 .brandId(draft.brandId())
                 .categoryId(draft.categoryId())
@@ -90,7 +93,8 @@ public class ProductFactory {
                 command.getSupplierId(),
                 Boolean.TRUE.equals(command.getAvailable()),
                 ProductStatus.parse(command.getStatus()),
-                command.getSlug()
+                command.getSlug(),
+                NetContent.of(command.getNetContent(), command.getNetContentUnitId())
         );
 
         List<Variant> variants = Optional.ofNullable(command.getVariants())

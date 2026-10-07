@@ -1,5 +1,7 @@
 package com.essenza.draco.modules.catalog.infrastructure.outbound.repositories.products;
 
+import com.essenza.draco.modules.catalog.domain.model.NetContent;
+
 import com.essenza.draco.modules.catalog.application.output.repository.ProductRepository;
 import com.essenza.draco.modules.catalog.application.dto.product.CreateProductDto;
 import com.essenza.draco.modules.catalog.application.dto.product.ProductDto;
@@ -182,6 +184,8 @@ public class ProductRepositoryAdapter implements ProductRepository {
                 .width(product.getWidth())
                 .height(product.getHeight())
                 .weight(product.getWeight())
+                .netContent(NetContent.valueOf(product.getNetContent()))
+                .netContentUnitId(NetContent.unitOf(product.getNetContent()))
                 .imageUrl(product.getImageUrl())
                 .available(product.isListed())
                 .brandId(product.getBrandId())

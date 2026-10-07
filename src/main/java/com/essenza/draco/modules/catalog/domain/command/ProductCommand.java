@@ -19,6 +19,8 @@ public class ProductCommand {
     Double width;
     Double height;
     Double weight;
+    java.math.BigDecimal netContent;
+    Long netContentUnitId;
     String imageUrl;
     Boolean available;
     /** DRAFT | ACTIVE | INACTIVE | ARCHIVED; si es null se deriva de {@code available}. */

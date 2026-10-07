@@ -30,5 +30,9 @@ public class CreateProductChildDto {
     @Positive
     private BigDecimal unitPrice;
     private String imageUrl;
+    /** Contenido neto de la variante (50 ml, 100 ml…): valor y unidad juntos. */
+    @jakarta.validation.constraints.DecimalMin(value = "0", inclusive = false)
+    private BigDecimal netContent;
+    private Long netContentUnitId;
     private Boolean available;
 }
