@@ -73,6 +73,16 @@ public class StockItemRepositoryAdapter implements StockItemRepository, StockQue
                 .collect(Collectors.groupingBy(StockItemEntity::getSkuId, Collectors.summingInt(StockItemEntity::getOnHand)));
     }
 
+    @Override
+    public Map<Long, Integer> availableBySku(Collection<Long> skuIds) {
+        if (skuIds == null || skuIds.isEmpty()) {
+            return Map.of();
+        }
+        return jpa.findBySkuIdIn(skuIds).stream()
+                .collect(Collectors.groupingBy(StockItemEntity::getSkuId,
+                        Collectors.summingInt(e -> Math.max(nz(e.getOnHand()) - nz(e.getReserved()), 0))));
+    }
+
     static StockItem toDomain(StockItemEntity e) {
         return new StockItem(e.getId(), e.getSkuId(), e.getProductId(), e.getWarehouseId(),
                 nz(e.getOnHand()), nz(e.getReserved()), nz(e.getMinThreshold()));

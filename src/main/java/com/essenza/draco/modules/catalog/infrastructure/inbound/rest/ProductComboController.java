@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/inventory/product_combos")
+@RequestMapping("/catalog/product_combos")
 public class ProductComboController {
 
     private final CreateProductComboUseCase createProductCombo;
@@ -91,14 +91,15 @@ public class ProductComboController {
         return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @Operation(summary = "List product combos", description = "Returns all product combos")
+    @Operation(summary = "List combo items", description = "Returns all combo items, or only those of combo_id (the combo product)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of product combos",
                     content = @Content(mediaType = "application/json"))
     })
     @GetMapping
-    public List<ProductComboDto> getAll() {
-        return findProductCombos.findAll();
+    public List<ProductComboDto> getAll(@RequestParam(value = "combo_id", required = false) Long comboId) {
+        List<ProductComboDto> all = findProductCombos.findAll();
+        return comboId == null ? all : all.stream().filter(c -> comboId.equals(c.getComboId())).toList();
     }
 
     @Operation(summary = "Delete product combo", description = "Deletes a product combo by ID")

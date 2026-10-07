@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/inventory/product_children")
+@RequestMapping("/catalog/variants")
 public class ProductChildController {
 
     private final CreateProductChildUseCase createProductChild;
@@ -67,7 +67,7 @@ public class ProductChildController {
                     content = @Content(schema = @Schema(implementation = CreateProductChildDto.class)))
             @Valid @org.springframework.web.bind.annotation.RequestBody CreateProductChildDto input) {
         ProductChildDto created = createProductChild.create(input);
-        return ResponseEntity.created(URI.create("/inventory/product_children/" + created.getId())).body(created);
+        return ResponseEntity.created(URI.create("/catalog/variants/" + created.getId())).body(created);
     }
 
     @Operation(summary = "Update product child", description = "Updates an existing product child by ID")
@@ -99,14 +99,15 @@ public class ProductChildController {
         return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @Operation(summary = "List product children", description = "Returns all product children")
+    @Operation(summary = "List variants", description = "Returns all variants, or only those of product_id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of product children",
                     content = @Content(mediaType = "application/json"))
     })
     @GetMapping
-    public List<ProductChildDto> getAll() {
-        return findProductChildren.findAll();
+    public List<ProductChildDto> getAll(@RequestParam(value = "product_id", required = false) Long productId) {
+        List<ProductChildDto> all = findProductChildren.findAll();
+        return productId == null ? all : all.stream().filter(v -> productId.equals(v.getProductId())).toList();
     }
 
     @Operation(summary = "Delete product child", description = "Deletes a product child by ID")

@@ -12,4 +12,7 @@ public interface StockQuery {
 
     /** Unidades físicas (on hand) por SKU, sumando todas las bodegas. */
     Map<Long, Integer> onHandBySku(Collection<Long> skuIds);
+
+    /** Unidades disponibles para vender (on hand − reservadas, nunca negativo) por SKU. */
+    Map<Long, Integer> availableBySku(Collection<Long> skuIds);
 }

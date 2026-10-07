@@ -43,6 +43,13 @@ public class StockReservationRepositoryAdapter implements StockReservationReposi
         return toDomain(jpa.save(entity));
     }
 
+    @Override
+    public List<StockReservation> search(Long orderId, Long skuId, Long productId, StockReservation.Status status, int limit) {
+        return jpa.search(orderId, skuId, productId, status == null ? null : status.name(),
+                        org.springframework.data.domain.PageRequest.of(0, limit))
+                .stream().map(StockReservationRepositoryAdapter::toDomain).toList();
+    }
+
     static StockReservation toDomain(StockReservationEntity entity) {
         return new StockReservation(entity.getId(), entity.getOrderId(), entity.getOrderLineId(), entity.getSkuId(),
                 entity.getProductId(), entity.getWarehouseId(), entity.getQuantity(),

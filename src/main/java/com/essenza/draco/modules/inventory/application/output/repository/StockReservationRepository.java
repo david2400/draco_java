@@ -12,4 +12,7 @@ public interface StockReservationRepository {
     List<StockReservation> byOrder(Long orderId);
 
     StockReservation save(StockReservation reservation);
+
+    /** Búsqueda con filtros opcionales (nulos = sin filtro), más recientes primero. */
+    List<StockReservation> search(Long orderId, Long skuId, Long productId, StockReservation.Status status, int limit);
 }

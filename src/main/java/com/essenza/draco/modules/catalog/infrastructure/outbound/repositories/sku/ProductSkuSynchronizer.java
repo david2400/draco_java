@@ -28,7 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
  *   <li>Con variantes: un SKU por variante ({@code SKU-000123-45}); el de menor id es el
  *       predeterminado. El SKU por defecto anterior se desactiva (no se borra) y se
  *       reutiliza si el producto vuelve a no tener variantes.</li>
- *   <li>Imagen principal del producto en la posición 0 y la de cada variante ligada a su SKU.</li>
+ *   <li>Imagen principal del producto en la posición 0 (el resto de la galería general, 1..n, se
+ *       edita aparte) y la de cada variante ligada a su SKU desde la posición 1000.</li>
  *   <li>{@code products.product_type} se recalcula (SIMPLE / VARIANT / COMBO).</li>
  * </ul>
  *
@@ -51,6 +52,9 @@ public class ProductSkuSynchronizer {
         this.skus = skus;
         this.images = images;
     }
+
+    /** Posición inicial de las imágenes de variantes (la galería general usa 0..29). */
+    static final int VARIANT_IMAGE_BASE_POSITION = 1000;
 
     public static String defaultCode(Long productId) {
         return String.format("SKU-%06d", productId);
@@ -141,22 +145,24 @@ public class ProductSkuSynchronizer {
         Long productId = product.getId();
         List<ProductImageEntity> current = images.findByProductId(productId);
         ProductImageEntity main = current.stream().filter(i -> i.getSkuId() == null && i.getPosition() == 0).findFirst().orElse(null);
-        upsertImage(main, productId, null, 0, product.getImageUrl(), product.getName());
+        upsertImage(main, productId, null, 0, product.getImageUrl(), product.getName(), true);
 
         Map<Long, ProductImageEntity> bySku = new HashMap<>();
         current.stream().filter(i -> i.getSkuId() != null).forEach(i -> bySku.putIfAbsent(i.getSkuId(), i));
-        int position = 1;
+        // Las de variantes van detrás de la galería general (posiciones 0..n editadas en el panel).
+        int position = VARIANT_IMAGE_BASE_POSITION;
         for (ProductChildEntity child : variants) {
             ProductSkuEntity sku = skuByChild.get(child.getId());
             if (sku == null) {
                 continue;
             }
-            upsertImage(bySku.remove(sku.getId()), productId, sku.getId(), position++, child.getImageUrl(), child.getName());
+            upsertImage(bySku.remove(sku.getId()), productId, sku.getId(), position++, child.getImageUrl(), child.getName(), false);
         }
         bySku.values().forEach(images::delete);
     }
 
-    private void upsertImage(ProductImageEntity image, Long productId, Long skuId, int position, String url, String alt) {
+    private void upsertImage(ProductImageEntity image, Long productId, Long skuId, int position, String url, String alt,
+                             boolean keepAlt) {
         if (url == null || url.isBlank()) {
             if (image != null) {
                 images.delete(image);
@@ -166,7 +172,9 @@ public class ProductSkuSynchronizer {
         ProductImageEntity target = image != null ? image : ProductImageEntity.builder().productId(productId).skuId(skuId).build();
         target.setUrl(url.trim());
         target.setPosition(position);
-        target.setAltText(alt);
+        if (!keepAlt || target.getAltText() == null || target.getAltText().isBlank()) {
+            target.setAltText(alt);
+        }
         images.save(target);
     }
 
