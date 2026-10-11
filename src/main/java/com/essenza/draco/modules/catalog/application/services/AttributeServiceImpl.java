@@ -1,5 +1,8 @@
 package com.essenza.draco.modules.catalog.application.services;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.essenza.draco.modules.catalog.application.dto.attribute.AttributeDto;
 import com.essenza.draco.modules.catalog.application.dto.attribute.AttributeOptionDto;
+import com.essenza.draco.modules.catalog.application.dto.attribute.AttributeUsageDto;
 import com.essenza.draco.modules.catalog.application.dto.attribute.SaveAttributeDto;
 import com.essenza.draco.modules.catalog.application.input.attribute.ManageAttributesUseCase;
 import com.essenza.draco.modules.catalog.application.output.repository.AttributeRepository;
@@ -61,6 +65,7 @@ public class AttributeServiceImpl implements ManageAttributesUseCase {
         checkCodeAndUnit(attribute, id);
 
         boolean used = !attributes.inUse(Set.of(id)).isEmpty();
+        BigDecimal rescale = unitChange(current, attribute);
         if (used && current.getDataType() != attribute.getDataType()) {
             throw new ConflictException("No se puede cambiar el tipo de \"" + current.getName()
                     + "\": ya se usa en plantillas o productos.");
@@ -86,7 +91,11 @@ public class AttributeServiceImpl implements ManageAttributesUseCase {
                     .collect(Collectors.joining("\", \""));
             throw new ConflictException("No se puede quitar \"" + values + "\": hay productos o variantes que la usan.");
         }
-        return toDtos(List.of(attributes.save(attribute))).get(0);
+        Attribute saved = attributes.save(attribute);
+        if (rescale != null) {
+            attributes.rescaleNumberValues(id, rescale);
+        }
+        return toDtos(List.of(saved)).get(0);
     }
 
     @Override
@@ -99,6 +108,13 @@ public class AttributeServiceImpl implements ManageAttributesUseCase {
         attributes.deleteById(id);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public AttributeUsageDto usage(Long id) {
+        attributes.findById(id).orElseThrow(() -> new NotFoundException("Atributo no encontrado: " + id));
+        return attributes.usage(id);
+    }
+
     private void checkCodeAndUnit(Attribute attribute, Long excludeId) {
         if (attributes.existsActiveCode(attribute.getCode(), excludeId)) {
             throw new ConflictException("Ya existe un atributo con el código \"" + attribute.getCode() + "\".");
@@ -106,6 +122,31 @@ public class AttributeServiceImpl implements ManageAttributesUseCase {
         if (attribute.getUnitId() != null && !attributes.unitExists(attribute.getUnitId())) {
             throw new AttributeRuleViolation("La unidad " + attribute.getUnitId() + " no existe.");
         }
+    }
+
+    /**
+     * Cambio de unidad de un atributo numérico con valores guardados: dentro de la misma
+     * magnitud devuelve el multiplicador para convertirlos (ml → L: 0.001); a otra magnitud,
+     * o quitando/poniendo unidad, es un conflicto porque los números cambiarían de sentido.
+     * {@code null} si no hay nada que convertir.
+     */
+    private BigDecimal unitChange(Attribute current, Attribute next) {
+        if (current.getDataType() != AttributeDataType.NUMBER || next.getDataType() != AttributeDataType.NUMBER
+                || Objects.equals(current.getUnitId(), next.getUnitId())) {
+            return null;
+        }
+        long values = attributes.countNumberValues(current.getId());
+        if (values == 0) {
+            return null;
+        }
+        Optional<AttributeRepository.UnitInfo> from = current.getUnitId() == null ? Optional.empty() : attributes.unit(current.getUnitId());
+        Optional<AttributeRepository.UnitInfo> to = next.getUnitId() == null ? Optional.empty() : attributes.unit(next.getUnitId());
+        if (from.isEmpty() || to.isEmpty() || !from.get().dimension().equals(to.get().dimension())
+                || "OTHER".equals(from.get().dimension())) {
+            throw new ConflictException("No se puede cambiar la unidad de \"" + current.getName() + "\" a otra magnitud: "
+                    + values + " producto(s) tienen un valor guardado. Elige una unidad de la misma magnitud.");
+        }
+        return from.get().factor().divide(to.get().factor(), new MathContext(20, RoundingMode.HALF_UP));
     }
 
     private static Attribute toDomain(Long id, SaveAttributeDto input) {
@@ -117,7 +158,9 @@ public class AttributeServiceImpl implements ManageAttributesUseCase {
             int position = option.position() != null ? option.position() : index;
             options.add(new AttributeOption(option.id(), option.value(), position));
         }
-        return new Attribute(id, input.code(), input.name(), input.description(), type, input.unitId(),
+        // La unidad solo tiene sentido en atributos numéricos (500 ml, 30 cm…).
+        Long unitId = type == AttributeDataType.NUMBER ? input.unitId() : null;
+        return new Attribute(id, input.code(), input.name(), input.description(), type, unitId,
                 type == AttributeDataType.OPTION ? options : List.of());
     }
 

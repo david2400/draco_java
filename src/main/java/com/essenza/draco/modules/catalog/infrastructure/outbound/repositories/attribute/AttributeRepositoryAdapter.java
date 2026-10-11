@@ -169,4 +169,82 @@ public class AttributeRepositoryAdapter implements AttributeRepository {
         return new Attribute(entity.getId(), entity.getCode(), entity.getName(), entity.getDescription(), type,
                 entity.getUnitId(), type == AttributeDataType.OPTION ? options : List.of());
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Optional<UnitInfo> unit(Long unitId) {
+        if (unitId == null) {
+            return Optional.empty();
+        }
+        List<Object[]> rows = em.createNativeQuery("""
+                SELECT id_unit_measurement, COALESCE(symbol, name), COALESCE(dimension, 'OTHER'), COALESCE(factor, 1), COALESCE(active, 1)
+                  FROM units_measurement WHERE id_unit_measurement = :id AND deleted = 0""")
+                .setParameter("id", unitId).getResultList();
+        if (rows.isEmpty()) {
+            return Optional.empty();
+        }
+        Object[] r = rows.get(0);
+        boolean active = r[4] instanceof Boolean b ? b : ((Number) r[4]).intValue() != 0;
+        return Optional.of(new UnitInfo(((Number) r[0]).longValue(), (String) r[1], (String) r[2],
+                new java.math.BigDecimal(r[3].toString()), active));
+    }
+
+    @Override
+    public long countNumberValues(Long attributeId) {
+        return ((Number) em.createNativeQuery(
+                        "SELECT COUNT(*) FROM product_attribute_values WHERE attribute_id = :id AND value_number IS NOT NULL")
+                .setParameter("id", attributeId).getSingleResult()).longValue();
+    }
+
+    @Override
+    public void rescaleNumberValues(Long attributeId, java.math.BigDecimal multiplier) {
+        em.createNativeQuery("""
+                UPDATE product_attribute_values SET value_number = ROUND(value_number * :m, 4)
+                 WHERE attribute_id = :id AND value_number IS NOT NULL""")
+                .setParameter("m", multiplier).setParameter("id", attributeId).executeUpdate();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public com.essenza.draco.modules.catalog.application.dto.attribute.AttributeUsageDto usage(Long attributeId) {
+        List<Object[]> templates = em.createNativeQuery("""
+                SELECT pt.id_template, pt.name, ta.required, ta.variant_axis
+                  FROM template_attributes ta
+                  JOIN product_templates pt ON pt.id_template = ta.template_id AND pt.deleted = 0
+                 WHERE ta.attribute_id = :id ORDER BY pt.name""")
+                .setParameter("id", attributeId).getResultList();
+        long products = ((Number) em.createNativeQuery("""
+                SELECT COUNT(*) FROM product_attribute_values v
+                  JOIN products p ON p.id_product = v.product_id AND p.deleted = 0
+                 WHERE v.attribute_id = :id""")
+                .setParameter("id", attributeId).getSingleResult()).longValue();
+        long variants = ((Number) em.createNativeQuery("""
+                SELECT COUNT(*) FROM sku_attribute_values v
+                  JOIN product_skus s ON s.id_sku = v.sku_id AND s.deleted = 0
+                 WHERE v.attribute_id = :id""")
+                .setParameter("id", attributeId).getSingleResult()).longValue();
+        List<Object[]> sample = em.createNativeQuery("""
+                SELECT DISTINCT p.id_product, p.name FROM products p
+                 WHERE p.deleted = 0 AND p.id_product IN (
+                       SELECT v.product_id FROM product_attribute_values v WHERE v.attribute_id = :id
+                       UNION SELECT s.product_id FROM sku_attribute_values v
+                               JOIN product_skus s ON s.id_sku = v.sku_id AND s.deleted = 0 WHERE v.attribute_id = :id)
+                 ORDER BY p.name LIMIT 10""")
+                .setParameter("id", attributeId).getResultList();
+        List<Object[]> options = em.createNativeQuery("""
+                SELECT option_id, COUNT(*) FROM (
+                       SELECT option_id FROM product_attribute_values WHERE attribute_id = :id AND option_id IS NOT NULL
+                       UNION ALL SELECT option_id FROM sku_attribute_values WHERE attribute_id = :id) u
+                 GROUP BY option_id""")
+                .setParameter("id", attributeId).getResultList();
+        java.util.function.Function<Object, Boolean> bool = v -> v instanceof Boolean b ? b : v != null && ((Number) v).intValue() != 0;
+        return new com.essenza.draco.modules.catalog.application.dto.attribute.AttributeUsageDto(
+                templates.stream().map(r -> new com.essenza.draco.modules.catalog.application.dto.attribute.AttributeUsageDto.TemplateRef(
+                        ((Number) r[0]).longValue(), (String) r[1], bool.apply(r[2]), bool.apply(r[3]))).toList(),
+                products, variants,
+                sample.stream().map(r -> new com.essenza.draco.modules.catalog.application.dto.attribute.AttributeUsageDto.ProductRef(
+                        ((Number) r[0]).longValue(), (String) r[1])).toList(),
+                options.stream().map(r -> new com.essenza.draco.modules.catalog.application.dto.attribute.AttributeUsageDto.OptionUsage(
+                        ((Number) r[0]).longValue(), ((Number) r[1]).longValue())).toList());
+    }
 }

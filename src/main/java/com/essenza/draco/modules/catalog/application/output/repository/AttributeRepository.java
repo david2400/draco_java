@@ -33,4 +33,19 @@ public interface AttributeRepository {
     boolean unitExists(Long unitId);
 
     Map<Long, String> unitNames(Collection<Long> unitIds);
+
+    /** Unidad del catálogo (magnitud y factor), si existe. */
+    Optional<UnitInfo> unit(Long unitId);
+
+    /** Productos con valor numérico guardado para el atributo. */
+    long countNumberValues(Long attributeId);
+
+    /** Multiplica los valores numéricos guardados (cambio de unidad dentro de la misma magnitud). */
+    void rescaleNumberValues(Long attributeId, java.math.BigDecimal multiplier);
+
+    com.essenza.draco.modules.catalog.application.dto.attribute.AttributeUsageDto usage(Long attributeId);
+
+    /** Datos mínimos de una unidad para validar y convertir. */
+    record UnitInfo(Long id, String symbol, String dimension, java.math.BigDecimal factor, boolean active) {
+    }
 }

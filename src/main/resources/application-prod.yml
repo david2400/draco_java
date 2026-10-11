@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/tienda?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: tienda
-    password: ${DB_PASSWORD:tienda}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: validate

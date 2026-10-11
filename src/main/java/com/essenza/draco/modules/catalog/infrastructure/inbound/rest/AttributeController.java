@@ -46,6 +46,13 @@ public class AttributeController {
         return attributes.findById(id).orElseThrow(() -> new NotFoundException("Atributo no encontrado: " + id));
     }
 
+    @Operation(summary = "Uso del atributo",
+            description = "Plantillas que lo incluyen, productos y variantes con valor, y uso de cada opción")
+    @GetMapping("/{id}/usage")
+    public com.essenza.draco.modules.catalog.application.dto.attribute.AttributeUsageDto usage(@PathVariable Long id) {
+        return attributes.usage(id);
+    }
+
     @Operation(summary = "Create attribute", description = "409 si el código ya existe.")
     @PostMapping
     public ResponseEntity<AttributeDto> create(@Valid @RequestBody SaveAttributeDto input) {

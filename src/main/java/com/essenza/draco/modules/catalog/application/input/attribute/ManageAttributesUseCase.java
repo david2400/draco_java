@@ -18,4 +18,7 @@ public interface ManageAttributesUseCase {
     AttributeDto update(Long id, SaveAttributeDto input);
 
     void delete(Long id);
+
+    /** Plantillas, productos y variantes que usan el atributo. */
+    com.essenza.draco.modules.catalog.application.dto.attribute.AttributeUsageDto usage(Long id);
 }
