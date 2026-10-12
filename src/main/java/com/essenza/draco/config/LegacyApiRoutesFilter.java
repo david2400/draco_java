@@ -30,6 +30,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *   <tr><td>/inventory/inventory_movements/**</td><td>/inventory/stock/movements/**</td></tr>
  *   <tr><td>/inventory/stock (exacta)</td><td>/inventory/stock/levels</td></tr>
  *   <tr><td>/product_details/unit_measurements/**</td><td>/catalog/units/**</td></tr>
+ *   <tr><td>/sales/payment_types/**</td><td>/sales/payment_methods/**</td></tr>
  * </table>
  */
 @Component
@@ -58,7 +59,8 @@ public class LegacyApiRoutesFilter extends OncePerRequestFilter {
             new Route(API_PREFIX + "/inventory/product_combos", API_PREFIX + "/catalog/product_combos", false),
             new Route(API_PREFIX + "/inventory/inventory_movements", API_PREFIX + "/inventory/stock/movements", false),
             new Route(API_PREFIX + "/inventory/stock", API_PREFIX + "/inventory/stock/levels", true),
-            new Route(API_PREFIX + "/product_details/unit_measurements", API_PREFIX + "/catalog/units", false));
+            new Route(API_PREFIX + "/product_details/unit_measurements", API_PREFIX + "/catalog/units", false),
+            new Route(API_PREFIX + "/sales/payment_types", API_PREFIX + "/sales/payment_methods", false));
 
     /** Ruta nueva para {@code path}, o vacío si no es una ruta antigua. */
     static Optional<String> successorOf(String path) {
