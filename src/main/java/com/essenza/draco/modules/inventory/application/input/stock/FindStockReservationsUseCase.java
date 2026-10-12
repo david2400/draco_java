@@ -2,7 +2,7 @@ package com.essenza.draco.modules.inventory.application.input.stock;
 
 import java.util.List;
 
-import com.essenza.draco.modules.inventory.application.dto.StockReservationDto;
+import com.essenza.draco.modules.inventory.domain.dto.StockReservationDto;
 
 public interface FindStockReservationsUseCase {
 

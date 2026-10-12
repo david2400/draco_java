@@ -3,6 +3,7 @@ package com.essenza.draco.modules.promotions.infrastructure.outbound.persistence
 //import com.essenza.draco.shared.common.infrastructure.outbound.persistence.mysql.shop.AuditInfo;
 import com.essenza.draco.shared.common.domain.entity.AuditInfo;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -48,6 +49,11 @@ public class CouponEntity extends AuditInfo {
     @Column(name = "usage_limit")
     private Integer usageLimit;
 
+    /**
+     * Veces que se ha usado. {@code @Builder.Default}: MapStruct crea la entidad con el
+     * builder, que sin esto ignora el "= 0" y enviaba NULL a una columna NOT NULL.
+     */
+    @Builder.Default
     @Column(name = "usage_count", nullable = false)
     private Integer usageCount = 0;
 
@@ -74,4 +80,12 @@ public class CouponEntity extends AuditInfo {
 
     @Column(name = "excluded_products", length = 1000)
     private String excludedProducts;
+
+    /** Un cupón nuevo arranca sin usos aunque llegue sin el campo (p. ej. desde otro mapeo). */
+    @PrePersist
+    void defaultUsageCount() {
+        if (usageCount == null) {
+            usageCount = 0;
+        }
+    }
 }

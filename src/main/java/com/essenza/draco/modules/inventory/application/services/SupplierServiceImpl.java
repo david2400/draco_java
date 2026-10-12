@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.inventory.application.services;
 
 import com.essenza.draco.modules.inventory.application.input.supplier.*;
-import com.essenza.draco.modules.inventory.application.dto.supplier.CreateSupplierDto;
-import com.essenza.draco.modules.inventory.application.dto.supplier.SupplierDto;
-import com.essenza.draco.modules.inventory.application.dto.supplier.UpdateSupplierDto;
+import com.essenza.draco.modules.inventory.domain.dto.supplier.CreateSupplierDto;
+import com.essenza.draco.modules.inventory.domain.dto.supplier.SupplierDto;
+import com.essenza.draco.modules.inventory.domain.dto.supplier.UpdateSupplierDto;
 import com.essenza.draco.modules.inventory.application.output.repository.SupplierRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

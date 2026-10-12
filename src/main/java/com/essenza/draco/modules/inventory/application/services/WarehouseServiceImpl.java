@@ -1,9 +1,9 @@
 package com.essenza.draco.modules.inventory.application.services;
 
 import com.essenza.draco.modules.inventory.application.input.warehouse.*;
-import com.essenza.draco.modules.inventory.application.dto.warehouse.CreateWarehouseDto;
-import com.essenza.draco.modules.inventory.application.dto.warehouse.UpdateWarehouseDto;
-import com.essenza.draco.modules.inventory.application.dto.warehouse.WarehouseDto;
+import com.essenza.draco.modules.inventory.domain.dto.warehouse.CreateWarehouseDto;
+import com.essenza.draco.modules.inventory.domain.dto.warehouse.UpdateWarehouseDto;
+import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
 import com.essenza.draco.modules.inventory.application.output.repository.StockItemRepository;
 import com.essenza.draco.modules.inventory.application.output.repository.WarehouseRepository;
 import com.essenza.draco.shared.common.domain.dto.BulkOperationResult;
