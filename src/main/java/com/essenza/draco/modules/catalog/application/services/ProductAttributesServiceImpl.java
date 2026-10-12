@@ -148,7 +148,11 @@ public class ProductAttributesServiceImpl implements ProductAttributesUseCase, P
                 .toList();
         Map<Long, Attribute> definitions;
         if (template != null) {
-            definitions = definitionsOf(template.getAttributes().stream().map(TemplateAttribute::attributeId).toList());
+            // Los de la plantilla y los adicionales que tienen valor.
+            Set<Long> ids = new LinkedHashSet<>();
+            template.getAttributes().forEach(item -> ids.add(item.attributeId()));
+            values.forEach(value -> ids.add(value.attributeId()));
+            definitions = definitionsOf(ids);
         } else {
             definitions = attributes.findAll().stream().collect(Collectors.toMap(Attribute::getId, Function.identity(),
                     (left, right) -> left, LinkedHashMap::new));
@@ -166,20 +170,28 @@ public class ProductAttributesServiceImpl implements ProductAttributesUseCase, P
     private ProductAttributesDto toDto(Snapshot snapshot) {
         ProductTemplateDto template = snapshot.template() == null ? null
                 : templateService.toDtos(List.of(snapshot.template())).get(0);
+        Set<Long> templateIds = snapshot.template() == null ? null
+                : snapshot.template().getAttributes().stream().map(TemplateAttribute::attributeId).collect(Collectors.toSet());
+        Set<Long> axisIds = snapshot.template() == null ? Set.of()
+                : snapshot.template().axes().stream().map(TemplateAttribute::attributeId).collect(Collectors.toSet());
+        // Valores de la ficha: los de la plantilla y los adicionales; un eje de la plantilla no
+        // va en la ficha (pudo quedar de una plantilla anterior).
+        List<AttributeValue> sheetValues = snapshot.values().stream()
+                .filter(value -> !axisIds.contains(value.attributeId()))
+                .toList();
         List<Attribute> available;
         if (snapshot.template() != null) {
-            available = snapshot.template().getAttributes().stream()
-                    .map(item -> snapshot.definitions().get(item.attributeId()))
+            Set<Long> ids = new LinkedHashSet<>(templateIds.size() + sheetValues.size());
+            snapshot.template().getAttributes().forEach(item -> ids.add(item.attributeId()));
+            sheetValues.forEach(value -> ids.add(value.attributeId()));
+            available = ids.stream()
+                    .map(id -> snapshot.definitions().get(id))
                     .filter(java.util.Objects::nonNull)
                     .toList();
         } else {
             available = List.copyOf(snapshot.definitions().values());
         }
-        Set<Long> templateIds = snapshot.template() == null ? null
-                : snapshot.template().getAttributes().stream().map(TemplateAttribute::attributeId).collect(Collectors.toSet());
-        List<AttributeValueDto> values = snapshot.values().stream()
-                // Con plantilla solo se muestran sus atributos (los demás quedaron de una plantilla anterior).
-                .filter(value -> templateIds == null || templateIds.contains(value.attributeId()))
+        List<AttributeValueDto> values = sheetValues.stream()
                 .map(value -> new AttributeValueDto(value.attributeId(), value.text(), value.number(), value.bool(),
                         value.optionId()))
                 .toList();

@@ -13,7 +13,8 @@ import java.util.TreeMap;
  * Reglas de la ficha técnica y de los ejes de variante de un producto.
  *
  * <ul>
- *   <li>Con plantilla: solo se aceptan sus atributos; los ejes van en los SKU, no en la ficha.</li>
+ *   <li>Con plantilla: sus atributos más los adicionales que se quieran (cualquier atributo
+ *       existente); los ejes de la plantilla van en los SKU, no en la ficha.</li>
  *   <li>Sin plantilla: ficha libre con cualquier atributo existente y sin ejes de variante.</li>
  *   <li>Dos variantes no pueden tener la misma combinación completa de opciones.</li>
  *   <li>Al publicar (ACTIVE): obligatorios con valor y cada variante con todos los ejes.</li>
@@ -96,9 +97,9 @@ public final class ProductAttributesPolicy {
                 throw new AttributeRuleViolation("El atributo " + value.attributeId() + " no existe.");
             }
             if (template != null) {
-                TemplateAttribute item = template.find(value.attributeId()).orElseThrow(() ->
-                        new AttributeRuleViolation("\"" + definition.getName() + "\" no pertenece a la plantilla."));
-                if (item.variantAxis()) {
+                // Atributos fuera de la plantilla se aceptan como adicionales de la ficha.
+                boolean axis = template.find(value.attributeId()).map(TemplateAttribute::variantAxis).orElse(false);
+                if (axis) {
                     throw new AttributeRuleViolation(
                             "\"" + definition.getName() + "\" es eje de variante: se asigna en cada variante, no en la ficha.");
                 }

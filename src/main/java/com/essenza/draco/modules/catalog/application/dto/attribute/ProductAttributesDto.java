@@ -10,7 +10,7 @@ public record ProductAttributesDto(
         String productStatus,
         Long templateId,
         ProductTemplateDto template,
-        @Schema(description = "Atributos disponibles: los de la plantilla o, sin plantilla, todos") List<AttributeDto> attributes,
+        @Schema(description = "Con plantilla: sus atributos y los adicionales con valor. Sin plantilla: todos") List<AttributeDto> attributes,
         List<AttributeValueDto> values,
         List<VariantAttributesDto> variants,
         @Schema(description = "Lo que falta para poder publicar (vacío si está completo)") List<String> missing) {

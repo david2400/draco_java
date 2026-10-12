@@ -39,6 +39,7 @@ import com.essenza.draco.modules.catalog.domain.model.attribute.Attribute;
 import com.essenza.draco.modules.catalog.domain.model.attribute.AttributeDataType;
 import com.essenza.draco.modules.catalog.domain.model.attribute.AttributeOption;
 import com.essenza.draco.modules.catalog.domain.model.attribute.AttributeRuleViolation;
+import com.essenza.draco.modules.catalog.domain.model.attribute.AttributeValue;
 import com.essenza.draco.modules.catalog.domain.model.attribute.ProductTemplate;
 import com.essenza.draco.modules.catalog.domain.model.attribute.TemplateAttribute;
 import com.essenza.draco.shared.exceptions.ConflictException;
@@ -127,6 +128,22 @@ class AttributeServicesTest {
                 new VariantAttributesDto(100L, null, null, null, List.of(new VariantOptionDto(3L, 31L))),
                 new VariantAttributesDto(101L, null, null, null, List.of(new VariantOptionDto(3L, 31L)))))))
                 .isInstanceOf(AttributeRuleViolation.class).hasMessageContaining("misma combinación");
+    }
+
+    @Test
+    void conPlantillaLaFichaMuestraAtributosAdicionalesPeroNoEjes() {
+        Attribute material = new Attribute(1L, "material", "Material", null, AttributeDataType.TEXT, null, List.of());
+        when(attributes.findByIds(anyCollection())).thenReturn(List.of(COLOR, material));
+        when(store.findProduct(5L)).thenReturn(Optional.of(new ProductHeader(5L, "DRAFT", 10L)));
+        when(store.variantSkus(5L)).thenReturn(List.of());
+        when(store.skuOptions(anyCollection())).thenReturn(Map.of());
+        // Material no está en la plantilla (adicional); Color es eje y quedó de una plantilla anterior.
+        when(store.values(5L)).thenReturn(List.of(new AttributeValue(1L, "Lino", null, null, null),
+                new AttributeValue(3L, null, null, null, 31L)));
+
+        var dto = productAttributes.get(5L);
+        assertThat(dto.values()).extracting(value -> value.attributeId()).containsExactly(1L);
+        assertThat(dto.attributes()).extracting(attribute -> attribute.id()).containsExactly(3L, 1L);
     }
 
     @Test

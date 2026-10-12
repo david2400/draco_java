@@ -55,11 +55,19 @@ class ProductAttributesPolicyTest {
     }
 
     @Test
-    void conPlantillaSoloSeAceptanSusAtributosYLosEjesNoVanEnLaFicha() {
+    void conPlantillaSeAceptanAdicionalesYLosEjesNoVanEnLaFicha() {
         ProductTemplate solo = new ProductTemplate(11L, "Solo material", null, List.of(new TemplateAttribute(1L, false, false, false, 0)));
+        var result = ProductAttributesPolicy.check(solo, DEFS,
+                List.of(text(1L, "Lino"), new AttributeValue(2L, null, BigDecimal.ONE, null, null),
+                        new AttributeValue(3L, null, null, null, 32L)),
+                List.of(), Set.of(), false);
+        assertThat(result.values()).extracting(AttributeValue::attributeId).containsExactly(1L, 2L, 3L);
+        // Un adicional también se valida por tipo y por opción.
+        assertThatThrownBy(() -> ProductAttributesPolicy.check(solo, DEFS, List.of(text(2L, "pesado")), List.of(), Set.of(), false))
+                .hasMessageContaining("espera un número");
         assertThatThrownBy(() -> ProductAttributesPolicy.check(solo, DEFS,
-                List.of(new AttributeValue(2L, null, BigDecimal.ONE, null, null)), List.of(), Set.of(), false))
-                .hasMessageContaining("no pertenece a la plantilla");
+                List.of(new AttributeValue(3L, null, null, null, 41L)), List.of(), Set.of(), false))
+                .isInstanceOf(AttributeRuleViolation.class);
         assertThatThrownBy(() -> ProductAttributesPolicy.check(ROPA, DEFS,
                 List.of(new AttributeValue(3L, null, null, null, 31L)), List.of(), Set.of(), false))
                 .hasMessageContaining("eje de variante");
