@@ -24,10 +24,18 @@ public class InventoryLookupAdapter implements InventoryLookupQuery {
     @Override
     @SuppressWarnings("unchecked")
     public List<LookupOption> suppliers(LookupRequest request) {
-        NativeLookupSql sql = new NativeLookupSql("SELECT s.id_supplier, s.name, s.email FROM suppliers s")
-                .where("s.deleted = 0")
-                .match(request, "s.id_supplier", "s.name", "s.email")
-                .orderBy("s.name");
+        // Nombre comercial (o razón social) y documento; solo proveedores activos salvo al pedir ids concretos
+        // (un producto puede tener asignado un proveedor ya bloqueado o inactivo).
+        NativeLookupSql sql = new NativeLookupSql("""
+                SELECT s.id_supplier, COALESCE(s.trade_name, s.name),
+                       COALESCE(CONCAT(s.doc_type, ' ', s.doc_number, IF(s.dv IS NULL, '', CONCAT('-', s.dv))), s.email)
+                  FROM suppliers s""")
+                .where("s.deleted = 0");
+        if (!request.byIds()) {
+            sql.where("s.status = 'ACTIVE'");
+        }
+        sql.match(request, "s.id_supplier", "s.name", "s.trade_name", "s.doc_number", "s.email")
+                .orderBy("COALESCE(s.trade_name, s.name)");
         Query query = em.createNativeQuery(sql.sql(request.limit()));
         sql.params().forEach(query::setParameter);
         return ((List<Object[]>) query.getResultList()).stream()

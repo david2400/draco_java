@@ -1,9 +1,7 @@
 package com.essenza.draco.modules.inventory.application.input.supplier;
 
-import com.essenza.draco.modules.inventory.domain.dto.supplier.SupplierDto;
-
-import java.util.Optional;
+import com.essenza.draco.modules.inventory.application.dto.supplier.SupplierDto;
 
 public interface FindSupplierByIdUseCase {
-    Optional<SupplierDto> findById(Long id);
+    SupplierDto findById(Long id);
 }

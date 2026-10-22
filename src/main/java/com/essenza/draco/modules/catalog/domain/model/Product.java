@@ -31,6 +31,7 @@ public final class Product {
     private final ProductStatus status;
     private final String slug;
     private final NetContent netContent;
+    private final Long taxRateId;
     private final List<Variant> variants;
     private final List<BundleItem> bundleItems;
     private final PricingPolicy pricingPolicy;
@@ -48,6 +49,7 @@ public final class Product {
         this.height = builder.height;
         this.weight = builder.weight;
         this.netContent = builder.netContent;
+        this.taxRateId = builder.taxRateId;
         this.imageUrl = builder.imageUrl;
         this.brandId = builder.brandId;
         this.categoryId = builder.categoryId;
@@ -115,6 +117,11 @@ public final class Product {
 
     public Double getWeight() {
         return weight;
+    }
+
+    /** Tarifa de impuesto; null = la por defecto. */
+    public Long getTaxRateId() {
+        return taxRateId;
     }
 
     public NetContent getNetContent() {
@@ -218,6 +225,7 @@ public final class Product {
                 .height(height)
                 .weight(weight)
                 .netContent(netContent)
+                .taxRateId(taxRateId)
                 .imageUrl(imageUrl)
                 .brandId(brandId)
                 .categoryId(categoryId)
@@ -248,6 +256,7 @@ public final class Product {
         private Double height;
         private Double weight;
         private NetContent netContent;
+        private Long taxRateId;
         private String imageUrl;
         private Long brandId;
         private Long categoryId;
@@ -306,6 +315,11 @@ public final class Product {
 
         public Builder height(Double height) {
             this.height = height;
+            return this;
+        }
+
+        public Builder taxRateId(Long taxRateId) {
+            this.taxRateId = taxRateId;
             return this;
         }
 

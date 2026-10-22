@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.inventory.application.input.warehouse;
 
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.UpdateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.SaveWarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.WarehouseDto;
 
 public interface UpdateWarehouseUseCase {
-    WarehouseDto update(Long id, UpdateWarehouseDto input);
+    WarehouseDto update(Long id, SaveWarehouseDto input);
 }

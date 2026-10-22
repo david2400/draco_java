@@ -22,4 +22,12 @@ public class OrderDevolutionDetailDto extends AuditInfoDto {
     private Long orderDevolutionId;
     private Long productOrderId;
     private String observation;
+
+    /** V10: SKU y nombre congelados de la línea de la orden y reingreso al stock. */
+    private Long productId;
+    private Long skuId;
+    private String skuCode;
+    private String productName;
+    private Boolean restock;
+    private Integer restockedQuantity;
 }

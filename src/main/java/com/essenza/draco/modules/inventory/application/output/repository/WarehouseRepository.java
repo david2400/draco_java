@@ -1,24 +1,29 @@
 package com.essenza.draco.modules.inventory.application.output.repository;
 
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.CreateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.UpdateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
+import com.essenza.draco.modules.inventory.domain.model.warehouse.Warehouse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
+/** Persistencia de la bodega. */
 public interface WarehouseRepository {
 
-    WarehouseDto create(CreateWarehouseDto input);
+    Optional<Warehouse> findById(Long id);
 
-    WarehouseDto update(Long id, UpdateWarehouseDto input);
+    Warehouse save(Warehouse warehouse);
 
-    boolean deleteById(Long id);
+    void delete(Long id);
 
-    Optional<WarehouseDto> findById(Long id);
+    Page<Warehouse> search(WarehouseFilter filter, Pageable pageable);
 
-    Page<WarehouseDto> findAll(Pageable pageable);
+    boolean existsCode(String code, Long excludeId);
 
-    Optional<WarehouseDto> findByCode(String code);
+    /** Siguiente número para el código automático BOD_<n>. */
+    long nextNumber();
+
+    /** Quita la marca de principal a todas menos a {@code exceptId}. */
+    void clearMain(Long exceptId);
+
+    Optional<Warehouse> findMain();
 }

@@ -14,13 +14,22 @@ import org.springframework.stereotype.Component;
 public class CatalogStockListener {
 
     private final AlignStockUseCase alignStock;
+    private final com.essenza.draco.modules.inventory.application.input.movement.ReceiveInitialStockUseCase initialStock;
 
-    public CatalogStockListener(AlignStockUseCase alignStock) {
+    public CatalogStockListener(AlignStockUseCase alignStock,
+                                com.essenza.draco.modules.inventory.application.input.movement.ReceiveInitialStockUseCase initialStock) {
         this.alignStock = alignStock;
+        this.initialStock = initialStock;
     }
 
     @EventListener
     public void on(StockLevelRequested event) {
         alignStock.align(event.productId(), event.skuId(), event.desiredOnHand(), event.source());
+    }
+
+    /** Stock inicial de variantes generadas: entrada en la bodega elegida. */
+    @EventListener
+    public void on(com.essenza.draco.shared.common.inventory.StockEntryRequested event) {
+        initialStock.receiveInitial(event.productId(), event.skuId(), event.warehouseId(), event.quantity(), event.source());
     }
 }

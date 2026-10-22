@@ -17,6 +17,7 @@ import com.essenza.draco.modules.catalog.application.output.repository.ProductAg
 import com.essenza.draco.modules.catalog.application.output.repository.ProductCatalogViewRepository;
 import com.essenza.draco.modules.catalog.application.output.repository.ProductRepository;
 import com.essenza.draco.modules.catalog.application.output.repository.UnitReferences;
+import com.essenza.draco.shared.common.billing.TaxRates;
 import com.essenza.draco.modules.catalog.application.services.ProductDtoAssembler;
 import com.essenza.draco.modules.catalog.domain.command.ProductCommand;
 import com.essenza.draco.shared.common.inventory.StockQuery;
@@ -33,6 +34,7 @@ class ProductSoporte {
     private final ProductCatalogViewRepository catalogView;
     private final StockQuery stockQuery;
     private final UnitReferences unitReferences;
+    private final TaxRates taxRates;
 
     /**
      * Completa la página con variantes y componentes en lote (3 consultas en
@@ -152,6 +154,13 @@ class ProductSoporte {
 //
 //        return builder.build();
 //    }
+
+    /** La tarifa de impuesto indicada existe y está activa. */
+    void checkTaxRate(Long taxRateId) {
+        if (taxRateId != null && !taxRates.isAssignable(taxRateId)) {
+            throw new IllegalArgumentException("La tarifa de impuesto " + taxRateId + " no existe o está inactiva.");
+        }
+    }
 
     void checkNetContentUnit(Long unitId) {
         if (unitId != null && !unitReferences.exists(unitId)) {

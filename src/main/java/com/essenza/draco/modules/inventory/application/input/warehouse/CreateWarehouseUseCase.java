@@ -1,8 +1,8 @@
 package com.essenza.draco.modules.inventory.application.input.warehouse;
 
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.CreateWarehouseDto;
-import com.essenza.draco.modules.inventory.domain.dto.warehouse.WarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.SaveWarehouseDto;
+import com.essenza.draco.modules.inventory.application.dto.warehouse.WarehouseDto;
 
 public interface CreateWarehouseUseCase {
-    WarehouseDto create(CreateWarehouseDto input);
+    WarehouseDto create(SaveWarehouseDto input);
 }

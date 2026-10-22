@@ -14,6 +14,11 @@ public interface CatalogLookupUseCase {
 
     List<SkuLookupDto> skus(LookupRequest request, Long productId, boolean sellableOnly);
 
+    /** Con existencias de una bodega ({@code null} = todas). */
+    default List<SkuLookupDto> skus(LookupRequest request, Long productId, boolean sellableOnly, Long warehouseId) {
+        return skus(request, productId, sellableOnly);
+    }
+
     List<LookupOption> brands(LookupRequest request);
 
     List<LookupOption> categories(LookupRequest request);

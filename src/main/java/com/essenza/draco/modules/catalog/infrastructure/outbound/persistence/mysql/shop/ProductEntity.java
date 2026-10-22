@@ -71,6 +71,10 @@ public class ProductEntity extends AuditInfo {
     @Column(name = "net_content_unit_id")
     private Long netContentUnitId;
 
+    /** Tarifa de impuesto (V9); NULL = la tarifa por defecto. */
+    @Column(name = "tax_rate_id")
+    private Long taxRateId;
+
     @Column(name = "image_url")
     private String imageUrl;
 

@@ -31,6 +31,7 @@ public class CreateProductService implements CreateProductUseCase {
     @Override
     public ProductDto create(@Valid CreateProductDto input) {
         soporte.checkNetContentUnit(input.getNetContentUnitId());
+        soporte.checkTaxRate(input.getTaxRateId());
         var command = soporte.withUniqueSlug(productCommandAssembler.fromCreateDto(input), null);
         var product = productFactory.fromCommand(command);
         Long id = productRepository.save(product);

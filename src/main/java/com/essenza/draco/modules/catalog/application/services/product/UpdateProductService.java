@@ -37,6 +37,7 @@ public class UpdateProductService implements UpdateProductUseCase {
         var current = aggregateRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Producto no encontrado: " + id));
         soporte.checkNetContentUnit(input.getNetContentUnitId());
+        soporte.checkTaxRate(input.getTaxRateId());
         var command = soporte.withUniqueSlug(productCommandAssembler.fromUpdateDto(id, input, current), id);
         var product = productFactory.fromCommand(command);
         if (product.getStatus() == ProductStatus.ACTIVE && current.getStatus() != ProductStatus.ACTIVE) {

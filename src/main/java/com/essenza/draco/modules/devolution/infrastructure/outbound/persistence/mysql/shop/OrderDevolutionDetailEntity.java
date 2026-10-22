@@ -56,6 +56,33 @@ public class OrderDevolutionDetailEntity extends AuditInfo {
     @Column(nullable = false)
     private String observation;
 
+    /** V10: SKU, producto y nombre congelados de la línea de la orden. */
+    @Column(name = "sku_id")
+    private Long skuId;
+
+    @Column(name = "product_id")
+    private Long productId;
+
+    @Column(name = "sku_code", length = 100)
+    private String skuCode;
+
+    @Column(name = "product_name", length = 255)
+    private String productName;
+
+    /** Decisión de la inspección: las unidades recibidas vuelven al stock. */
+    @Column(name = "restock")
+    private Boolean restock;
+
+    @Column(name = "restocked_quantity", nullable = false)
+    private Integer restockedQuantity = 0;
+
+    @PrePersist
+    void defaultsV10() {
+        if (restockedQuantity == null) {
+            restockedQuantity = 0;
+        }
+    }
+
 
 }
 

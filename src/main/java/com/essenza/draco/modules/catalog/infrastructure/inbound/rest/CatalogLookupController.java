@@ -62,8 +62,10 @@ public class CatalogLookupController {
                                    @RequestParam(value = "limit", required = false) Integer limit,
                                    @RequestParam(value = "product_id", required = false) Long productId,
                                    @Parameter(description = "Solo SKUs activos de productos publicados")
-                                   @RequestParam(value = "sellable_only", required = false, defaultValue = "false") boolean sellableOnly) {
-        return lookup.skus(LookupRequest.of(q, ids, limit), productId, sellableOnly);
+                                   @RequestParam(value = "sellable_only", required = false, defaultValue = "false") boolean sellableOnly,
+                                   @Parameter(description = "Existencias de una sola bodega (punto de venta)")
+                                   @RequestParam(value = "warehouse_id", required = false) Long warehouseId) {
+        return lookup.skus(LookupRequest.of(q, ids, limit), productId, sellableOnly, warehouseId);
     }
 
     @Operation(summary = "Buscar marcas")

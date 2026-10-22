@@ -87,8 +87,36 @@ public class ProductAttributesService implements ProductAttributesUseCase {
 
         List<VariantSku> skus = store.variantSkus(productId);
         Set<Long> skuIds = skus.stream().map(VariantSku::id).collect(Collectors.toCollection(LinkedHashSet::new));
-        ProductAttributesPolicy.Result result = ProductAttributesPolicy.check(template, definitions, values, selections,
-                skuIds, ACTIVE.equals(header.status()));
+        // Ejes propios del producto (generador de variantes): se conservan si la ficha no los envía.
+        Set<Long> templateAxisIds = template == null ? Set.of()
+                : template.axes().stream().map(TemplateAttribute::attributeId).collect(Collectors.toSet());
+        Set<Long> productAxes = store.productAxes(productId).stream()
+                .filter(id -> !templateAxisIds.contains(id)).collect(Collectors.toCollection(LinkedHashSet::new));
+        if (!productAxes.isEmpty()) {
+            Map<Long, Map<Long, Long>> current = store.skuOptions(skuIds);
+            Map<Long, VariantSelection> bySku = new LinkedHashMap<>();
+            selections.forEach(selection -> bySku.put(selection.skuId(), selection));
+            for (Long skuId : skuIds) {
+                Map<Long, Long> merged = new LinkedHashMap<>();
+                current.getOrDefault(skuId, Map.of()).forEach((attributeId, optionId) -> {
+                    if (productAxes.contains(attributeId)) {
+                        merged.put(attributeId, optionId);
+                    }
+                });
+                VariantSelection given = bySku.get(skuId);
+                if (given != null) {
+                    merged.putAll(given.optionsByAttribute());
+                }
+                if (!merged.isEmpty() || given != null) {
+                    bySku.put(skuId, new VariantSelection(skuId, merged));
+                }
+            }
+            selections = new ArrayList<>(bySku.values());
+            definitions = new java.util.HashMap<>(definitions);
+            definitions.putAll(soporte.definitionsOf(productAxes));
+        }
+        ProductAttributesPolicy.Result result = ProductAttributesPolicy.check(template, productAxes, definitions, values,
+                selections, skuIds, ACTIVE.equals(header.status()));
 
         store.setTemplate(productId, input.templateId());
         store.replaceValues(productId, result.values());
@@ -101,8 +129,10 @@ public class ProductAttributesService implements ProductAttributesUseCase {
                 : templateService.toDtos(List.of(snapshot.template())).get(0);
         Set<Long> templateIds = snapshot.template() == null ? null
                 : snapshot.template().getAttributes().stream().map(TemplateAttribute::attributeId).collect(Collectors.toSet());
-        Set<Long> axisIds = snapshot.template() == null ? Set.of()
-                : snapshot.template().axes().stream().map(TemplateAttribute::attributeId).collect(Collectors.toSet());
+        Set<Long> axisIds = new LinkedHashSet<>(snapshot.productAxes());
+        if (snapshot.template() != null) {
+            snapshot.template().axes().forEach(axis -> axisIds.add(axis.attributeId()));
+        }
         // Valores de la ficha: los de la plantilla y los adicionales; un eje de la plantilla no
         // va en la ficha (pudo quedar de una plantilla anterior).
         List<AttributeValue> sheetValues = snapshot.values().stream()
@@ -129,7 +159,8 @@ public class ProductAttributesService implements ProductAttributesUseCase {
         List<VariantAttributesDto> variants = snapshot.skus().stream()
                 .map(sku -> new VariantAttributesDto(sku.id(), sku.code(), sku.name(), sku.active(),
                         bySku.get(sku.id()).optionsByAttribute().entrySet().stream()
-                                .filter(entry -> templateIds != null && templateIds.contains(entry.getKey()))
+                                .filter(entry -> (templateIds != null && templateIds.contains(entry.getKey()))
+                                        || snapshot.productAxes().contains(entry.getKey()))
                                 .map(entry -> new VariantOptionDto(entry.getKey(), entry.getValue()))
                                 .toList()))
                 .toList();

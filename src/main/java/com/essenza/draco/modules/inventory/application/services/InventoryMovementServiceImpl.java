@@ -34,7 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class InventoryMovementServiceImpl implements RegisterEntryUseCase, RegisterExitUseCase, RegisterTransferUseCase,
-        AlignStockUseCase, FindStockUseCase {
+        AlignStockUseCase, FindStockUseCase,
+        com.essenza.draco.modules.inventory.application.input.movement.ReceiveInitialStockUseCase {
 
     static final String MANUAL = "MANUAL";
 
@@ -104,6 +105,19 @@ public class InventoryMovementServiceImpl implements RegisterEntryUseCase, Regis
         }
         stockItems.save(item);
         return finish(sku, main, null, "EXIT", -delta, reason, source);
+    }
+
+    @Override
+    @Transactional
+    public void receiveInitial(Long productId, Long skuId, Long warehouseId, int quantity, String source) {
+        if (quantity < 0) throw new IllegalArgumentException("El stock inicial no puede ser negativo");
+        if (quantity == 0) {
+            return;
+        }
+        SkuRef sku = skuCatalog.resolve(productId, skuId);
+        Long target = warehouseId == null ? mainWarehouse.mainWarehouseId() : warehouseId;
+        receive(sku, target, quantity);
+        finish(sku, null, target, "ENTRY", quantity, "Stock inicial de la variante", source);
     }
 
     @Override

@@ -78,7 +78,8 @@ class PaymentServicesTest {
     @BeforeEach
     void setUp() {
         soporte = new PaymentSoporte(payments, methods, events, gateways, ledger, findOrder, changeStatus);
-        register = new RegisterPaymentService(payments, soporte);
+        register = new RegisterPaymentService(payments, soporte,
+                org.mockito.Mockito.mock(com.essenza.draco.modules.sales.application.output.repository.CashSessionRepository.class));
         checkout = new StartCheckoutService(payments, gateways, soporte);
         webhook = new HandleGatewayWebhookService(payments, gateways, events, soporte);
         when(ledger.lockOrder(anyLong())).thenReturn(Optional.of(new OrderLedger.OrderHeader(10L, "PENDING", true, Instant.now())));

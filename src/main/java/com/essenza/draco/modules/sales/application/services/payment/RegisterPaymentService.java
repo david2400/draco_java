@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import com.essenza.draco.modules.sales.application.output.repository.CashSessionRepository;
+import com.essenza.draco.shared.exceptions.NotFoundException;
+
 import com.essenza.draco.modules.sales.application.dto.payment.PaymentDto;
 import com.essenza.draco.modules.sales.application.dto.payment.RegisterPaymentDto;
 import com.essenza.draco.modules.sales.application.input.payment.RegisterPaymentUseCase;
@@ -31,6 +34,7 @@ public class RegisterPaymentService implements RegisterPaymentUseCase {
 
     private final PaymentRepository payments;
     private final PaymentSoporte soporte;
+    private final CashSessionRepository cashSessions;
 
     @Override
     public PaymentDto register(RegisterPaymentDto input) {
@@ -38,6 +42,16 @@ public class RegisterPaymentService implements RegisterPaymentUseCase {
         PaymentMethod method = soporte.method(input.paymentMethodId());
         if (method.isGateway()) {
             throw new PaymentRuleViolation("\"" + method.name() + "\" es una pasarela en línea: inicia el pago con el checkout.");
+        }
+        if (input.cashSessionId() != null) {
+            // Cobro en caja: el turno debe estar abierto (se bloquea para serializar con el cierre).
+            cashSessions.lockById(input.cashSessionId())
+                    .orElseThrow(() -> new NotFoundException("No se encontró el turno de caja " + input.cashSessionId() + "."))
+                    .requireOpen();
+            java.util.Set<Long> allowed = cashSessions.allowedMethodIds(input.cashSessionId());
+            if (allowed != null && !allowed.isEmpty() && !allowed.contains(method.id())) {
+                throw new PaymentRuleViolation("\"" + method.name() + "\" no está habilitado en esta caja.");
+            }
         }
         soporte.expireStaleCheckouts(order.id());
         OrderPaymentStatus.Balance balance = soporte.balance(order);
@@ -66,6 +80,7 @@ public class RegisterPaymentService implements RegisterPaymentUseCase {
                 approved ? PaymentStatus.APPROVED : PaymentStatus.PENDING, amount, method.feeFor(amount), tendered, change,
                 BigDecimal.ZERO, reference, soporte.newPaymentReference(order.id()), null, null, null, null,
                 PaymentSoporte.blankToNull(input.notes()), null, approved ? now : null, null, now);
+        payment.assignCashSession(input.cashSessionId());
         Payment saved = payments.save(payment);
         soporte.log(saved, PaymentSoporte.SOURCE_PANEL, null, "REGISTERED", null, amount,
                 change != null && change.signum() > 0 ? "Cambio: " + change.toPlainString() : null, null);

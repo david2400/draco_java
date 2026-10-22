@@ -29,13 +29,24 @@ import com.essenza.draco.modules.sales.application.dto.order.CreateOrderDto;
 import com.essenza.draco.modules.sales.application.dto.order.OrderDto;
 import com.essenza.draco.modules.sales.application.dto.product_order.CreateProductOrderDto;
 import com.essenza.draco.modules.sales.application.dto.product_order.UpdateProductOrderDto;
+import com.essenza.draco.modules.sales.application.output.repository.OrderEventLog;
+import com.essenza.draco.modules.sales.application.output.repository.OrderInsights;
 import com.essenza.draco.modules.sales.application.output.repository.OrderLedger;
+import com.essenza.draco.modules.sales.application.output.repository.OrderLedger.OrderDetails;
+import com.essenza.draco.modules.sales.application.output.repository.OrderReferences;
 import com.essenza.draco.modules.sales.application.output.repository.OrderLedger.OrderHeader;
 import com.essenza.draco.modules.sales.application.output.repository.OrderLedger.OrderLine;
 import com.essenza.draco.modules.sales.application.output.repository.OrderRepository;
 import com.essenza.draco.modules.sales.application.output.repository.ProductOrderRepository;
 import com.essenza.draco.modules.sales.application.services.OrderServiceImpl;
 import com.essenza.draco.modules.sales.application.services.ProductOrderServiceImpl;
+import com.essenza.draco.modules.sales.application.services.order.OrderSoporte;
+import com.essenza.draco.modules.sales.application.services.order.OrderTransitions;
+import com.essenza.draco.modules.sales.domain.model.order.CustomerInfo;
+import com.essenza.draco.modules.sales.domain.model.order.DeliveryInfo;
+import com.essenza.draco.modules.sales.domain.model.order.DiscountType;
+import com.essenza.draco.modules.sales.domain.model.order.OrderPriority;
+import com.essenza.draco.shared.common.promotions.Coupons;
 import com.essenza.draco.shared.common.catalog.SkuPricing;
 import com.essenza.draco.shared.common.catalog.SkuPricing.SkuSnapshot;
 import com.essenza.draco.shared.common.inventory.StockReservations;
@@ -50,6 +61,10 @@ class OrderFlowServicesTest {
     @Mock OrderLedger ledger;
     @Mock SkuPricing skuPricing;
     @Mock StockReservations reservations;
+    @Mock OrderInsights insights;
+    @Mock OrderEventLog events;
+    @Mock OrderReferences references;
+    @Mock Coupons coupons;
 
     OrderServiceImpl orders;
     ProductOrderServiceImpl lines;
@@ -58,8 +73,14 @@ class OrderFlowServicesTest {
 
     @BeforeEach
     void setUp() {
-        orders = new OrderServiceImpl(orderRepository, ledger, reservations, TTL);
-        lines = new ProductOrderServiceImpl(productOrderRepository, ledger, skuPricing, reservations, TTL);
+        OrderSoporte soporte = new OrderSoporte(ledger, orderRepository, insights, events, references, coupons);
+        OrderTransitions transitions = new OrderTransitions(ledger, orderRepository, reservations, event -> { }, soporte);
+        orders = new OrderServiceImpl(orderRepository, ledger, reservations, TTL, transitions, soporte);
+        lines = new ProductOrderServiceImpl(productOrderRepository, ledger, skuPricing, reservations, TTL, soporte);
+        when(insights.enrich(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(ledger.details(anyLong())).thenAnswer(inv -> Optional.of(new OrderDetails(inv.getArgument(0), "PENDING", "ORD-7",
+                "BACKOFFICE", null, null, CustomerInfo.EMPTY, DeliveryInfo.NONE, null, null, null, OrderPriority.NORMAL,
+                DiscountType.NONE, null, null, null, null, null, null, null)));
         when(orderRepository.findById(anyLong())).thenAnswer(inv -> Optional.of(
                 OrderDto.builder().id(inv.getArgument(0)).state("PENDING").build()));
         when(ledger.saveLine(any())).thenAnswer(inv -> {
@@ -108,7 +129,7 @@ class OrderFlowServicesTest {
         assertThat(dto.getSubtotal()).isEqualByComparingTo("105000");
         assertThat(dto.getTotal()).isEqualByComparingTo("100000");
         assertThat(dto.getProductName()).isEqualTo("Crema · 50 ml");
-        verify(reservations).reserveLine(7L, 70L, 5L, 10L, 3, CREATED.plus(TTL));
+        verify(reservations).reserveLine(7L, 70L, 5L, 10L, 3, CREATED.plus(TTL), null);
         verify(ledger).refreshTotal(7L);
     }
 
@@ -124,7 +145,7 @@ class OrderFlowServicesTest {
 
         dto.setSkuId(11L);
         assertThat(lines.update(70L, dto).getUnitPrice()).isEqualByComparingTo("59000");
-        verify(reservations).reserveLine(7L, 70L, 5L, 11L, 2, CREATED.plus(TTL));
+        verify(reservations).reserveLine(7L, 70L, 5L, 11L, 2, CREATED.plus(TTL), null);
     }
 
     @Test
@@ -135,14 +156,14 @@ class OrderFlowServicesTest {
         order("PENDING", true);
         assertThatThrownBy(() -> lines.create(line(12L, 1, null))).isInstanceOf(ConflictException.class)
                 .hasMessageContaining("no está a la venta");
-        verify(reservations, never()).reserveLine(anyLong(), anyLong(), anyLong(), anyLong(), org.mockito.ArgumentMatchers.anyInt(), any());
+        verify(reservations, never()).reserveLine(anyLong(), anyLong(), anyLong(), anyLong(), org.mockito.ArgumentMatchers.anyInt(), any(), any());
     }
 
     @Test
     void lasOrdenesHeredadasNoReservan() {
         order("PENDING", false);
         lines.create(line(10L, 1, null));
-        verify(reservations, never()).reserveLine(anyLong(), anyLong(), anyLong(), anyLong(), org.mockito.ArgumentMatchers.anyInt(), any());
+        verify(reservations, never()).reserveLine(anyLong(), anyLong(), anyLong(), anyLong(), org.mockito.ArgumentMatchers.anyInt(), any(), any());
     }
 
     @Test

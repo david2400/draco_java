@@ -91,6 +91,14 @@ public class OrderRepositoryAdapter implements OrderRepository {
         return devolutions > 0;
     }
 
+    @Override
+    public boolean hasReturns(Long id) {
+        Long devolutions = entityManager.createQuery(
+                        "select count(o) from OrderDevolutionEntity o where o.orderId = :id and upper(o.state) <> 'X'", Long.class)
+                .setParameter("id", id).getSingleResult();
+        return devolutions > 0;
+    }
+
     @jakarta.persistence.PersistenceContext
     private jakarta.persistence.EntityManager entityManager;
 }

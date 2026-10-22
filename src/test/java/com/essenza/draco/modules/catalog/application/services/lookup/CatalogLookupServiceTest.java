@@ -32,8 +32,8 @@ class CatalogLookupServiceTest {
     void skusAreEnrichedWithStock() {
         LookupRequest req = LookupRequest.of("p", null, 10);
         when(query.skus(req, null, true)).thenReturn(List.of(sku(1), sku(2)));
-        when(stock.onHandBySku(List.of(1L, 2L))).thenReturn(Map.of(1L, 9));
-        when(stock.availableBySku(List.of(1L, 2L))).thenReturn(Map.of(1L, 4));
+        when(stock.onHandBySku(List.of(1L, 2L), null)).thenReturn(Map.of(1L, 9));
+        when(stock.availableBySku(List.of(1L, 2L), null)).thenReturn(Map.of(1L, 4));
 
         List<SkuLookupDto> result = lookup.skus(req, null, true);
 
@@ -46,7 +46,7 @@ class CatalogLookupServiceTest {
         LookupRequest req = LookupRequest.of("zz", null, 10);
         when(query.skus(req, null, false)).thenReturn(List.of());
         assertThat(lookup.skus(req, null, false)).isEmpty();
-        verify(stock, never()).onHandBySku(any());
+        verify(stock, never()).onHandBySku(any(), any());
     }
 
     @Test

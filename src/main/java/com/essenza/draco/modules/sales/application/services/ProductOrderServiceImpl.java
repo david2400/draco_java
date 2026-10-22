@@ -22,6 +22,7 @@ import com.essenza.draco.modules.sales.application.output.repository.OrderLedger
 import com.essenza.draco.modules.sales.application.output.repository.OrderLedger.OrderHeader;
 import com.essenza.draco.modules.sales.application.output.repository.OrderLedger.OrderLine;
 import com.essenza.draco.modules.sales.application.output.repository.ProductOrderRepository;
+import com.essenza.draco.modules.sales.domain.model.LineTax;
 import com.essenza.draco.modules.sales.domain.model.OrderLineAmounts;
 import com.essenza.draco.modules.sales.domain.model.OrderStatus;
 import com.essenza.draco.shared.common.catalog.SkuPricing;
@@ -29,6 +30,8 @@ import com.essenza.draco.shared.common.catalog.SkuPricing.SkuSnapshot;
 import com.essenza.draco.shared.common.inventory.StockReservations;
 import com.essenza.draco.shared.exceptions.ConflictException;
 import com.essenza.draco.shared.exceptions.NotFoundException;
+
+import static com.essenza.draco.modules.sales.domain.model.order.OrderEventType.LINES;
 
 /**
  * Líneas de orden por SKU. El precio, el código y el nombre del SKU se congelan al
@@ -49,19 +52,27 @@ public class ProductOrderServiceImpl implements CreateProductOrderUseCase,
     private final SkuPricing skuPricing;
     private final StockReservations reservations;
     private final Duration reservationTtl;
+    private final com.essenza.draco.modules.sales.application.services.order.OrderSoporte soporte;
 
     public ProductOrderServiceImpl(ProductOrderRepository productOrderRepository, OrderLedger ledger, SkuPricing skuPricing,
                                    StockReservations reservations,
-                                   @Value("${essenza.orders.reservation-ttl:PT24H}") Duration reservationTtl) {
+                                   @Value("${essenza.orders.reservation-ttl:PT24H}") Duration reservationTtl,
+                                   com.essenza.draco.modules.sales.application.services.order.OrderSoporte soporte) {
         this.productOrderRepository = productOrderRepository;
         this.ledger = ledger;
         this.skuPricing = skuPricing;
         this.reservations = reservations;
         this.reservationTtl = reservationTtl;
+        this.soporte = soporte;
     }
 
     @Override
     public ProductOrderDto create(CreateProductOrderDto input) {
+        return create(input, true);
+    }
+
+    /** Agrega la línea; {@code audit} = false al crear la orden completa (la creación ya queda registrada). */
+    public ProductOrderDto create(CreateProductOrderDto input, boolean audit) {
         if (input.getOrderId() == null) {
             throw new IllegalArgumentException("Indica la orden (order_id) de la línea.");
         }
@@ -69,10 +80,14 @@ public class ProductOrderServiceImpl implements CreateProductOrderUseCase,
         SkuSnapshot sku = sellable(skuPricing.resolve(input.getProductId(), input.getSkuId()));
         OrderLineAmounts amounts = OrderLineAmounts.of(sku.unitPrice(), input.getQuantity(), input.getDiscount());
         OrderLine line = ledger.saveLine(new OrderLine(null, order.id(), sku.productId(), sku.skuId(), sku.code(), sku.name(),
-                amounts.unitPrice(), amounts.quantity(), amounts.discount(), amounts.subtotal(), amounts.total()));
+                amounts.unitPrice(), amounts.quantity(), amounts.discount(), amounts.subtotal(), amounts.total(),
+                taxOf(sku, amounts.total())));
         reserve(order, line);
-        ledger.refreshTotal(order.id());
-        return toDto(line);
+        soporte.reprice(order.id());
+        if (audit) {
+            soporte.log(order.id(), LINES, null, null, "+ " + label(line) + " × " + line.quantity(), null);
+        }
+        return priced(line);
     }
 
     @Override
@@ -92,24 +107,32 @@ public class ProductOrderServiceImpl implements CreateProductOrderUseCase,
         String code = current.skuCode();
         String name = current.productName();
         java.math.BigDecimal unitPrice = current.unitPrice();
-        if (skuChanged || skuId == null || unitPrice == null) {
-            // Otro SKU (o línea heredada sin foto): se toma el precio vigente.
-            SkuSnapshot sku = sellable(skuPricing.resolve(skuChanged ? input.getProductId() : current.productId(),
-                    skuChanged ? input.getSkuId() : current.skuId()));
-            productId = sku.productId();
-            skuId = sku.skuId();
-            code = sku.code();
-            name = sku.name();
-            unitPrice = sku.unitPrice();
+        LineTax tax = current.tax();
+        boolean needsSnapshot = skuChanged || skuId == null || unitPrice == null;
+        if (needsSnapshot || tax == null) {
+            // Otro SKU (o línea heredada sin foto): se toma el precio vigente. Una línea sin impuesto
+            // congelado (anterior a V9) solo toma la tarifa vigente y conserva su precio.
+            SkuSnapshot sku = skuPricing.resolve(skuChanged ? input.getProductId() : current.productId(),
+                    skuChanged ? input.getSkuId() : current.skuId());
+            if (needsSnapshot) {
+                sellable(sku);
+                productId = sku.productId();
+                skuId = sku.skuId();
+                code = sku.code();
+                name = sku.name();
+                unitPrice = sku.unitPrice();
+            }
+            tax = taxOf(sku, java.math.BigDecimal.ZERO);
         }
         Integer quantity = input.getQuantity() != null ? input.getQuantity() : current.quantity();
         OrderLineAmounts amounts = OrderLineAmounts.of(unitPrice, quantity,
                 input.getDiscount() != null ? input.getDiscount() : current.discount());
         OrderLine line = ledger.saveLine(new OrderLine(id, order.id(), productId, skuId, code, name, amounts.unitPrice(),
-                amounts.quantity(), amounts.discount(), amounts.subtotal(), amounts.total()));
+                amounts.quantity(), amounts.discount(), amounts.subtotal(), amounts.total(), tax.forTotal(amounts.total())));
         reserve(order, line);
-        ledger.refreshTotal(order.id());
-        return toDto(line);
+        soporte.reprice(order.id());
+        soporte.log(order.id(), LINES, null, null, "~ " + label(line) + " × " + line.quantity(), null);
+        return priced(line);
     }
 
     @Override
@@ -123,7 +146,8 @@ public class ProductOrderServiceImpl implements CreateProductOrderUseCase,
             reservations.reserveLine(order.id(), id, current.get().productId(), current.get().skuId(), 0, expiresAt(order));
         }
         ledger.deleteLine(id);
-        ledger.refreshTotal(order.id());
+        soporte.reprice(order.id());
+        soporte.log(order.id(), LINES, null, null, "- " + label(current.get()) + " × " + current.get().quantity(), null);
         return true;
     }
 
@@ -157,15 +181,39 @@ public class ProductOrderServiceImpl implements CreateProductOrderUseCase,
         return sku;
     }
 
+    /** Impuesto incluido en el total con la tarifa vigente del producto (se congela en la línea). */
+    static LineTax taxOf(SkuSnapshot sku, java.math.BigDecimal total) {
+        return LineTax.included(sku.taxRateId(), sku.taxCode(), sku.taxKind(), sku.taxRate(), total);
+    }
+
     private void reserve(OrderHeader order, OrderLine line) {
         if (order.stockManaged()) {
-            reservations.reserveLine(order.id(), line.id(), line.productId(), line.skuId(), line.quantity(), expiresAt(order));
+            reservations.reserveLine(order.id(), line.id(), line.productId(), line.skuId(), line.quantity(), expiresAt(order),
+                    ledger.saleWarehouse(order.id()).orElse(null));
         }
     }
 
     private Instant expiresAt(OrderHeader order) {
         Instant base = order.createdAt() != null ? order.createdAt() : Instant.now();
         return base.plus(reservationTtl);
+    }
+
+    /** La línea con el total y el impuesto que dejó el reparto del descuento global. */
+    private ProductOrderDto priced(OrderLine line) {
+        ProductOrderDto dto = toDto(line);
+        ledger.lineStates(line.orderId()).stream().filter(state -> state.id().equals(line.id())).findFirst().ifPresent(state -> {
+            dto.setOrderDiscount(state.orderDiscount());
+            dto.setTotal(state.total());
+            if (state.tax() != null) {
+                dto.setTaxBase(state.tax().base());
+                dto.setTaxAmount(state.tax().amount());
+            }
+        });
+        return dto;
+    }
+
+    private static String label(OrderLine line) {
+        return line.skuCode() != null ? line.skuCode() : line.productName() != null ? line.productName() : "#" + line.productId();
     }
 
     static ProductOrderDto toDto(OrderLine line) {
@@ -181,6 +229,11 @@ public class ProductOrderServiceImpl implements CreateProductOrderUseCase,
                 .discount(line.discount())
                 .subtotal(line.subtotal())
                 .total(line.total())
+                .taxRateId(line.tax() == null ? null : line.tax().rateId())
+                .taxCode(line.tax() == null ? null : line.tax().code())
+                .taxRate(line.tax() == null ? null : line.tax().rate())
+                .taxBase(line.tax() == null ? null : line.tax().base())
+                .taxAmount(line.tax() == null ? null : line.tax().amount())
                 .build();
     }
 }

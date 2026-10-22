@@ -25,10 +25,20 @@ public record SkuLookupDto(
         boolean sellable,
         int onHand,
         int available,
-        String imageUrl) {
+        String imageUrl,
+        @Schema(description = "Tarifa de impuesto del producto (o la por defecto)") String taxCode,
+        @Schema(description = "IVA, INC o EXCLUDED") String taxKind,
+        @Schema(description = "Porcentaje incluido en el precio") BigDecimal taxRate) {
+
+    public SkuLookupDto(Long skuId, Long productId, String code, String name, String productName, String variantName,
+                        String productType, BigDecimal unitPrice, boolean active, boolean sellable, int onHand, int available,
+                        String imageUrl) {
+        this(skuId, productId, code, name, productName, variantName, productType, unitPrice, active, sellable, onHand,
+                available, imageUrl, null, null, null);
+    }
 
     public SkuLookupDto withStock(int onHand, int available) {
         return new SkuLookupDto(skuId, productId, code, name, productName, variantName, productType, unitPrice,
-                active, sellable, onHand, available, imageUrl);
+                active, sellable, onHand, available, imageUrl, taxCode, taxKind, taxRate);
     }
 }

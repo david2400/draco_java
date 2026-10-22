@@ -13,7 +13,6 @@ import com.essenza.draco.shared.exceptions.NotFoundException;
 import com.essenza.draco.modules.sales.application.input.order.BulkDeleteOrdersUseCase;
 import com.essenza.draco.modules.sales.application.input.order.SearchOrdersUseCase;
 import com.essenza.draco.modules.sales.application.dto.order.OrderDto;
-import com.essenza.draco.modules.sales.application.output.repository.OrderRepository;
 
 /**
  * Búsqueda paginada y borrado en lote de ordens (pantallas de
@@ -23,19 +22,20 @@ import com.essenza.draco.modules.sales.application.output.repository.OrderReposi
 @Transactional
 public class OrderQueryService implements SearchOrdersUseCase, BulkDeleteOrdersUseCase {
 
-    private final OrderRepository repository;
     private final com.essenza.draco.modules.sales.application.input.order.DeleteOrderUseCase deleteOrder;
+    private final com.essenza.draco.modules.sales.application.input.order.OrderInsightsUseCase insights;
 
-    public OrderQueryService(OrderRepository repository,
-                             com.essenza.draco.modules.sales.application.input.order.DeleteOrderUseCase deleteOrder) {
-        this.repository = repository;
+    public OrderQueryService(com.essenza.draco.modules.sales.application.input.order.DeleteOrderUseCase deleteOrder,
+                             com.essenza.draco.modules.sales.application.input.order.OrderInsightsUseCase insights) {
         this.deleteOrder = deleteOrder;
+        this.insights = insights;
     }
 
     @Override
     @Transactional(readOnly = true)
     public PageResponse<OrderDto> search(String query, String state, Pageable pageable) {
-        return PageResponse.from(repository.search(query, state, pageable));
+        return insights.search(new com.essenza.draco.modules.sales.application.dto.order.OrderFilter(query, state, null, null,
+                null, null, null, null, null), pageable);
     }
 
     /** Elimina una orden validando las reglas de negocio. */

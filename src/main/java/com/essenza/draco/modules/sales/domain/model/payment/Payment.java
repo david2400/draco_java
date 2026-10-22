@@ -32,6 +32,7 @@ public final class Payment {
     private Instant approvedAt;
     private final Instant expiresAt;
     private final Instant createdAt;
+    private Long cashSessionId;
 
     public Payment(Long id, Long orderId, Long methodId, PaymentChannel channel, PaymentMethodKind kind,
                    GatewayProvider provider, PaymentStatus status, BigDecimal amount, BigDecimal feeAmount,
@@ -64,6 +65,15 @@ public final class Payment {
         this.approvedAt = approvedAt;
         this.expiresAt = expiresAt;
         this.createdAt = createdAt;
+    }
+
+    /** Liga el pago al turno de caja en el que se cobró. */
+    public void assignCashSession(Long sessionId) {
+        this.cashSessionId = sessionId;
+    }
+
+    public Long getCashSessionId() {
+        return cashSessionId;
     }
 
     /** Lo que este pago aporta al saldo de la orden. */

@@ -26,6 +26,8 @@ public class ProductDto extends AuditInfoDto {
     private Double weight;
     private java.math.BigDecimal netContent;
     private Long netContentUnitId;
+    /** Tarifa de impuesto; null = la por defecto. */
+    private Long taxRateId;
     private String imageUrl;
     private Boolean available;
     private Long brandId;

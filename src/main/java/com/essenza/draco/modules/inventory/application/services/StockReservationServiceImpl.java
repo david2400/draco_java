@@ -53,6 +53,12 @@ public class StockReservationServiceImpl implements StockReservations {
 
     @Override
     public void reserveLine(Long orderId, Long lineId, Long productId, Long skuId, int quantity, Instant expiresAt) {
+        reserveLine(orderId, lineId, productId, skuId, quantity, expiresAt, null);
+    }
+
+    @Override
+    public void reserveLine(Long orderId, Long lineId, Long productId, Long skuId, int quantity, Instant expiresAt,
+                            Long warehouseId) {
         if (quantity < 0) {
             throw new IllegalArgumentException("La cantidad no puede ser negativa");
         }
@@ -66,7 +72,7 @@ public class StockReservationServiceImpl implements StockReservations {
         }
         int current = active.stream().mapToInt(StockReservation::getQuantity).sum();
         if (quantity > current) {
-            allocate(orderId, lineId, productId, skuId, quantity - current, expiresAt, active);
+            allocate(orderId, lineId, productId, skuId, quantity - current, expiresAt, active, warehouseId);
         } else if (quantity < current) {
             int remaining = current - quantity;
             // Se libera primero lo último que se reservó (las bodegas secundarias).
@@ -87,13 +93,18 @@ public class StockReservationServiceImpl implements StockReservations {
     }
 
     private void allocate(Long orderId, Long lineId, Long productId, Long skuId, int units, Instant expiresAt,
-                          List<StockReservation> active) {
+                          List<StockReservation> active, Long onlyWarehouse) {
         Long main = mainWarehouse.mainWarehouseId();
         // Bloqueo en orden fijo (por bodega) para evitar interbloqueos; luego se elige principal primero.
         List<StockItem> items = new ArrayList<>(stockItems.lockAllForSku(skuId));
+        if (onlyWarehouse != null) {
+            // Venta de mostrador: solo la bodega del punto de venta.
+            items.removeIf(item -> !Objects.equals(item.getWarehouseId(), onlyWarehouse));
+        }
         int available = items.stream().mapToInt(StockItem::available).sum();
         if (available < units) {
-            throw new ConflictException("Stock insuficiente para el SKU " + skuId + ": disponibles " + available
+            throw new ConflictException("Stock insuficiente para el SKU " + skuId
+                    + (onlyWarehouse != null ? " en la bodega del punto de venta" : "") + ": disponibles " + available
                     + ", se necesitan " + units + " más.");
         }
         items.sort(Comparator.comparing((StockItem item) -> !Objects.equals(item.getWarehouseId(), main))

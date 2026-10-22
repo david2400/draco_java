@@ -52,6 +52,10 @@ public class ProductChildEntity extends AuditInfo {
     @Column(nullable = false)
     private Boolean available = true;
 
+    /** V15: costo propio de la variante; nulo = costo del producto. */
+    @Column(name = "cost_price", precision = 15, scale = 2)
+    private BigDecimal costPrice;
+
 
 }
 

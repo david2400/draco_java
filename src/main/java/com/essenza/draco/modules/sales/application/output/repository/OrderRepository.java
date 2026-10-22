@@ -21,4 +21,7 @@ public interface OrderRepository {
     org.springframework.data.domain.Page<OrderDto> search(String query, String state, org.springframework.data.domain.Pageable pageable);
 
     boolean hasDependents(Long id);
+
+    /** La orden tiene devoluciones vigentes (no rechazadas). */
+    boolean hasReturns(Long id);
 }

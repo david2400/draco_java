@@ -99,6 +99,9 @@ public class PaymentEntity extends AuditInfo {
     @Column(name = "expires_at")
     private Instant expiresAt;
 
+    @Column(name = "cash_session_id")
+    private Long cashSessionId;
+
     @Version
     @Column(name = "version", nullable = false)
     private Long version;

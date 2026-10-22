@@ -17,6 +17,17 @@ public interface StockReservations {
      */
     void reserveLine(Long orderId, Long lineId, Long productId, Long skuId, int quantity, Instant expiresAt);
 
+    /**
+     * Igual, pero reservando solo en {@code warehouseId} (ventas de mostrador: la bodega del punto
+     * de venta). {@code null} = reparto normal.
+     *
+     * @throws com.essenza.draco.shared.exceptions.ConflictException si esa bodega no alcanza
+     */
+    default void reserveLine(Long orderId, Long lineId, Long productId, Long skuId, int quantity, Instant expiresAt,
+                             Long warehouseId) {
+        reserveLine(orderId, lineId, productId, skuId, quantity, expiresAt);
+    }
+
     /** Descuenta del inventario lo reservado por la orden (salida "ORDER" en el kardex). */
     void commitOrder(Long orderId);
 

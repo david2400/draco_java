@@ -51,6 +51,9 @@ public class CreateProductDto {
     @jakarta.validation.constraints.DecimalMin(value = "0", inclusive = false)
     private java.math.BigDecimal netContent;
     private Long netContentUnitId;
+
+    /** Tarifa de impuesto (vacío = la por defecto al crear; se conserva al actualizar). */
+    private Long taxRateId;
     private String imageUrl;
     private Boolean available;
 

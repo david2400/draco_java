@@ -31,6 +31,9 @@ public interface ProductAttributesStore {
     /** Opciones por SKU: sku → (atributo → opción). */
     Map<Long, Map<Long, Long>> skuOptions(Collection<Long> skuIds);
 
+    /** Ejes de variante propios del producto (generador de variantes, V15). */
+    java.util.Set<Long> productAxes(Long productId);
+
     /** Reemplaza las opciones de los SKU indicados. */
     void replaceSkuOptions(Collection<Long> skuIds, List<VariantSelection> selections);
 }

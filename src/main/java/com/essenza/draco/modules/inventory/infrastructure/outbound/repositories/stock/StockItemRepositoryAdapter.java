@@ -74,6 +74,33 @@ public class StockItemRepositoryAdapter implements StockItemRepository, StockQue
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Map<Long, Integer> onHandBySku(Collection<Long> skuIds, Long warehouseId) {
+        if (warehouseId == null) {
+            return onHandBySku(skuIds);
+        }
+        if (skuIds == null || skuIds.isEmpty()) {
+            return Map.of();
+        }
+        return jpa.findBySkuIdIn(skuIds).stream().filter(e -> warehouseId.equals(e.getWarehouseId()))
+                .collect(Collectors.groupingBy(StockItemEntity::getSkuId, Collectors.summingInt(e -> nz(e.getOnHand()))));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<Long, Integer> availableBySku(Collection<Long> skuIds, Long warehouseId) {
+        if (warehouseId == null) {
+            return availableBySku(skuIds);
+        }
+        if (skuIds == null || skuIds.isEmpty()) {
+            return Map.of();
+        }
+        return jpa.findBySkuIdIn(skuIds).stream().filter(e -> warehouseId.equals(e.getWarehouseId()))
+                .collect(Collectors.groupingBy(StockItemEntity::getSkuId,
+                        Collectors.summingInt(e -> Math.max(nz(e.getOnHand()) - nz(e.getReserved()), 0))));
+    }
+
+    @Override
     public Map<Long, Integer> availableBySku(Collection<Long> skuIds) {
         if (skuIds == null || skuIds.isEmpty()) {
             return Map.of();

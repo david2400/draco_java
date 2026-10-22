@@ -46,6 +46,42 @@ public class ProductOrderEntity extends AuditInfo {
     @Column(name = "unit_price", precision = 15, scale = 2)
     private java.math.BigDecimal unitPrice;
 
+    /** Impuesto congelado (V9): tarifa, tipo, porcentaje, base y valor incluido en el total. */
+    @Column(name = "tax_rate_id")
+    private Long taxRateId;
+
+    @Column(name = "tax_code", length = 30)
+    private String taxCode;
+
+    @Column(name = "tax_kind", length = 20)
+    private String taxKind;
+
+    @Column(name = "tax_rate", precision = 6, scale = 3)
+    private java.math.BigDecimal taxRate;
+
+    @Column(name = "tax_base", precision = 15, scale = 2)
+    private java.math.BigDecimal taxBase;
+
+    @Column(name = "tax_amount", precision = 15, scale = 2)
+    private java.math.BigDecimal taxAmount;
+
+    /** V16: parte del descuento global de la orden (el total ya la descuenta). */
+    @Column(name = "order_discount", precision = 15, scale = 2)
+    private java.math.BigDecimal orderDiscount;
+    /** V16: unidades preparadas para el despacho. */
+    @Column(name = "picked_quantity")
+    private Integer pickedQuantity;
+
+    @jakarta.persistence.PrePersist
+    @jakarta.persistence.PreUpdate
+    void defaultsV16() {
+        if (orderDiscount == null) {
+            orderDiscount = java.math.BigDecimal.ZERO;
+        }
+        if (pickedQuantity == null) {
+            pickedQuantity = 0;
+        }
+    }
     @Column(name = "product_id", nullable = false)
     private Long productId;
 

@@ -34,5 +34,6 @@ public record PaymentDto(
         Instant approvedAt,
         Instant expiresAt,
         Instant createdAt,
-        @Schema(description = "Acciones posibles: confirm, decline, void, refund, sync") List<String> actions) {
+        @Schema(description = "Acciones posibles: confirm, decline, void, refund, sync") List<String> actions,
+        @Schema(description = "Turno de caja en el que se cobró") Long cashSessionId) {
 }

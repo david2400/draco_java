@@ -109,6 +109,16 @@ public class ProductAttributesStoreAdapter implements ProductAttributesStore {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public java.util.Set<Long> productAxes(Long productId) {
+        List<Object> rows = em.createNativeQuery("SELECT attribute_id FROM product_variant_axes WHERE product_id = :id")
+                .setParameter("id", productId).getResultList();
+        java.util.Set<Long> out = new java.util.LinkedHashSet<>();
+        rows.forEach(value -> out.add(((Number) value).longValue()));
+        return out;
+    }
+
+    @Override
     public void replaceSkuOptions(Collection<Long> skuIds, List<VariantSelection> selections) {
         if (skuIds == null || skuIds.isEmpty()) {
             return;

@@ -69,6 +69,7 @@ public class PaymentRepositoryAdapter implements PaymentRepository {
         entity.setStatusDetail(truncate(payment.getStatusDetail(), 255));
         entity.setApprovedAt(payment.getApprovedAt());
         entity.setExpiresAt(payment.getExpiresAt());
+        entity.setCashSessionId(payment.getCashSessionId());
         return toDomain(jpa.saveAndFlush(entity));
     }
 
@@ -211,13 +212,15 @@ public class PaymentRepositoryAdapter implements PaymentRepository {
         } catch (IllegalArgumentException | NullPointerException ex) {
             kind = PaymentMethodKind.OTHER;
         }
-        return new Payment(e.getId(), e.getOrderId(), e.getPaymentTypeId(),
+        Payment payment = new Payment(e.getId(), e.getOrderId(), e.getPaymentTypeId(),
                 "VIRTUAL".equals(e.getChannel()) ? PaymentChannel.VIRTUAL : PaymentChannel.PHYSICAL, kind,
                 GatewayProvider.tryParse(e.getProvider()).orElse(null),
                 PaymentStatus.tryParse(e.getStatus()).orElse(PaymentStatus.PENDING), e.getAmount(), e.getFeeAmount(),
                 e.getTenderedAmount(), e.getChangeAmount(), e.getRefundedAmount(), e.getReference(),
                 e.getPaymentReference(), e.getProviderReference(), e.getCheckoutUrl(), e.getReturnUrl(), e.getPayerEmail(),
                 e.getNotes(), e.getStatusDetail(), e.getApprovedAt(), e.getExpiresAt(), e.getCreatedAt());
+        payment.assignCashSession(e.getCashSessionId());
+        return payment;
     }
 
     private static String truncate(String value, int max) {

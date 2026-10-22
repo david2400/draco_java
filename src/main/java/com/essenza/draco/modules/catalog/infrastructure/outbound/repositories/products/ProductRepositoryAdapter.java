@@ -186,6 +186,7 @@ public class ProductRepositoryAdapter implements ProductRepository {
                 .weight(product.getWeight())
                 .netContent(NetContent.valueOf(product.getNetContent()))
                 .netContentUnitId(NetContent.unitOf(product.getNetContent()))
+                .taxRateId(product.getTaxRateId())
                 .imageUrl(product.getImageUrl())
                 .available(product.isListed())
                 .brandId(product.getBrandId())

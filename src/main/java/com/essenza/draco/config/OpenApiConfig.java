@@ -74,6 +74,15 @@ public class OpenApiConfig {
     }
 
     @Bean
+    public GroupedOpenApi billingApi() {
+        return GroupedOpenApi.builder()
+                .group("billing")
+                .displayName("Billing & Taxes")
+                .pathsToMatch(BASE_PREFIX + "/billing/**")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi inventoryApi() {
         return GroupedOpenApi.builder()
                 .group("inventory")

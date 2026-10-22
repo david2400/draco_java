@@ -85,6 +85,14 @@ public final class StockItem {
         onHand -= quantity;
     }
 
+    /** Stock mínimo del SKU en la bodega (alerta de reabastecimiento). */
+    public void changeMinThreshold(int value) {
+        if (value < 0) {
+            throw new IllegalArgumentException("El stock mínimo no puede ser negativo");
+        }
+        minThreshold = value;
+    }
+
     public int available() {
         return onHand - reserved;
     }

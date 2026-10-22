@@ -11,7 +11,21 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = NumberMapper.class)
 public interface OrderMapper {
+    // V16: nombres de tienda, bodega y transportadora, y los totales de cobro y preparación los
+    // completa OrderInsightsAdapter (consultas aparte, sin asociaciones entre módulos).
     @org.mapstruct.Mapping(target = "nextStates", ignore = true)
+    @org.mapstruct.Mapping(target = "pickupStoreName", ignore = true)
+    @org.mapstruct.Mapping(target = "carrierName", ignore = true)
+    @org.mapstruct.Mapping(target = "storeName", ignore = true)
+    @org.mapstruct.Mapping(target = "warehouseName", ignore = true)
+    @org.mapstruct.Mapping(target = "paymentStatus", ignore = true)
+    @org.mapstruct.Mapping(target = "paidAmount", ignore = true)
+    @org.mapstruct.Mapping(target = "balanceDue", ignore = true)
+    @org.mapstruct.Mapping(target = "itemsCount", ignore = true)
+    @org.mapstruct.Mapping(target = "unitsCount", ignore = true)
+    @org.mapstruct.Mapping(target = "pickedUnits", ignore = true)
+    @org.mapstruct.Mapping(target = "itemsSubtotal", ignore = true)
+    @org.mapstruct.Mapping(target = "overdue", ignore = true)
     OrderDto toDto(OrderEntity entity);
     List<OrderDto> toDtoList(List<OrderEntity> entities);
 

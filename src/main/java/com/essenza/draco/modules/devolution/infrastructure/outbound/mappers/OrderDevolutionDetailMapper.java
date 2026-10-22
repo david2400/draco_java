@@ -10,6 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface OrderDevolutionDetailMapper {
+    @org.mapstruct.Mapping(target = "condition", source = "orderCondition")
     OrderDevolutionDetailDto toDto(OrderDevolutionDetailEntity entity);
     List<OrderDevolutionDetailDto> toDtoList(List<OrderDevolutionDetailEntity> entities);
 
@@ -20,6 +21,7 @@ public interface OrderDevolutionDetailMapper {
 //    @Mapping(target = "usrMod", ignore = true)
 //    @Mapping(target = "createdAt", ignore = true)
 //    @Mapping(target = "updatedAt", ignore = true)
+    @org.mapstruct.Mapping(target = "orderCondition", source = "condition")
     OrderDevolutionDetailEntity toEntity(CreateOrderDevolutionDetailDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -29,5 +31,6 @@ public interface OrderDevolutionDetailMapper {
 //    @Mapping(target = "usrMod", ignore = true)
 //    @Mapping(target = "createdAt", ignore = true)
 //    @Mapping(target = "updatedAt", ignore = true)
+    @org.mapstruct.Mapping(target = "orderCondition", source = "condition")
     void updateEntityFromDto(UpdateOrderDevolutionDetailDto dto, @MappingTarget OrderDevolutionDetailEntity entity);
 }

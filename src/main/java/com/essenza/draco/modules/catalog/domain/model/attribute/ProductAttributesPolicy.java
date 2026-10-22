@@ -39,10 +39,21 @@ public final class ProductAttributesPolicy {
     public static Result check(ProductTemplate template, Map<Long, Attribute> definitions,
                                List<AttributeValue> values, List<VariantSelection> variants,
                                Set<Long> variantSkus, boolean publishing) {
-        List<AttributeValue> cleanValues = checkValues(template, definitions, values);
-        List<VariantSelection> cleanVariants = checkVariants(template, definitions, variants, variantSkus);
+        return check(template, Set.of(), definitions, values, variants, variantSkus, publishing);
+    }
+
+    /**
+     * Igual que {@link #check(ProductTemplate, Map, List, List, Set, boolean)} con ejes propios del producto
+     * (generador de variantes, V15) además de los de la plantilla.
+     */
+    public static Result check(ProductTemplate template, Set<Long> productAxes, Map<Long, Attribute> definitions,
+                               List<AttributeValue> values, List<VariantSelection> variants,
+                               Set<Long> variantSkus, boolean publishing) {
+        Set<Long> extra = productAxes == null ? Set.of() : productAxes;
+        List<AttributeValue> cleanValues = checkValues(template, extra, definitions, values);
+        List<VariantSelection> cleanVariants = checkVariants(template, extra, definitions, variants, variantSkus);
         if (publishing) {
-            List<String> missing = missing(template, definitions, cleanValues, cleanVariants, variantSkus);
+            List<String> missing = missing(template, extra, definitions, cleanValues, cleanVariants, variantSkus);
             if (!missing.isEmpty()) {
                 throw new AttributeRuleViolation("El producto está publicado y le falta: " + String.join("; ", missing) + ".");
             }
@@ -54,18 +65,31 @@ public final class ProductAttributesPolicy {
     public static List<String> missing(ProductTemplate template, Map<Long, Attribute> definitions,
                                        List<AttributeValue> values, List<VariantSelection> variants,
                                        Set<Long> variantSkus) {
+        return missing(template, Set.of(), definitions, values, variants, variantSkus);
+    }
+
+    /** Lo que falta para publicar, con los ejes propios del producto además de los de la plantilla. */
+    public static List<String> missing(ProductTemplate template, Set<Long> productAxes, Map<Long, Attribute> definitions,
+                                       List<AttributeValue> values, List<VariantSelection> variants,
+                                       Set<Long> variantSkus) {
         List<String> missing = new ArrayList<>();
-        if (template == null) {
+        Set<Long> extra = productAxes == null ? Set.of() : productAxes;
+        if (template == null && extra.isEmpty()) {
             return missing;
         }
-        Set<Long> filled = new HashSet<>();
-        values.stream().filter(value -> !value.isEmpty()).forEach(value -> filled.add(value.attributeId()));
-        for (TemplateAttribute item : template.sheetAttributes()) {
-            if (item.required() && !filled.contains(item.attributeId())) {
-                missing.add(nameOf(definitions, item.attributeId()));
+        if (template != null) {
+            Set<Long> filled = new HashSet<>();
+            values.stream().filter(value -> !value.isEmpty()).forEach(value -> filled.add(value.attributeId()));
+            for (TemplateAttribute item : template.sheetAttributes()) {
+                if (item.required() && !extra.contains(item.attributeId()) && !filled.contains(item.attributeId())) {
+                    missing.add(nameOf(definitions, item.attributeId()));
+                }
             }
         }
-        List<TemplateAttribute> axes = template.axes();
+        Set<Long> axes = new java.util.LinkedHashSet<>(extra);
+        if (template != null) {
+            template.axes().forEach(axis -> axes.add(axis.attributeId()));
+        }
         if (!axes.isEmpty()) {
             Map<Long, VariantSelection> bySku = new HashMap<>();
             variants.forEach(variant -> bySku.put(variant.skuId(), variant));
@@ -73,7 +97,7 @@ public final class ProductAttributesPolicy {
             for (Long skuId : variantSkus) {
                 VariantSelection selection = bySku.get(skuId);
                 boolean complete = selection != null && axes.stream()
-                        .allMatch(axis -> selection.optionsByAttribute().containsKey(axis.attributeId()));
+                        .allMatch(axis -> selection.optionsByAttribute().containsKey(axis));
                 if (!complete) {
                     incomplete++;
                 }
@@ -85,8 +109,8 @@ public final class ProductAttributesPolicy {
         return missing;
     }
 
-    private static List<AttributeValue> checkValues(ProductTemplate template, Map<Long, Attribute> definitions,
-                                                    List<AttributeValue> values) {
+    private static List<AttributeValue> checkValues(ProductTemplate template, Set<Long> extraAxes,
+                                                    Map<Long, Attribute> definitions, List<AttributeValue> values) {
         Map<Long, AttributeValue> result = new LinkedHashMap<>();
         for (AttributeValue value : values == null ? List.<AttributeValue>of() : values) {
             if (value.isEmpty()) {
@@ -96,9 +120,10 @@ public final class ProductAttributesPolicy {
             if (definition == null) {
                 throw new AttributeRuleViolation("El atributo " + value.attributeId() + " no existe.");
             }
-            if (template != null) {
+            if (template != null || extraAxes.contains(value.attributeId())) {
                 // Atributos fuera de la plantilla se aceptan como adicionales de la ficha.
-                boolean axis = template.find(value.attributeId()).map(TemplateAttribute::variantAxis).orElse(false);
+                boolean axis = extraAxes.contains(value.attributeId()) || (template != null
+                        && template.find(value.attributeId()).map(TemplateAttribute::variantAxis).orElse(false));
                 if (axis) {
                     throw new AttributeRuleViolation(
                             "\"" + definition.getName() + "\" es eje de variante: se asigna en cada variante, no en la ficha.");
@@ -111,7 +136,8 @@ public final class ProductAttributesPolicy {
         return List.copyOf(result.values());
     }
 
-    private static List<VariantSelection> checkVariants(ProductTemplate template, Map<Long, Attribute> definitions,
+    private static List<VariantSelection> checkVariants(ProductTemplate template, Set<Long> extraAxes,
+                                                        Map<Long, Attribute> definitions,
                                                         List<VariantSelection> variants, Set<Long> variantSkus) {
         List<VariantSelection> result = new ArrayList<>();
         Map<Map<Long, Long>, Long> combinations = new HashMap<>();
@@ -120,6 +146,7 @@ public final class ProductAttributesPolicy {
         if (template != null) {
             template.axes().forEach(axis -> axisIds.add(axis.attributeId()));
         }
+        axisIds.addAll(extraAxes);
         for (VariantSelection variant : variants == null ? List.<VariantSelection>of() : variants) {
             if (!variantSkus.contains(variant.skuId())) {
                 throw new AttributeRuleViolation("El SKU " + variant.skuId() + " no es una variante de este producto.");

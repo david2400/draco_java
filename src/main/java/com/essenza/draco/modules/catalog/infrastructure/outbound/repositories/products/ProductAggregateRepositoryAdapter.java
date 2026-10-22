@@ -105,7 +105,8 @@ public class ProductAggregateRepositoryAdapter implements ProductAggregateReposi
                 statusOf(entity),
                 entity.getSlug(),
                 entity.getNetContent() == null || entity.getNetContentUnitId() == null ? null
-                        : NetContent.of(entity.getNetContent(), entity.getNetContentUnitId())
+                        : NetContent.of(entity.getNetContent(), entity.getNetContentUnitId()),
+                entity.getTaxRateId()
         );
 
         List<Variant> variants = type.supportsVariants()

@@ -25,8 +25,9 @@ public class FindOrderPaymentsService implements FindOrderPaymentsUseCase {
     public OrderPaymentsDto forOrder(Long orderId) {
         PaymentSoporte.OrderView order = soporte.order(orderId);
         List<Payment> list = payments.findByOrderId(orderId);
-        OrderPaymentStatus.Balance balance = OrderPaymentStatus.of(order.total(), list);
+        OrderPaymentStatus.Balance balance = OrderPaymentStatus.of(order.total(), order.returned(), list);
         return new OrderPaymentsDto(order.id(), order.state().name(), balance.total(), balance.settled(),
-                balance.pending(), balance.balance(), balance.collectable(), balance.status().name(), soporte.toDtos(list));
+                balance.pending(), balance.balance(), balance.collectable(), balance.status().name(), soporte.toDtos(list),
+                order.returned());
     }
 }

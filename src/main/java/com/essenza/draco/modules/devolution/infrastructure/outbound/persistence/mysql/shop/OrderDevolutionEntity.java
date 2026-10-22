@@ -66,6 +66,49 @@ public class OrderDevolutionEntity extends AuditInfo {
     @Column(name = "external_reference", length = 50)
     private String externalReference;
 
+    /** V10: bodega donde reingresa lo devuelto (nula = principal). */
+    @Column(name = "warehouse_id")
+    private Long warehouseId;
+
+    @Column(name = "rejected_reason", length = 255)
+    private String rejectedReason;
+
+    @Column(name = "rejected_by", length = 100)
+    private String rejectedBy;
+
+    @Column(name = "rejected_at")
+    private LocalDateTime rejectedAt;
+
+    @Column(name = "inspected_by", length = 100)
+    private String inspectedBy;
+
+    @Column(name = "inspected_at")
+    private LocalDateTime inspectedAt;
+
+    /** Dinero devuelto sobre los pagos de la orden (puede ser menor que el valor acreditado). */
+    @Column(name = "refunded_amount", nullable = false, precision = 15, scale = 2)
+    private BigDecimal refundedAmount = BigDecimal.ZERO;
+
+    @Column(name = "refunded_by", length = 100)
+    private String refundedBy;
+
+    @Column(name = "refunded_at")
+    private LocalDateTime refundedAt;
+
+    /** Pagos reembolsados (referencia y monto). */
+    @Column(name = "refund_detail", length = 500)
+    private String refundDetail;
+
+    @PrePersist
+    void defaultsV10() {
+        if (refundedAmount == null) {
+            refundedAmount = BigDecimal.ZERO;
+        }
+        if (state == null || state.isBlank()) {
+            state = "P";
+        }
+    }
+
     @Column(name = "motive_devolution_id", nullable = false)
     private Long motiveDevolutionId;
 

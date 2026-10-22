@@ -36,13 +36,18 @@ public class CatalogLookupService implements CatalogLookupUseCase {
 
     @Override
     public List<SkuLookupDto> skus(LookupRequest request, Long productId, boolean sellableOnly) {
+        return skus(request, productId, sellableOnly, null);
+    }
+
+    @Override
+    public List<SkuLookupDto> skus(LookupRequest request, Long productId, boolean sellableOnly, Long warehouseId) {
         List<SkuLookupDto> found = query.skus(request, productId, sellableOnly);
         if (found.isEmpty()) {
             return found;
         }
         List<Long> ids = found.stream().map(SkuLookupDto::skuId).toList();
-        Map<Long, Integer> onHand = stock.onHandBySku(ids);
-        Map<Long, Integer> available = stock.availableBySku(ids);
+        Map<Long, Integer> onHand = stock.onHandBySku(ids, warehouseId);
+        Map<Long, Integer> available = stock.availableBySku(ids, warehouseId);
         return found.stream()
                 .map(s -> s.withStock(onHand.getOrDefault(s.skuId(), 0), available.getOrDefault(s.skuId(), 0)))
                 .toList();

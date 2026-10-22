@@ -25,6 +25,16 @@ public enum OrderPaymentStatus {
         }
     }
 
+    /** Con devoluciones: una orden devuelta por completo y sin saldo queda saldada (PAID). */
+    public static Balance of(BigDecimal orderTotal, BigDecimal returned, List<Payment> payments) {
+        Balance balance = of(orderTotal, payments);
+        boolean hasReturns = returned != null && returned.signum() > 0;
+        if (hasReturns && balance.status() == UNPAID && balance.total().signum() <= 0) {
+            return new Balance(balance.total(), balance.settled(), balance.pending(), balance.balance(), PAID);
+        }
+        return balance;
+    }
+
     public static Balance of(BigDecimal orderTotal, List<Payment> payments) {
         BigDecimal total = orderTotal == null ? BigDecimal.ZERO : orderTotal;
         BigDecimal settled = payments.stream().map(Payment::settledAmount).reduce(BigDecimal.ZERO, BigDecimal::add);

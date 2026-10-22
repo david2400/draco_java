@@ -21,7 +21,14 @@ public interface SkuPricing {
      *
      * @param name     nombre comercial (producto y, si aplica, variante)
      * @param sellable se puede vender: SKU activo y producto publicado (ACTIVE)
+     * @param taxRateId tarifa de impuesto del producto (o la por defecto); con su código, tipo y porcentaje
      */
-    record SkuSnapshot(Long skuId, Long productId, String code, String name, BigDecimal unitPrice, boolean sellable) {
+    record SkuSnapshot(Long skuId, Long productId, String code, String name, BigDecimal unitPrice, boolean sellable,
+                       Long taxRateId, String taxCode, String taxKind, BigDecimal taxRate) {
+
+        /** Sin datos de impuesto (se tratan como 0 %). */
+        public SkuSnapshot(Long skuId, Long productId, String code, String name, BigDecimal unitPrice, boolean sellable) {
+            this(skuId, productId, code, name, unitPrice, sellable, null, null, null, null);
+        }
     }
 }

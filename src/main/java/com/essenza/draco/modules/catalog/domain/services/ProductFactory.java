@@ -57,6 +57,7 @@ public class ProductFactory {
                 .height(draft.height())
                 .weight(draft.weight())
                 .netContent(draft.netContent())
+                .taxRateId(draft.taxRateId())
                 .imageUrl(draft.imageUrl())
                 .brandId(draft.brandId())
                 .categoryId(draft.categoryId())
@@ -94,7 +95,8 @@ public class ProductFactory {
                 Boolean.TRUE.equals(command.getAvailable()),
                 ProductStatus.parse(command.getStatus()),
                 command.getSlug(),
-                NetContent.of(command.getNetContent(), command.getNetContentUnitId())
+                NetContent.of(command.getNetContent(), command.getNetContentUnitId()),
+                command.getTaxRateId()
         );
 
         List<Variant> variants = Optional.ofNullable(command.getVariants())

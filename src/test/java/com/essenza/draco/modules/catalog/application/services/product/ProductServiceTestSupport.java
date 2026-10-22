@@ -36,6 +36,16 @@ abstract class ProductServiceTestSupport {
     /** Soporte con la unidad siempre válida (como el antiguo constructor sin UnitReferences). */
     ProductSoporte soporte() {
         return new ProductSoporte(productRepository, aggregateRepository, productDtoAssembler, catalogView, stockQuery,
-                unitId -> true);
+                unitId -> true, new com.essenza.draco.shared.common.billing.TaxRates() {
+                    @Override
+                    public TaxRateView effective(Long taxRateId) {
+                        return new TaxRateView(1L, "IVA_19", "IVA 19 %", "IVA", java.math.BigDecimal.valueOf(19));
+                    }
+
+                    @Override
+                    public boolean isAssignable(Long taxRateId) {
+                        return true;
+                    }
+                });
     }
 }

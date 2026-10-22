@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.essenza.draco.shared.common.billing.TaxRates;
 import com.essenza.draco.shared.common.catalog.SkuPricing;
 import com.essenza.draco.shared.exceptions.NotFoundException;
 
@@ -20,16 +21,18 @@ import jakarta.persistence.EntityManager;
 public class SkuPricingAdapter implements SkuPricing {
 
     private static final String SELECT = """
-            SELECT s.id_sku, s.product_id, s.code, p.name, s.name, s.price, s.active, p.status, s.legacy_child_id
+            SELECT s.id_sku, s.product_id, s.code, p.name, s.name, s.price, s.active, p.status, s.legacy_child_id, p.tax_rate_id
               FROM product_skus s
               JOIN products p ON p.id_product = s.product_id AND p.deleted = 0
              WHERE s.deleted = 0
             """;
 
     private final EntityManager em;
+    private final TaxRates taxRates;
 
-    public SkuPricingAdapter(EntityManager em) {
+    public SkuPricingAdapter(EntityManager em, TaxRates taxRates) {
         this.em = em;
+        this.taxRates = taxRates;
     }
 
     @Override
@@ -68,7 +71,7 @@ public class SkuPricingAdapter implements SkuPricing {
         return toSnapshot(rows.get(0));
     }
 
-    private static SkuSnapshot toSnapshot(Object[] row) {
+    private SkuSnapshot toSnapshot(Object[] row) {
         String productName = (String) row[3];
         String skuName = (String) row[4];
         boolean variant = row[8] != null;
@@ -78,8 +81,10 @@ public class SkuPricingAdapter implements SkuPricing {
         boolean active = toBoolean(row[6]);
         boolean sellable = active && "ACTIVE".equals(row[7]);
         BigDecimal price = row[5] == null ? BigDecimal.ZERO : new BigDecimal(row[5].toString());
+        // Tarifa del producto o, si no tiene, la por defecto (los precios incluyen el impuesto).
+        TaxRates.TaxRateView tax = taxRates.effective(row[9] == null ? null : ((Number) row[9]).longValue());
         return new SkuSnapshot(((Number) row[0]).longValue(), ((Number) row[1]).longValue(), (String) row[2], name,
-                price, sellable);
+                price, sellable, tax.id(), tax.code(), tax.kind(), tax.rate());
     }
 
     private static boolean toBoolean(Object value) {

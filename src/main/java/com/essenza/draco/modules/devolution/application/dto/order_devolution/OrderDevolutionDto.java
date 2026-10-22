@@ -30,4 +30,21 @@ public class OrderDevolutionDto extends AuditInfoDto {
     private LocalDateTime receivedAt;
     private String inspectionNotes;
     private String externalReference;
+
+    /** V10: bodega de reingreso, rechazo, inspección y reembolso. */
+    private Long warehouseId;
+    private String rejectedReason;
+    private String rejectedBy;
+    private LocalDateTime rejectedAt;
+    private String inspectedBy;
+    private LocalDateTime inspectedAt;
+    /** Dinero devuelto; total_refund_amount es el valor acreditado al cliente. */
+    private BigDecimal refundedAmount;
+    private String refundedBy;
+    private LocalDateTime refundedAt;
+    private String refundDetail;
+    /** Acciones del flujo disponibles (approve, reject, receive, inspect, refund, edit_lines). */
+    private java.util.List<String> actions;
+    /** Líneas (solo en el detalle). */
+    private java.util.List<com.essenza.draco.modules.devolution.application.dto.order_devolution_detail.OrderDevolutionDetailDto> details;
 }

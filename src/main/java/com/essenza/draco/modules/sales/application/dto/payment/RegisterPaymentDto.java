@@ -15,5 +15,12 @@ public record RegisterPaymentDto(
         @Schema(description = "Efectivo recibido (para calcular el cambio)") BigDecimal tenderedAmount,
         @Size(max = 120) String reference,
         @Size(max = 500) String notes,
-        @Schema(description = "Dejarlo pendiente de confirmación (p. ej. transferencia aún no vista en el banco)") Boolean pending) {
+        @Schema(description = "Dejarlo pendiente de confirmación (p. ej. transferencia aún no vista en el banco)") Boolean pending,
+        @Schema(description = "Turno de caja en el que se cobra (opcional)") Long cashSessionId) {
+
+    /** Sin turno de caja. */
+    public RegisterPaymentDto(Long orderId, Long paymentMethodId, BigDecimal amount, BigDecimal tenderedAmount, String reference,
+                              String notes, Boolean pending) {
+        this(orderId, paymentMethodId, amount, tenderedAmount, reference, notes, pending, null);
+    }
 }

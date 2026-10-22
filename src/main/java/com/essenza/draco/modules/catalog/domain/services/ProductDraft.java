@@ -30,15 +30,25 @@ public record ProductDraft(
         boolean available,
         ProductStatus status,
         String slug,
-        NetContent netContent
+        NetContent netContent,
+        Long taxRateId
 ) {
+    /** Sin tarifa de impuesto propia (usa la por defecto). */
+    public ProductDraft(ProductId id, String name, String description, ProductType type, StockInfo stockInfo,
+                        BigDecimal realPrice, BigDecimal unitPrice, Double length, Double width, Double height,
+                        Double weight, String imageUrl, Long brandId, Long categoryId, Long subcategoryId,
+                        Long supplierId, boolean available, ProductStatus status, String slug, NetContent netContent) {
+        this(id, name, description, type, stockInfo, realPrice, unitPrice, length, width, height, weight, imageUrl,
+                brandId, categoryId, subcategoryId, supplierId, available, status, slug, netContent, null);
+    }
+
     /** Sin contenido neto (compatibilidad con los llamadores anteriores a V7). */
     public ProductDraft(ProductId id, String name, String description, ProductType type, StockInfo stockInfo,
                         BigDecimal realPrice, BigDecimal unitPrice, Double length, Double width, Double height,
                         Double weight, String imageUrl, Long brandId, Long categoryId, Long subcategoryId,
                         Long supplierId, boolean available, ProductStatus status, String slug) {
         this(id, name, description, type, stockInfo, realPrice, unitPrice, length, width, height, weight, imageUrl,
-                brandId, categoryId, subcategoryId, supplierId, available, status, slug, null);
+                brandId, categoryId, subcategoryId, supplierId, available, status, slug, null, null);
     }
 
     public ProductDraft {

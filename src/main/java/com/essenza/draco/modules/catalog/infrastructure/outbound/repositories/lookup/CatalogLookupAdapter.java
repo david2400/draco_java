@@ -46,9 +46,12 @@ public class CatalogLookupAdapter implements CatalogLookupQuery {
     public List<SkuLookupDto> skus(LookupRequest request, Long productId, boolean sellableOnly) {
         NativeLookupSql sql = new NativeLookupSql("""
                 SELECT s.id_sku, s.product_id, s.code, p.name, s.name, p.product_type, s.price, s.active, p.status,
-                       s.legacy_child_id, COALESCE(NULLIF(s.image_url, ''), p.image_url)
+                       s.legacy_child_id, COALESCE(NULLIF(s.image_url, ''), p.image_url),
+                       COALESCE(t.code, d.code), COALESCE(t.kind, d.kind), COALESCE(t.rate, d.rate)
                   FROM product_skus s
-                  JOIN products p ON p.id_product = s.product_id AND p.deleted = 0""")
+                  JOIN products p ON p.id_product = s.product_id AND p.deleted = 0
+                  LEFT JOIN tax_rates t ON t.id_tax_rate = p.tax_rate_id
+                  LEFT JOIN tax_rates d ON p.tax_rate_id IS NULL AND d.is_default = 1 AND d.deleted = 0""")
                 .where("s.deleted = 0")
                 .match(request, "s.id_sku", "s.code", "p.name", "s.name", "s.barcode");
         if (!request.byIds()) {
@@ -117,7 +120,8 @@ public class CatalogLookupAdapter implements CatalogLookupQuery {
         String name = variantName != null ? productName + " · " + variantName : productName;
         boolean active = bool(r[7]);
         return new SkuLookupDto(id(r[0]), id(r[1]), (String) r[2], name, productName, variantName, (String) r[5],
-                money(r[6]), active, active && "ACTIVE".equals(r[8]), 0, 0, (String) r[10]);
+                money(r[6]), active, active && "ACTIVE".equals(r[8]), 0, 0, (String) r[10], (String) r[11], (String) r[12],
+                r[13] == null ? null : money(r[13]));
     }
 
     private static Long id(Object value) {

@@ -119,6 +119,9 @@ public class ProductSkuSynchronizer {
                             .build();
                 }
                 applyProduct(sku, product);
+                if (child.getCostPrice() != null) {
+                    sku.setCostPrice(child.getCostPrice()); // V15: costo propio de la variante
+                }
                 sku.setName(child.getName());
                 sku.setDescription(child.getDescription());
                 sku.setPrice(nonNull(child.getUnitPrice()));

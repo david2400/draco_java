@@ -15,4 +15,14 @@ public interface StockQuery {
 
     /** Unidades disponibles para vender (on hand − reservadas, nunca negativo) por SKU. */
     Map<Long, Integer> availableBySku(Collection<Long> skuIds);
+
+    /** On hand por SKU en una bodega ({@code null} = todas). */
+    default Map<Long, Integer> onHandBySku(Collection<Long> skuIds, Long warehouseId) {
+        return onHandBySku(skuIds);
+    }
+
+    /** Disponible por SKU en una bodega ({@code null} = todas). */
+    default Map<Long, Integer> availableBySku(Collection<Long> skuIds, Long warehouseId) {
+        return availableBySku(skuIds);
+    }
 }

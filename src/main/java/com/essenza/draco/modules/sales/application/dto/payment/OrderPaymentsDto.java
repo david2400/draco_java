@@ -15,5 +15,6 @@ public record OrderPaymentsDto(
         BigDecimal balance,
         @Schema(description = "Lo que se puede cobrar ahora (saldo menos lo pendiente)") BigDecimal collectable,
         @Schema(description = "UNPAID, PARTIAL, PAID, OVERPAID") String paymentStatus,
-        List<PaymentDto> payments) {
+        List<PaymentDto> payments,
+        @Schema(description = "Valor acreditado por devoluciones (ya descontado de order_total)") BigDecimal returnedAmount) {
 }

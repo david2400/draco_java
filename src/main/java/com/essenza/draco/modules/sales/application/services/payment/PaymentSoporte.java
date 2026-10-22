@@ -56,14 +56,22 @@ class PaymentSoporte {
     private final ChangeOrderStatusUseCase changeOrderStatus;
 
     /** Datos de la orden que importan para cobrar. */
-    record OrderView(Long id, OrderStatus state, BigDecimal total) {
+    record OrderView(Long id, OrderStatus state, BigDecimal total, BigDecimal returned) {
+
+        OrderView(Long id, OrderStatus state, BigDecimal total) {
+            this(id, state, total, BigDecimal.ZERO);
+        }
     }
 
     OrderView order(Long orderId) {
         OrderDto order = findOrder.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("Orden no encontrada: " + orderId));
+        BigDecimal gross = order.getTotal() == null ? BigDecimal.ZERO : order.getTotal();
+        BigDecimal returned = order.getReturnedAmount() == null ? BigDecimal.ZERO : order.getReturnedAmount();
+        // Lo devuelto (acreditado al cliente) ya no se cobra.
+        BigDecimal total = gross.subtract(returned);
         return new OrderView(order.getId(), OrderStatus.tryParse(order.getState()).orElse(OrderStatus.PENDING),
-                order.getTotal() == null ? BigDecimal.ZERO : order.getTotal());
+                total.signum() < 0 ? BigDecimal.ZERO.setScale(2) : total, returned);
     }
 
     /** Bloquea la orden (serializa pagos simultáneos sobre ella) y la devuelve. */
@@ -90,7 +98,7 @@ class PaymentSoporte {
     }
 
     OrderPaymentStatus.Balance balance(OrderView order) {
-        return OrderPaymentStatus.of(order.total(), payments.findByOrderId(order.id()));
+        return OrderPaymentStatus.of(order.total(), order.returned(), payments.findByOrderId(order.id()));
     }
 
     /**
@@ -248,7 +256,7 @@ class PaymentSoporte {
                 p.getFeeAmount(), p.getTenderedAmount(), p.getChangeAmount(), p.getRefundedAmount(), p.settledAmount(),
                 CURRENCY, p.getReference(), p.getPaymentReference(), p.getProviderReference(), p.getCheckoutUrl(),
                 p.getPayerEmail(), p.getNotes(), p.getStatusDetail(), p.getApprovedAt(), p.getExpiresAt(),
-                p.getCreatedAt(), actions(p));
+                p.getCreatedAt(), actions(p), p.getCashSessionId());
     }
 
     /** Acciones disponibles para el panel. */

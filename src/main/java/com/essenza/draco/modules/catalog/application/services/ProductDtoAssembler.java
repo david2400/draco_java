@@ -30,6 +30,7 @@ public class ProductDtoAssembler {
                 .weight(product.getWeight())
                 .netContent(NetContent.valueOf(product.getNetContent()))
                 .netContentUnitId(NetContent.unitOf(product.getNetContent()))
+                .taxRateId(product.getTaxRateId())
                 .imageUrl(product.getImageUrl())
                 .available(product.isListed())
                 .sellable(product.isSellable())

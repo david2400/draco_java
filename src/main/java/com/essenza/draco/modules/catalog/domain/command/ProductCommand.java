@@ -21,6 +21,7 @@ public class ProductCommand {
     Double weight;
     java.math.BigDecimal netContent;
     Long netContentUnitId;
+    Long taxRateId;
     String imageUrl;
     Boolean available;
     /** DRAFT | ACTIVE | INACTIVE | ARCHIVED; si es null se deriva de {@code available}. */

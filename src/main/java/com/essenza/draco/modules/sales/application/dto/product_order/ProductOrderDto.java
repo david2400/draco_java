@@ -23,4 +23,13 @@ public class ProductOrderDto extends AuditInfoDto {
     private String skuCode;
     private String productName;
     private BigDecimal unitPrice;
+    /** Impuesto incluido en el total (congelado): tarifa, código, porcentaje, base y valor. */
+    private Long taxRateId;
+    private String taxCode;
+    private BigDecimal taxRate;
+    private BigDecimal taxBase;
+    private BigDecimal taxAmount;
+    /** V16: parte del descuento global de la orden (ya descontada del total) y unidades preparadas. */
+    private BigDecimal orderDiscount;
+    private Integer pickedQuantity;
 }
